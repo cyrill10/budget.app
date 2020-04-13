@@ -1,0 +1,41 @@
+<div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+<header class="mdl-layout__header">
+<div class="mdl-layout__header-row">
+      <!-- Title -->
+      <span class="mdl-layout-title">Budget</span>
+    </div>
+    <div class="mdl-layout__tab-bar mdl-js-ripple-effect">
+      <ng-container *ngFor="let selectedMonth of getMonths()">
+        <a [routerLink]="['/overview', selectedMonth.id]" [ngClass]="{'is-active': selectedMonth.id == month.id}" class="mdl-layout__tab">{{selectedMonth.short}}</a>
+      </ng-container>
+    </div>
+</header>
+<app-drawer class="mdl-layout__drawer"></app-drawer>
+<main class="mdl-layout__content">
+<table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
+  <thead>
+    <tr>
+      <th class="mdl-data-table__cell--non-numeric">Account</th>
+    <th>Detail</th>
+    <th>{{month.name}}</th>
+    <th>{{month.nextMonth}}</th>
+    <th>Projection</th>
+    </tr>
+  </thead>
+  <tbody>
+    <ng-container *ngFor="let realAccount of getAccounts()">
+    <tr *ngFor="let account of realAccount.virtualAccounts">
+      <td>{{account.name}}</td>
+      <td>{{account.details}}</td>
+      <td>{{account.may | number: '1.2-2'}}</td>
+      <td>{{account.june| number: '1.2-2'}}</td>
+      <td>{{account.projection| number: '1.2-2'}}</td>
+    </tr>
+    <tr>
+      <td></td>
+    </tr>
+  </ng-container>
+  </tbody>
+</table>
+</main>
+</div>
