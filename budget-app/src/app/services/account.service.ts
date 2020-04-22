@@ -1,7 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Account } from '../element/account';
-import { VirtualAccountService } from './virtualaccount.service';
+import { environment } from './../../environments/environment';
+import { Observable } from 'rxjs';
+import { catchError, retry } from 'rxjs/operators';
+import { HttpClient } from '@angular/common/http';
 import { LoggerService } from './logger.service';
+import { ErrorService } from './error.service';
 
 @Injectable({
   providedIn: 'root'
@@ -10,24 +14,33 @@ export class AccountService {
 
   accounts: Account[];
 
-  constructor(private virtualAccountService: VirtualAccountService,
-              private logger: LoggerService) {
-    this.accounts = [{
-    name: 'Main Account',
-    type: 'Debit',
-    virtualAccounts: [this.virtualAccountService.getVirtualAccountByName('Cyrill Main'),
-                      this.virtualAccountService.getVirtualAccountByName('Army Money')]
-  },
-  {
-    name: 'Savings Lyka',
-    type: 'Debit',
-    virtualAccounts: [this.virtualAccountService.getVirtualAccountByName('Health'),
-                      this.virtualAccountService.getVirtualAccountByName('Travel')]
-  }];
-}
+  constructor(private errorHandler: ErrorService,
+              private http: HttpClient,
+              private logger: LoggerService) { }
 
-  getAccounts() {
-    this.logger.log(this.accounts);
-    return this.accounts;
+
+  getAccounts(): Observable<Account[]>{
+    const accountUrl = environment.apiURL + 'realAccount/list';
+    const downloadedAccounts = this.http.get<Account[]>(accountUrl, environment.httpOptions).pipe(
+      retry(3), // retry a failed request up to 3 times
+      catchError(this.errorHandler.handleError) // then handle the error
+    );
+    return downloadedAccounts;
+  }
+
+  addAccount(account: Account): Observable<Account> {
+    const accountUrl = environment.apiURL + 'realAccount/add';
+    return this.http.post<Account>(accountUrl, account, environment.httpOptions)
+      .pipe(
+        catchError(this.errorHandler.handleError)
+      );
+  }
+
+    updateAccount(account: Account): Observable<Account> {
+    const accountUrl = environment.apiURL + 'realAccount/update';
+    return this.http.put<Account>(accountUrl, account, environment.httpOptions)
+      .pipe(
+        catchError(this.errorHandler.handleError)
+      );
   }
 }

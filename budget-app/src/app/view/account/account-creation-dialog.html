@@ -1,0 +1,19 @@
+<h1 mat-dialog-title>Create new Account</h1>
+<div mat-dialog-content class="form-container">
+  <mat-form-field appearance="fill">
+    <mat-label>Name</mat-label>
+  		<input matInput [(ngModel)]="data.account.name">
+  </mat-form-field>
+  <mat-form-field appearance="fill">
+    <mat-label>Type</mat-label>
+    <mat-select [(ngModel)]="data.account.accountType">
+      <mat-option *ngFor="let type of data.accountTypes | async" [value]="type">
+        {{type.name}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+</div>
+<div mat-dialog-actions>
+  <button mat-raised-button (click)="onNoClick()">Cancel</button>
+  <button mat-raised-button [disabled]="isDisabled(data.account)" color="accent" [mat-dialog-close]="data" cdkFocusInitial>Save</button>
+</div>

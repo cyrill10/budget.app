@@ -1,31 +1,55 @@
-<div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
-<header class="mdl-layout__header">
-<div class="mdl-layout__header-row">
-      <!-- Title -->
-      <span class="mdl-layout-title">Budget</span>
-    </div>
-    <div class="mdl-layout__tab-bar mdl-js-ripple-effect">
-      <ng-container *ngFor="let selectedMonth of getMonths()">
-        <a [routerLink]="['/overview', selectedMonth.id]" [ngClass]="{'is-active': selectedMonth.id == month.id}" class="mdl-layout__tab">{{selectedMonth.short}}</a>
-      </ng-container>
-    </div>
-</header>
-<app-drawer class="mdl-layout__drawer"></app-drawer>
-<main class="mdl-layout__content">
-  <ul class="demo-list-three mdl-list">
-  <li class="mdl-list__item mdl-list__item--three-line" *ngFor="let transaction of getTransactions()">
-    <span class="mdl-list__item-primary-content">
-      <i class="material-icons mdl-list__item-avatar">person</i>
-      <span>Bryan Cranston</span>
-      <span class="mdl-list__item-text-body">
-        Bryan Cranston played the role of Walter in Breaking Bad. He is also known
-        for playing Hal in Malcom in the Middle.
-      </span>
-    </span>
-    <span class="mdl-list__item-secondary-content">
-      <a class="mdl-list__item-secondary-action" href="#"><i class="material-icons">star</i></a>
-    </span>
-  </li>
-</ul>
-</main>
-</div>
+<mat-sidenav-container>
+  <mat-sidenav #sidenav mode="side" [(opened)]="opened">
+    <mat-list role="list">
+      <mat-list-item role="listitem"><a mat-button routerLink="/overview/">Overview</a></mat-list-item>
+      <mat-list-item role="listitem"><a mat-button routerLink="/account/">Accounts</a></mat-list-item>
+      <mat-list-item role="listitem"><a mat-button routerLink="/transaction/">Transactions</a></mat-list-item>
+    </mat-list>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <mat-toolbar color="accent">
+      <mat-toolbar-row>
+        <button mat-icon-button>
+          <mat-icon (click)="sidenav.toggle()">menu</mat-icon>
+        </button>
+        <span class="header-spacer">Transaction</span>
+        <button mat-icon-button>
+          <mat-icon (click)="openDialog(null)">add</mat-icon>
+        </button>
+      </mat-toolbar-row>
+    </mat-toolbar>
+    <mat-tab-group [selectedIndex]="selected.value" (selectedIndexChange)="selectMonth($event)">
+      <mat-tab *ngFor="let selectedMonth of months; let index = index" [label]="selectedMonth.short">
+        <mat-list>
+          <mat-card class="example-card" *ngFor="let transaction of transactions;">
+            <mat-card-header>
+              <div mat-card-avatar class="header-image" [ngStyle]="{'background-color': transaction.status.color}">
+              </div>
+              <mat-card-title>
+                <span class="aligned-with-icon">{{transaction.debitedAccount.name}}</span>
+                <mat-icon matListIcon>keyboard_arrow_right</mat-icon>
+                <span class="aligned-with-icon">{{transaction.creditedAccount.name}}</span>
+              </mat-card-title>
+              <mat-card-subtitle>
+                <span>{{transaction.indication.name}} | {{transaction.paymentType.name}}</span>
+              </mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-content>
+              <div *ngIf="transaction.budgetedAmount" class="budgetValue"> Budgeted Fr. {{transaction.budgetedAmount}}
+              </div>
+              <div *ngIf="transaction.effectiveAmount">Effective Fr. {{transaction.effectiveAmount}}</div>
+            </mat-card-content>
+            <mat-card-actions>
+              <button mat-icon-button>
+                <mat-icon (click)="openDialog(transaction)">edit</mat-icon>
+              </button>
+              <button mat-icon-button color="warn">
+                <mat-icon (click)="deleteTransaction(transaction)">delete</mat-icon>
+              </button>
+            </mat-card-actions>
+          </mat-card>
+        </mat-list>
+      </mat-tab>
+    </mat-tab-group>
+  </mat-sidenav-content>
+</mat-sidenav-container>

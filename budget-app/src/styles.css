@@ -5,6 +5,15 @@ body {
     box-sizing: border-box;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    margin: 0px;
   }
+
+.header-spacer {
+  flex: 1 1 auto;
+}
+
+.mat-drawer-container {
+  min-height: 250px;
+}
 
   

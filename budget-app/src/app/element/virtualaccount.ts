@@ -1,6 +1,9 @@
+import { Account } from './account';
+
 export class VirtualAccount {
+    id: number;
     name: string;
-    details: string;
+    underlyingAccount: Account;
     may: number;
     june: number;
     projection: number;

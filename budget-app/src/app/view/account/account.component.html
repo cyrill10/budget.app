@@ -1,0 +1,71 @@
+<mat-sidenav-container>
+    <mat-sidenav #sidenav mode="side" [(opened)]="opened">
+        <mat-list role="list">
+            <mat-list-item role="listitem"><a mat-button routerLink="/overview/">Overview</a></mat-list-item>
+            <mat-list-item role="listitem"><a mat-button routerLink="/account/">Accounts</a></mat-list-item>
+            <mat-list-item role="listitem"><a mat-button routerLink="/transaction/">Transactions</a></mat-list-item>
+        </mat-list>
+    </mat-sidenav>
+    <mat-sidenav-content>
+        <mat-toolbar color="accent">
+            <mat-toolbar-row>
+                <button mat-icon-button>
+                    <mat-icon (click)="sidenav.toggle()">menu</mat-icon>
+                </button>
+                <span class="header-spacer">Account</span>
+                <button mat-icon-button>
+                    <mat-icon (click)="editAccount(null)">add</mat-icon>
+                </button>
+            </mat-toolbar-row>
+        </mat-toolbar>
+        <mat-list>
+            <mat-card class="example-card" *ngFor="let iteratedAccount of accounts | async">
+                <mat-card-header>
+                    <mat-card-title>
+                        <span class="aligned-with-icon">{{iteratedAccount.name}}</span>
+                    </mat-card-title>
+                    <mat-card-subtitle>
+                        <span>{{iteratedAccount.id}} | {{iteratedAccount.accountType.name}}</span>
+                    </mat-card-subtitle>
+                </mat-card-header>
+                <mat-card-content>
+                    <table mat-table [dataSource]="getVirtualAccount(iteratedAccount)">
+
+                        <ng-container matColumnDef="name">
+                            <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="detail">
+                            <td mat-cell *matCellDef="let element"> {{element.details}} </td>
+                        </ng-container>
+
+
+                        <ng-container matColumnDef="edit">
+                            <td mat-cell *matCellDef="let element">
+                                <button mat-icon-button>
+                                    <mat-icon (click)="editVirtualAccount(element, iteratedAccount)">edit</mat-icon>
+                                </button>
+                                <!-- <button mat-icon-button color="warn">
+                                    <mat-icon (click)="deleteVirtualAccount(element)">delete</mat-icon>
+                                </button> -->
+                            </td>
+                        </ng-container>
+
+                        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                    </table>
+                </mat-card-content>
+                <mat-card-actions>
+                    <button mat-icon-button>
+                        <mat-icon (click)="editVirtualAccount(null, iteratedAccount)">add</mat-icon>
+                    </button>
+                    <button mat-icon-button>
+                        <mat-icon (click)="editAccount(iteratedAccount)">edit</mat-icon>
+                    </button>
+                    <!-- <button mat-icon-button color="warn">
+                        <mat-icon (click)="deleteAccount(iteratedAccount)">delete</mat-icon>
+                    </button> -->
+                </mat-card-actions>
+            </mat-card>
+        </mat-list>
+    </mat-sidenav-content>
+</mat-sidenav-container>

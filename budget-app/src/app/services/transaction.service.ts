@@ -6,7 +6,7 @@ import { Transaction } from '../element/transaction';
 })
 export class TransactionService {
 
-  transactions: Transaction[];
+  transactions: Transaction[] = new Array();
 
   constructor() { }
 

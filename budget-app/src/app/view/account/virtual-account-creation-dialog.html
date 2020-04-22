@@ -1,0 +1,11 @@
+<h1 mat-dialog-title>Create new Subaccount</h1>
+<div mat-dialog-content class="form-container">
+  <mat-form-field appearance="fill">
+    <mat-label>Name</mat-label>
+  		<input matInput [(ngModel)]="data.virtualAccount.name">
+  </mat-form-field>
+</div>
+<div mat-dialog-actions>
+  <button mat-raised-button (click)="onNoClick()">Cancel</button>
+  <button mat-raised-button [disabled]="isDisabled(data.virtualAccount)" color="accent" [mat-dialog-close]="data" cdkFocusInitial>Save</button>
+</div>

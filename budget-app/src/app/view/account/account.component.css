@@ -1,3 +1,7 @@
+.mat-card {
+   margin: 10px 10px 2px 10px;
+}
+
 .form-container .mat-form-field {
   margin-left: 8px;
 }
@@ -18,21 +22,10 @@
   margin: 0 12px;
 }
 
-.aligned-with-icon {
-  position: relative;
-  margin-left: 5px;
-  top: -5px;
+.mat-table {
+  width: 100%;
 }
 
-.header-image {
-  background-size: cover;
+.mat-table .mat-column-edit {
+    text-align: right;
 }
-
-.budgetValue {
-  color: grey;
-}
-
-.mat-card {
-   margin: 10px 10px 2px 10px;
-}
-

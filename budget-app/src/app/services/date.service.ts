@@ -10,73 +10,90 @@ export class DateService {
 
   getMonths() {
     const months = [new Month('January',
-    'Jan', 'February', '01.01', '31.01', false, -4),
-    new Month('February', 'Feb', 'February', '01.02', '29.02', false, -3),
+    'Jan', 'February', '01.01', '31.01', false, 0),
+    new Month('February', 'Feb', 'March', '01.02', '29.02', false, 1),
     new Month('March',
       'Mar',
-      'February',
+      'April',
       '01.03',
       '31.03',
       false,
-      -2),
+      2),
     new Month('April',
       'Apr',
-      'February',
+      'May',
       '01.04',
       '30.04',
       false,
-      -1),
+      3),
     new Month('May',
-      'may',
-      'February',
+      'May',
+      'June',
       '01.05',
       '31.05',
       true,
-      0),
+      4),
     new Month('June',
       'Jun',
-      'February',
+      'July',
       '01.06',
       '30.06',
       false,
-      1),
+      5),
     new Month('July',
       'Jul',
-      'February',
+      'August',
       '01.07',
       '31.07',
       false,
-      2),
+      6),
     new Month('August',
       'Aug',
-      'February',
+      'September',
       '01.08',
       '31.08',
       false,
-      3),
+      7),
     new Month('September',
       'Sep',
-      'February',
+      'October',
       '01.09',
       '30.09',
       false,
-      4),
+      8),
     new Month('October',
       'Oct',
-      'February',
+      'November',
       '01.10',
       '31.10',
       false,
-      5),
+      9),
     new Month('November',
       'Nov',
       'February',
       '01.11',
       '30.11',
       false,
-      6),
-    new Month('December', 'Dec', 'February', '01.12', '31.12', false, 7)];
+      10),
+    new Month('December', 'Dec', 'January', '01.12', '31.12', false, 11)];
 
     return months;
+  }
+
+    getMonthsById(idString: string): Month {
+    let id: number;
+    if (!idString) {
+      id = 0;
+    }else {
+      id = parseInt(idString, 10);
+    }
+    const months = this.getMonths();
+    let result: Month;
+    months.forEach(element => {
+      if (element.id === id) {
+        result = element;
+      }
+    });
+    return result;
   }
 }
