@@ -1,12 +1,29 @@
 import { Injectable } from '@angular/core';
 import { Month } from '../date/month';
+import { ErrorService } from './error.service';
+import { Observable } from 'rxjs';
+import { AccountType } from '../element/accounttype';
+import { environment } from 'src/environments/environment';
+import { retry, catchError } from 'rxjs/operators';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DateService {
 
-  constructor() { }
+
+  constructor(private errorHandler: ErrorService,
+              private http: HttpClient) { }
+
+  getMonths(): Observable<Month[]> {
+    const accountUrl = environment.apiURL + 'realAccount/type/list';
+    const downloadedAccountTypes = this.http.get<AccountType[]>(accountUrl, environment.httpOptions).pipe(
+      retry(3), // retry a failed request up to 3 times
+      catchError(this.errorHandler.handleError) // then handle the error
+    );
+    return downloadedAccountTypes;
+  }
 
   getMonths() {
     const months = [new Month('January',
