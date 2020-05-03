@@ -1,34 +1,36 @@
 import { Injectable } from '@angular/core';
-import { Month } from '../date/month';
 import { ErrorService } from './error.service';
-import { Observable } from 'rxjs';
-import { AccountType } from '../element/accounttype';
+import { Observable , of } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { retry, catchError } from 'rxjs/operators';
+import { retry, catchError, map} from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
+import { Month } from '../date/month';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DateService {
 
+  months: Month[];
+
 
   constructor(private errorHandler: ErrorService,
-              private http: HttpClient) { }
-
-  getMonths(): Observable<Month[]> {
-    const accountUrl = environment.apiURL + 'realAccount/type/list';
-    const downloadedAccountTypes = this.http.get<AccountType[]>(accountUrl, environment.httpOptions).pipe(
-      retry(3), // retry a failed request up to 3 times
-      catchError(this.errorHandler.handleError) // then handle the error
-    );
-    return downloadedAccountTypes;
-  }
-
-  getMonths() {
-    const months = [new Month('January',
-    'Jan', 'February', '01.01', '31.01', false, 0),
-    new Month('February', 'Feb', 'March', '01.02', '29.02', false, 1),
+              private http: HttpClient) {
+   this.months = [
+      new Month('January',
+        'Jan',
+        'February',
+        '01.01',
+        '31.01',
+        false,
+        0),
+    new Month('February',
+      'Feb',
+      'March',
+      '01.02',
+      '29.02',
+      false,
+      1),
     new Month('March',
       'Mar',
       'April',
@@ -92,25 +94,53 @@ export class DateService {
       '30.11',
       false,
       10),
-    new Month('December', 'Dec', 'January', '01.12', '31.12', false, 11)];
+    new Month('December',
+      'Dec',
+      'January',
+      '01.12',
+      '31.12',
+      false,
+      11)];
 
-    return months;
   }
 
-    getMonthsById(idString: string): Month {
-    let id: number;
-    if (!idString) {
-      id = 0;
-    }else {
-      id = parseInt(idString, 10);
-    }
-    const months = this.getMonths();
-    let result: Month;
-    months.forEach(element => {
-      if (element.id === id) {
-        result = element;
+  getMonths(): Observable<Date[]> {
+    const url = environment.apiURL + 'date/month/list';
+    const downloadedMonths = this.http.get<Date[]>(url, environment.getHttpOptions()).pipe(
+      retry(3), // retry a failed request up to 3 times
+      // tslint:disable-next-line: no-shadowed-variable
+      map((dates: any[]) => dates.map((d) => new Date(d))),
+      catchError(this.errorHandler.handleError) // then handle the error
+    );
+    return downloadedMonths;
+  }
+
+    getCurrent(): Observable<Date> {
+    const url = environment.apiURL + 'date/current';
+    const downloadedCurrtant = this.http.get<Date>(url, environment.getHttpOptions()).pipe(
+      retry(3), // retry a failed request up to 3 times
+      catchError(this.errorHandler.handleError) // then handle the error
+    );
+    return downloadedCurrtant;
+  }
+
+  getSelectedMonth(date: Date): Month {
+    let month: Month;
+    this.months.forEach(element => {
+      if (element.id === date.getMonth()) {
+        month = element;
       }
     });
-    return result;
+    return month;
+  }
+
+    getMonthShortString(date: Date): string {
+      const month = this.getSelectedMonth(date);
+      let result = month.short;
+      const now = new Date(Date.now());
+      if (date.getFullYear() !== now.getFullYear()) {
+        result += ' ' + date.getFullYear().toString().substr(-2);
+      }
+      return result;
   }
 }

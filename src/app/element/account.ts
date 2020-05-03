@@ -5,9 +5,4 @@ export class Account {
     id: number;
     name: string;
     accountType: AccountType;
-    virtualAccounts: VirtualAccount[];
-
-    getVirtualAccounts() {
-        return this.virtualAccounts;
-    }
 }

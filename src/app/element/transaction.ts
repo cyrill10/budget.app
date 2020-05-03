@@ -6,24 +6,12 @@ import { Status } from './status';
 export class Transaction {
     id: number;
     date: Date;
+    description: string;
     creditedAccount: VirtualAccount;
     debitedAccount: VirtualAccount;
     paymentType: PaymentType;
     indication: Indication;
-    status: Status;
+    paymentStatus: Status;
     budgetedAmount: number;
     effectiveAmount: number;
-
-    constructor(id: number, date: Date, creditedAccount: VirtualAccount, debitedAccount: VirtualAccount,
-                paymentType: PaymentType, indication: Indication, status: Status, budgetedAmount: number, effectiveAmount: number) {
-        this.id = id;
-        this.date = date;
-        this.creditedAccount = creditedAccount;
-        this.debitedAccount = debitedAccount;
-        this.paymentType = paymentType;
-        this.indication = indication;
-        this.status = status;
-        this.budgetedAmount = budgetedAmount;
-        this.effectiveAmount = effectiveAmount;
-    }
 }

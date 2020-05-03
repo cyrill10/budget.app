@@ -16,7 +16,7 @@ export class IndicationService {
 
   getIndications(): Observable<Indication[]> {
     const accountUrl = environment.apiURL + 'transaction/indication/list';
-    const downloadedAccountIndications = this.http.get<Indication[]>(accountUrl, environment.httpOptions).pipe(
+    const downloadedAccountIndications = this.http.get<Indication[]>(accountUrl, environment.getHttpOptions()).pipe(
       retry(3), // retry a failed request up to 3 times
       catchError(this.errorHandler.handleError) // then handle the error
     );

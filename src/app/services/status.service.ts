@@ -16,7 +16,7 @@ export class StatusService {
 
   getStatuses(): Observable<Status[]> {
     const accountUrl = environment.apiURL + 'transaction/status/list';
-    const downloadedAccountStatuses = this.http.get<Status[]>(accountUrl, environment.httpOptions).pipe(
+    const downloadedAccountStatuses = this.http.get<Status[]>(accountUrl, environment.getHttpOptions()).pipe(
       retry(3), // retry a failed request up to 3 times
       catchError(this.errorHandler.handleError) // then handle the error
     );

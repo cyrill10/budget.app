@@ -6,13 +6,19 @@ import { HttpHeaders, HttpParams } from '@angular/common/http';
 
 export const environment = {
   production: false,
-  apiURL: 'http://localhost:8080/budget/',
-  httpOptions: {
-    headers: new HttpHeaders({
-      'Access-Control-Allow-Origin' : '*',
-      Authorization : 'Basic ' + btoa('user:password')
-    }),
-    params: new HttpParams()
+  // apiURL: 'http://192.168.0.28:8080/budget/', //Prod
+  apiURL: 'http://192.168.0.15:8080/budget/', //Dev
+
+
+  getHttpOptions() {
+    const headers = {
+      headers: new HttpHeaders({
+        'Access-Control-Allow-Origin' : '*',
+        Authorization : 'Basic ' + btoa('user:password')
+      }),
+      params: new HttpParams()
+    };
+    return headers;
   }
 };
 

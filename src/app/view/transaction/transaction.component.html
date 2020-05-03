@@ -13,43 +13,51 @@
           <mat-icon (click)="sidenav.toggle()">menu</mat-icon>
         </button>
         <span class="header-spacer">Transaction</span>
-        <button mat-icon-button>
-          <mat-icon (click)="openDialog(null)">add</mat-icon>
-        </button>
       </mat-toolbar-row>
     </mat-toolbar>
     <mat-tab-group [selectedIndex]="selected.value" (selectedIndexChange)="selectMonth($event)">
-      <mat-tab *ngFor="let selectedMonth of months; let index = index" [label]="selectedMonth.short">
-        <mat-list>
-          <mat-card class="example-card" *ngFor="let transaction of transactions;">
-            <mat-card-header>
-              <div mat-card-avatar class="header-image" [ngStyle]="{'background-color': transaction.status.color}">
-              </div>
-              <mat-card-title>
-                <span class="aligned-with-icon">{{transaction.debitedAccount.name}}</span>
-                <mat-icon matListIcon>keyboard_arrow_right</mat-icon>
-                <span class="aligned-with-icon">{{transaction.creditedAccount.name}}</span>
-              </mat-card-title>
-              <mat-card-subtitle>
-                <span>{{transaction.indication.name}} | {{transaction.paymentType.name}}</span>
-              </mat-card-subtitle>
-            </mat-card-header>
-            <mat-card-content>
-              <div *ngIf="transaction.budgetedAmount" class="budgetValue"> Budgeted Fr. {{transaction.budgetedAmount}}
-              </div>
-              <div *ngIf="transaction.effectiveAmount">Effective Fr. {{transaction.effectiveAmount}}</div>
-            </mat-card-content>
-            <mat-card-actions>
-              <button mat-icon-button>
-                <mat-icon (click)="openDialog(transaction)">edit</mat-icon>
-              </button>
-              <button mat-icon-button color="warn">
-                <mat-icon (click)="deleteTransaction(transaction)">delete</mat-icon>
-              </button>
-            </mat-card-actions>
-          </mat-card>
-        </mat-list>
+      <mat-tab *ngFor="let selectedMonth of months" [label]="getShortName(selectedMonth)">
       </mat-tab>
     </mat-tab-group>
+    <mat-list>
+      <mat-card *ngFor="let transaction of transactions | async" class="card-container">
+        <mat-card-header>
+          <div mat-card-avatar class="header-image" [ngStyle]="{'background-color': transaction.paymentStatus.color}">
+          </div>
+          <mat-card-title>
+            <span>{{transaction.description}}</span>
+          </mat-card-title>
+          <mat-card-subtitle>
+            <span class="aligned-with-icon">{{transaction.creditedAccount.name}}</span>
+            <mat-icon matListIcon>keyboard_arrow_right</mat-icon>
+            <span class="aligned-with-icon">{{transaction.debitedAccount.name}}</span>
+            <div *ngIf="transaction.budgetedAmount"> Budgeted Fr. {{transaction.budgetedAmount | number: '0.2-2'}}</div>
+          </mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+          <div><span>{{transaction.indication.name}}</span></div>
+          <div><span>{{transaction.paymentType.name}}</span></div>
+        </mat-card-content>
+        <mat-card-actions>
+          <mat-card-title *ngIf="transaction.effectiveAmount">
+            <span>Fr. {{transaction.effectiveAmount | number: '0.2-2'}}</span>
+          </mat-card-title>
+          <button mat-icon-button>
+            <mat-icon (click)="openDialog(transaction)">edit</mat-icon>
+          </button>
+          <button mat-icon-button>
+            <mat-icon (click)="openDublicateDialog(transaction)">file_copy</mat-icon>
+          </button>
+          <button mat-icon-button color="warn">
+            <mat-icon (click)="deleteTransaction(transaction)">delete</mat-icon>
+          </button>
+        </mat-card-actions>
+      </mat-card>
+          <button mat-fab class="fab-button-right" color="accent">
+      <mat-icon (click)="openDialog(null)">add</mat-icon>
+    </button>
+    </mat-list>
+
+
   </mat-sidenav-content>
 </mat-sidenav-container>

@@ -1,4 +1,5 @@
-<h1 mat-dialog-title>Create new Transaction</h1>
+<h1 ng-if="data.isNew" mat-dialog-title>Create new Transaction</h1>
+<h1 ng-if="!data.isNew" mat-dialog-title>Edit Transaction</h1>
 <div mat-dialog-content class="form-container">
   <mat-form-field appearance="fill">
     <input matInput [matDatepickerFilter]="myFilter" [matDatepicker]="picker" [(ngModel)]="data.transaction.date">
@@ -6,18 +7,22 @@
     <mat-datepicker touchUi #picker></mat-datepicker>
   </mat-form-field>
   <mat-form-field appearance="fill">
-    <mat-label>Debited</mat-label>
-    <mat-select [(ngModel)]="data.transaction.debitedAccount" [compareWith]="compareVirtualAccount">
-      <mat-option *ngFor="let debitAccount of data.virtualAccounts | async" [value]="debitAccount">
-        {{debitAccount.name}}
+    <mat-label>Description</mat-label>
+  		<input matInput [(ngModel)]="data.transaction.description">
+  </mat-form-field>
+  <mat-form-field appearance="fill">
+    <mat-label>Money from</mat-label>
+    <mat-select [(ngModel)]="data.transaction.creditedAccount" [compareWith]="compareVirtualAccount">
+      <mat-option *ngFor="let creditedAccount of data.virtualAccounts | async" [value]="creditedAccount">
+        {{creditedAccount.name}} ({{creditedAccount.underlyingAccount.name}})
       </mat-option>
     </mat-select>
   </mat-form-field>
-  <mat-form-field appearance="fill">
-    <mat-label>Credited</mat-label>
-    <mat-select [(ngModel)]="data.transaction.creditedAccount" [compareWith]="compareVirtualAccount">
-      <mat-option *ngFor="let creditedAccount of data.virtualAccounts | async" [value]="creditedAccount">
-        {{creditedAccount.name}}
+    <mat-form-field appearance="fill">
+    <mat-label>Money To</mat-label>
+    <mat-select [(ngModel)]="data.transaction.debitedAccount" [compareWith]="compareVirtualAccount">
+      <mat-option *ngFor="let debitedAccount of data.virtualAccounts | async" [value]="debitedAccount">
+        {{debitedAccount.name}} ({{debitedAccount.underlyingAccount.name}})
       </mat-option>
     </mat-select>
   </mat-form-field>
@@ -33,7 +38,7 @@
   </mat-form-field>
 <mat-form-field appearance="fill">
     <mat-label>Status</mat-label>
-    <mat-select [(ngModel)]="data.transaction.status" [compareWith]="compareStatus">
+    <mat-select [(ngModel)]="data.transaction.paymentStatus" [compareWith]="compareStatus">
       <mat-option *ngFor="let status of data.statuses | async" [value]="status">
         {{status.name}}
       </mat-option>
@@ -58,5 +63,5 @@
 </div>
 <div mat-dialog-actions>
   <button mat-raised-button (click)="onNoClick()">Cancel</button>
-  <button mat-raised-button [disabled]="isDisabled(data.transaction)" color="accent" [mat-dialog-close]="data" cdkFocusInitial>Save</button>
+  <button mat-raised-button [disabled]="isDisabled(data.transaction)" color="accent" [mat-dialog-close]="data">Save</button>
 </div>

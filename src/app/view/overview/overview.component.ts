@@ -2,54 +2,61 @@ import { Component, OnInit } from '@angular/core';
 import { DateService } from '../../services/date.service';
 import {FormControl} from '@angular/forms';
 import { Month } from 'src/app/date/month';
-import { AccountService } from 'src/app/services/account.service';
 import { LoggerService } from 'src/app/services/logger.service';
-import { VirtualAccount } from 'src/app/element/virtualaccount';
-import { VirtualAccountService } from 'src/app/services/virtualaccount.service';
-import { Observable } from 'rxjs';
-
+import { BehaviorSubject } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
+import { Router } from '@angular/router';
+import { OverviewService } from 'src/app/services/overview.service';
+import { OverviewElement } from 'src/app/element/overviewelement';
 @Component({
   selector: 'app-overview',
   templateUrl: './overview.component.html',
   styleUrls: ['./overview.component.css']
 })
 export class OverviewComponent implements OnInit {
-  month: Month;
-  months = this.getMonths();
-  selected = new FormControl(0);
-  accounts: Observable<VirtualAccount[]>;
-  displayedColumns: string[] = ['name', 'detail', 'thisMonth', 'nextMonth', 'projection'];
+  month = new Date(Date.now());
+  months: Date[];
+  selected: FormControl;
+  private readonly refreshToken$ = new BehaviorSubject(undefined);
+  accounts = this.refreshToken$.pipe(
+    switchMap(() => this.overviewService.getOverview(this.month))
+  );
+  displayedColumns: string[] = ['name', 'thisMonth', 'nextMonth', 'projection'];
   opened: boolean;
-
-  getMonths() {
-    return this.dateService.getMonths();
-  }
-
-  selectMonth(event: any) {
-    this.selected.setValue(event);
-    this.month = this.dateService.getMonthsById(this.selected.value);
-  }
-
-  getAccounts(): Observable<VirtualAccount[]> {
-    let virtualAccounts: Observable<VirtualAccount[]>;
-    this.accountService.getAccounts().subscribe(rAccount => {
-      virtualAccounts = this.virtualAccountService.getVirtualAccountsForAccount(rAccount[1].id);
-    });
-    return virtualAccounts;
-  }
 
   constructor(
     private dateService: DateService,
-    private accountService: AccountService,
-    private virtualAccountService: VirtualAccountService,
-    private logger: LoggerService) { }
-
-  ngOnInit(){
-    this.logger.log('Init overview.component');
-    const monthInt = new Date(Date.now()).getMonth();
-    this.selected = new FormControl(monthInt);
-    this.month = this.dateService.getMonthsById('' + monthInt);
-    this.accounts = this.getAccounts();
+    private logger: LoggerService,
+    private overviewService: OverviewService,
+    private route: Router) {
+    this.dateService.getMonths().subscribe(data => this.months = data);
+    this.dateService.getCurrent().subscribe(d => this.selected = new FormControl(d));
   }
 
+    ngOnInit(){
+    this.logger.log('Init overview.component');
+  }
+
+  selectAccount(element: OverviewElement) {
+     this.logger.log(element);
+     if (element.realAccount) {
+        this.route.navigate(['/realAccount/transactions', {id: element.id}]);
+     }else {
+        this.route.navigate(['/virtualAccount/transactions', {id: element.id}]);
+     }
+}
+
+  selectMonth(event: Event) {
+    this.selected.setValue(event);
+    this.month = this.months[this.selected.value];
+    this.refreshToken$.next(undefined);
+  }
+
+    getShortName(date: Date): string {
+    return this.dateService.getMonthShortString(date);
+  }
+
+    getSelectedMonth(date: Date): Month {
+       return this.dateService.getSelectedMonth(date);
+    }
 }

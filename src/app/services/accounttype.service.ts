@@ -16,7 +16,7 @@ export class AccountTypeService {
 
   getAccountTypes(): Observable<AccountType[]> {
     const accountUrl = environment.apiURL + 'realAccount/type/list';
-    const downloadedAccountTypes = this.http.get<AccountType[]>(accountUrl, environment.httpOptions).pipe(
+    const downloadedAccountTypes = this.http.get<AccountType[]>(accountUrl, environment.getHttpOptions()).pipe(
       retry(3), // retry a failed request up to 3 times
       catchError(this.errorHandler.handleError) // then handle the error
     );

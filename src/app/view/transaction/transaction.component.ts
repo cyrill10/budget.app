@@ -1,29 +1,18 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { DateService } from '../../services/date.service';
-import { Month } from 'src/app/date/month';
 import { FormControl } from '@angular/forms';
 import { TransactionService } from 'src/app/services/transaction.service';
 import { VirtualAccountService } from 'src/app/services/virtualaccount.service';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { LoggerService } from 'src/app/services/logger.service';
-import { VirtualAccount } from 'src/app/element/virtualaccount';
 import { Transaction } from 'src/app/element/transaction';
-import { PaymentType } from 'src/app/element/paymenttype';
-import { Status } from 'src/app/element/status';
-import { Indication } from 'src/app/element/indication';
 import { PaymentTypeService } from 'src/app/services/paymenttype.service';
 import { IndicationService } from 'src/app/services/indication.service';
 import { StatusService } from 'src/app/services/status.service';
-import { Observable } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
+import { TransactionCreationDialogComponent } from './transaction.creation.component';
 
-
-export interface DialogData {
-  transaction: Transaction;
-  virtualAccounts: Observable<VirtualAccount[]>;
-  statuses: Observable<Status[]>;
-  paymentTypes: Observable<PaymentType[]>;
-  indications: Observable<Indication[]>;
-}
 
 @Component({
   selector: 'app-transaction',
@@ -32,133 +21,131 @@ export interface DialogData {
 })
 export class TransactionComponent implements OnInit {
 
-  month: Month;
-  months = this.getMonths();
-  selected = new FormControl(0);
-  transactions: Transaction[];
+  month = new Date(Date.now());
+  selected: FormControl;
   opened: boolean;
+  private readonly refreshTokenTransaction$ = new BehaviorSubject(undefined);
+  transactions = this.refreshTokenTransaction$.pipe(
+    switchMap(() => this.transactionService.getTransactions(this.month))
+  );
+  months: Date[];
 
   constructor(
     private dateService: DateService,
     private logger: LoggerService,
     private transactionService: TransactionService,
-    private virtaulAccountService: VirtualAccountService,
+    private virtualAccountService: VirtualAccountService,
     private paymentTypeService: PaymentTypeService,
     private indicationService: IndicationService,
     private statusService: StatusService,
-    public dialog: MatDialog) { }
+    public dialog: MatDialog) {
+    this.dateService.getMonths().subscribe(data => this.months = data);
+    this.dateService.getCurrent().subscribe(d => this.selected = new FormControl(d));
+  }
 
-  getMonths() {
-    return this.dateService.getMonths();
+  ngOnInit() {
+    this.logger.log('Init transaction.component');
   }
 
   selectMonth(event: Event) {
     this.selected.setValue(event);
-    this.month = this.dateService.getMonthsById(this.selected.value);
+    this.month = this.months[this.selected.value];
+    this.refreshTokenTransaction$.next(undefined);
   }
 
   deleteTransaction(transaction: Transaction) {
-    this.logger.log(transaction);
-    // TODO delete and reload
+    this.transactionService.deleteTransaction(transaction)
+      .subscribe(() => this.refreshTokenTransaction$.next(undefined));
+  }
+
+  createDublicatesTillEndOfTheYear(transaction: Transaction) {
+    this.transactionService.createDublicatesTillEndOfTheYear(transaction)
+      .subscribe(() => this.refreshTokenTransaction$.next(undefined));
+
   }
 
   openDialog(editedTransaction: Transaction): void {
     let transaction: Transaction;
     if (editedTransaction === null) {
       transaction = {
-        date: new Date(Date.now()),
+        date: this.getSuggestedTransactionDate(this.month),
         budgetedAmount: 0, creditedAccount: null,
         debitedAccount: null, effectiveAmount: 0,
-        id: 1, indication: null, paymentType: null, status: null
+        id: null, indication: null, paymentType: null, paymentStatus: null, description: null
       };
     } else {
       transaction = editedTransaction;
     }
 
+    const isNew = editedTransaction === null;
     const statuses = this.statusService.getStatuses();
     const paymentTypes = this.paymentTypeService.getPaymentTypes();
     const indications = this.indicationService.getIndications();
-    const virtualAccounts = this.virtaulAccountService.getVirtualAccounts();
+    const virtualAccounts = this.virtualAccountService.getVirtualAccounts();
     const dialogRef = this.dialog.open(TransactionCreationDialogComponent, {
-      data: { transaction, virtualAccounts, paymentTypes, statuses, indications }
+      data: { transaction, virtualAccounts, paymentTypes, statuses, indications, isNew }
     });
 
     dialogRef.afterClosed().subscribe(result => {
       if (result !== undefined) {
-        this.logger.log(result.transaction);
-        if (editedTransaction !== null) {
-         const index = this.transactions.indexOf(editedTransaction);
-         this.transactions.splice(index, 1);
+        if (editedTransaction === null) {
+          this.transactionService.addTransaction(result.transaction)
+            .subscribe(() => this.refreshTokenTransaction$.next(undefined));
+        } else {
+          this.transactionService.updateTransaction(result.transaction)
+            .subscribe(() => this.refreshTokenTransaction$.next(undefined));
         }
-        this.transactions.push(result.transaction);
-        // TODO save and reload Transactions
+      } else {
+        this.refreshTokenTransaction$.next(undefined);
       }
     });
   }
 
-  ngOnInit() {
-    this.logger.log('Init transaction.component');
-    const monthInt = new Date(Date.now()).getMonth();
-    this.selected = new FormControl(monthInt);
-    this.month = this.dateService.getMonthsById('' + monthInt);
-    this.transactions = this.transactionService.getTransactions();
+  getSuggestedTransactionDate(selectedMonth: Date): Date {
+    const now = new Date(Date.now());
+    if (now.getMonth() === selectedMonth.getMonth() &&
+      now.getFullYear() === selectedMonth.getFullYear()) {
+      return now;
+    }
+    const endOfMonth = new Date(selectedMonth);
+    endOfMonth.setDate(25);
+    return endOfMonth;
+  }
+
+  getShortName(date: Date): string {
+    return this.dateService.getMonthShortString(date);
+  }
+
+
+  openDublicateDialog(selectedTransaction: Transaction): void {
+    const dialogRef = this.dialog.open(TransactionDublicationDialogComponent, {
+      data: selectedTransaction
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result !== undefined) {
+        this.createDublicatesTillEndOfTheYear(selectedTransaction);
+      }
+    });
   }
 }
-
 @Component({
-  selector: 'app-transatction-creation-dialog',
-  templateUrl: 'transatction-creation-dialog.html',
+  selector: 'app-transatction-dublication-dialog',
+  templateUrl: 'transatction-dublication-dialog.html',
   styleUrls: ['./transaction.component.css']
 })
-export class TransactionCreationDialogComponent {
+export class TransactionDublicationDialogComponent {
 
 
   constructor(
-    public dialogRef: MatDialogRef<TransactionCreationDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: DialogData) { }
+    public dialogRef: MatDialogRef<TransactionDublicationDialogComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: Transaction) {
+  }
 
   onNoClick(): void {
     this.dialogRef.close();
   }
-
-  myFilter = (d: Date | null): boolean => {
-    const day = (d || new Date()).getDay();
-    // Prevent Saturday and Sunday from being selected.
-    return day !== 0 && day !== 6;
-  }
-
-  compareStatus(value1: Status, value2: Status) {
-    if (value1 !== null && value2 !== null) {
-      return value1.name === value2.name;
-    }
-  }
-
-  compareVirtualAccount(value1: VirtualAccount, value2: VirtualAccount) {
-    if (value1 !== null && value2 !== null) {
-      return value1.id === value2.id;
-    }
-  }
-
-  comparePaymentType(value1: PaymentType, value2: PaymentType) {
-    if (value1 !== null && value2 !== null) {
-      return value1.name === value2.name;
-    }
-  }
-
-  compareIndication(value1: Indication, value2: Indication) {
-    if (value1 !== null && value2 !== null) {
-      return value1.name === value2.name;
-    }
-  }
-  isDisabled(transaction: Transaction): boolean {
-    let active = true;
-    active = active && transaction.creditedAccount !== null;
-    active = active && transaction.debitedAccount !== null;
-    active = active && transaction.paymentType !== null;
-    active = active && transaction.indication !== null;
-    active = active && transaction.status !== null;
-    active = active && transaction.budgetedAmount !== null;
-    active = active && transaction.date !== null;
-    return !active;
-  }
 }
+
+
+

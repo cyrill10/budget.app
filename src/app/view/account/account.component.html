@@ -1,4 +1,4 @@
-<mat-sidenav-container>
+ <mat-sidenav-container>
     <mat-sidenav #sidenav mode="side" [(opened)]="opened">
         <mat-list role="list">
             <mat-list-item role="listitem"><a mat-button routerLink="/overview/">Overview</a></mat-list-item>
@@ -19,31 +19,31 @@
             </mat-toolbar-row>
         </mat-toolbar>
         <mat-list>
-            <mat-card class="example-card" *ngFor="let iteratedAccount of accounts | async">
+            <mat-card class="example-card" *ngFor="let iteratedAccount of accounts | async" matRipple appMatElevation>
                 <mat-card-header>
                     <mat-card-title>
-                        <span class="aligned-with-icon">{{iteratedAccount.name}}</span>
+                        <span class="aligned-with-icon">{{iteratedAccount.realAccount.name}}</span>
                     </mat-card-title>
                     <mat-card-subtitle>
-                        <span>{{iteratedAccount.id}} | {{iteratedAccount.accountType.name}}</span>
+                        <span>{{iteratedAccount.realAccount.id}} | {{iteratedAccount.realAccount.accountType.name}}</span>
                     </mat-card-subtitle>
                 </mat-card-header>
                 <mat-card-content>
-                    <table mat-table [dataSource]="getVirtualAccount(iteratedAccount)">
+                    <table mat-table [dataSource]="iteratedAccount.virtualAccounts">
 
                         <ng-container matColumnDef="name">
-                            <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+                            <td mat-cell *matCellDef="let element"> 
+                                 {{element.name}}
+                             </td>
                         </ng-container>
-
-                        <ng-container matColumnDef="detail">
-                            <td mat-cell *matCellDef="let element"> {{element.details}} </td>
-                        </ng-container>
-
 
                         <ng-container matColumnDef="edit">
                             <td mat-cell *matCellDef="let element">
                                 <button mat-icon-button>
-                                    <mat-icon (click)="editVirtualAccount(element, iteratedAccount)">edit</mat-icon>
+                                    <mat-icon (click)="selectVirtualAccount(element)">launch</mat-icon>
+                                </button>
+                                <button mat-icon-button>
+                                    <mat-icon (click)="editVirtualAccount(element, iteratedAccount.realAccount)">edit</mat-icon>
                                 </button>
                                 <!-- <button mat-icon-button color="warn">
                                     <mat-icon (click)="deleteVirtualAccount(element)">delete</mat-icon>
@@ -51,15 +51,18 @@
                             </td>
                         </ng-container>
 
-                        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                        <tr mat-row  *matRowDef="let row; columns: displayedColumns;"></tr>
                     </table>
                 </mat-card-content>
                 <mat-card-actions>
                     <button mat-icon-button>
-                        <mat-icon (click)="editVirtualAccount(null, iteratedAccount)">add</mat-icon>
+                        <mat-icon (click)="editVirtualAccount(null, iteratedAccount.realAccount)">add</mat-icon>
                     </button>
                     <button mat-icon-button>
-                        <mat-icon (click)="editAccount(iteratedAccount)">edit</mat-icon>
+                        <mat-icon (click)="editAccount(iteratedAccount.realAccount)">edit</mat-icon>
+                    </button>
+                    <button mat-icon-button>
+                        <mat-icon (click)="selectAccount(iteratedAccount.realAccount)">launch</mat-icon>
                     </button>
                     <!-- <button mat-icon-button color="warn">
                         <mat-icon (click)="deleteAccount(iteratedAccount)">delete</mat-icon>

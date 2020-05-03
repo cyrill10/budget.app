@@ -16,7 +16,7 @@ export class PaymentTypeService {
 
   getPaymentTypes(): Observable<PaymentType[]> {
     const accountUrl = environment.apiURL + 'transaction/type/list';
-    const downloadedAccountPaymentTypes = this.http.get<PaymentType[]>(accountUrl, environment.httpOptions).pipe(
+    const downloadedAccountPaymentTypes = this.http.get<PaymentType[]>(accountUrl, environment.getHttpOptions()).pipe(
       retry(3), // retry a failed request up to 3 times
       catchError(this.errorHandler.handleError) // then handle the error
     );

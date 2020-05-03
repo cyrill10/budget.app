@@ -22,17 +22,22 @@ import { HttpClientModule } from '@angular/common/http';
 import { AppComponent } from './app.component';
 import { OverviewComponent } from './view/overview/overview.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { TransactionComponent } from './view/transaction/transaction.component';
-import { TransactionCreationDialogComponent } from './view/transaction/transaction.component';
+import { TransactionComponent, TransactionDublicationDialogComponent } from './view/transaction/transaction.component';
+import { TransactionCreationDialogComponent } from './view/transaction/transaction.creation.component';
 import { AccountComponent } from './view/account/account.component';
 import { AccountCreationDialogComponent } from './view/account/account.component';
 import { VirtualAccountCreationDialogComponent } from './view/account/account.component';
+import { MatElevationDirective } from './directives/matelevation.directive';
+import { VirtualAccountTransactionsComponent } from './view/virtualaccounttransactions/virtual.account.transactions.component';
+import { RealAccountTransactionsComponent } from './view/realaccounttransaction/real.account.transactions.component';
 
 const routes: Routes = [
       { path: '', redirectTo: '/overview', pathMatch: 'full' },
       { path: 'overview', component: OverviewComponent },
-      { path: 'transaction', component: TransactionComponent },
-      { path: 'account', component: AccountComponent }
+      { path: 'transaction', component: TransactionComponent  },
+      { path: 'account', component: AccountComponent },
+      { path: 'virtualAccount/transactions', component: VirtualAccountTransactionsComponent },
+      { path: 'realAccount/transactions', component: RealAccountTransactionsComponent }
 ];
 
 @NgModule({
@@ -43,7 +48,11 @@ const routes: Routes = [
     TransactionCreationDialogComponent,
     AccountComponent,
     AccountCreationDialogComponent,
-    VirtualAccountCreationDialogComponent
+    VirtualAccountCreationDialogComponent,
+    MatElevationDirective,
+    VirtualAccountTransactionsComponent,
+    RealAccountTransactionsComponent,
+    TransactionDublicationDialogComponent
   ],
   imports: [
     BrowserModule,

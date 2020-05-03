@@ -9,14 +9,17 @@ import { AccountTypeService } from 'src/app/services/accounttype.service';
 import { VirtualAccountService } from 'src/app/services/virtualaccount.service';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
+import { Router } from '@angular/router';
 
 export interface AccountDialogData {
   account: Account;
   accountTypes: Observable<AccountType[]>;
+  isNew: boolean;
 }
 
 export interface VirtualAccountDialogData {
   virtualAccount: VirtualAccount;
+  new: boolean;
 }
 
 @Component({
@@ -26,7 +29,7 @@ export interface VirtualAccountDialogData {
 })
 export class AccountComponent implements OnInit {
 
-  displayedColumns: string[] = ['name', 'detail', 'edit'];
+  displayedColumns: string[] = ['name', 'edit'];
   opened: boolean;
   private readonly refreshToken$ = new BehaviorSubject(undefined);
   readonly accounts = this.refreshToken$.pipe(
@@ -37,14 +40,20 @@ export class AccountComponent implements OnInit {
               private accountTypeService: AccountTypeService,
               private virtualAccountService: VirtualAccountService,
               private logger: LoggerService,
-              public dialog: MatDialog) { }
+              public dialog: MatDialog,
+              private route: Router) { }
 
   ngOnInit(): void {
-   }
+  }
 
-   getVirtualAccount(account: Account): Observable<VirtualAccount[]> {
-      return this.virtualAccountService.getVirtualAccountsForAccount(account.id);
-   }
+  selectAccount(account: Account) {
+
+    this.route.navigate(['/realAccount/transactions', { id: account.id }]);
+  }
+
+  selectVirtualAccount(account: VirtualAccount) {
+    this.route.navigate(['/virtualAccount/transactions', { id: account.id }]);
+  }
 
   deleteAccount(account: Account) {
     this.logger.log(account);
@@ -58,27 +67,26 @@ export class AccountComponent implements OnInit {
         id: null,
         name: null,
         accountType: null,
-        virtualAccounts: null,
-        getVirtualAccounts: Account.prototype.getVirtualAccounts
       };
     } else {
       account = editedAccount;
     }
+    const isNew = editedAccount === null;
     const accountTypes = this.accountTypeService.getAccountTypes();
     const accountDialog = this.dialog.open(AccountCreationDialogComponent, {
-      data: { account, accountTypes }
+      data: { account, accountTypes, isNew }
     });
 
     accountDialog.afterClosed().subscribe(result => {
       if (result !== undefined) {
-         if (editedAccount === null) {
+        if (editedAccount === null) {
           this.accountService.addAccount(result.account)
-          .subscribe(() => this.refreshToken$.next(undefined));
-         }else {
-           this.accountService.updateAccount(result.account)
-          .subscribe(() => this.refreshToken$.next(undefined));
-         }
-      }else {
+            .subscribe(() => this.refreshToken$.next(undefined));
+        } else {
+          this.accountService.updateAccount(result.account)
+            .subscribe(() => this.refreshToken$.next(undefined));
+        }
+      } else {
         this.refreshToken$.next(undefined);
       }
     });
@@ -143,6 +151,12 @@ export class AccountCreationDialogComponent {
     active = active && account.name !== null;
     active = active && account.accountType !== null;
     return !active;
+  }
+
+  compareType(value1: AccountType, value2: AccountType) {
+    if (value1 !== null && value2 !== null) {
+      return value1.value === value2.value;
+    }
   }
 }
 
