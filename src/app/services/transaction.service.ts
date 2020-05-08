@@ -14,8 +14,10 @@ import { Account } from '../element/account';
   providedIn: 'root'
 })
 export class TransactionService {
+  
 
-  constructor(private errorHandler: ErrorService,
+  constructor(
+    private errorHandler: ErrorService,
     private http: HttpClient,
     private logger: LoggerService) { }
 

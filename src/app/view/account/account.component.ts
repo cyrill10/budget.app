@@ -36,12 +36,13 @@ export class AccountComponent implements OnInit {
     switchMap(() => this.accountService.getAccounts())
   );
 
-  constructor(private accountService: AccountService,
-              private accountTypeService: AccountTypeService,
-              private virtualAccountService: VirtualAccountService,
-              private logger: LoggerService,
-              public dialog: MatDialog,
-              private route: Router) { }
+  constructor(
+    private accountService: AccountService,
+    private accountTypeService: AccountTypeService,
+    private virtualAccountService: VirtualAccountService,
+    private logger: LoggerService,
+    public dialog: MatDialog,
+    private route: Router) { }
 
   ngOnInit(): void {
   }
@@ -56,7 +57,7 @@ export class AccountComponent implements OnInit {
   }
 
   deleteAccount(account: Account) {
-    this.logger.log(account);
+    this.logger.log(account, 'AccountComponent');
     // TODO delete and reload
   }
 
@@ -93,7 +94,7 @@ export class AccountComponent implements OnInit {
   }
 
   deleteVirtualAccount(account: VirtualAccount) {
-    this.logger.log(account);
+    this.logger.log(account, 'AccountComponent');
     // TODO delete and reload
   }
 

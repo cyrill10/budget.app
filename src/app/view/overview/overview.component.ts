@@ -16,12 +16,12 @@ import { OverviewElement } from 'src/app/element/overviewelement';
 export class OverviewComponent implements OnInit {
   month = new Date(Date.now());
   months: Date[];
-  selected: FormControl;
+  selected = new FormControl(0);
   private readonly refreshToken$ = new BehaviorSubject(undefined);
   accounts = this.refreshToken$.pipe(
     switchMap(() => this.overviewService.getOverview(this.month))
   );
-  displayedColumns: string[] = ['name', 'thisMonth', 'nextMonth', 'projection'];
+  displayedColumns: string[] = ['name', 'nextMonth', 'projection'];
   opened: boolean;
 
   constructor(
@@ -34,15 +34,14 @@ export class OverviewComponent implements OnInit {
   }
 
     ngOnInit(){
-    this.logger.log('Init overview.component');
+    this.logger.log('Init', 'OverviewComponent');
   }
 
   selectAccount(element: OverviewElement) {
-     this.logger.log(element);
      if (element.realAccount) {
-        this.route.navigate(['/realAccount/transactions', {id: element.id}]);
+        this.route.navigate(['/realAccount/transactions', {id: element.id, selectedMonth: this.selected.value}]);
      }else {
-        this.route.navigate(['/virtualAccount/transactions', {id: element.id}]);
+        this.route.navigate(['/virtualAccount/transactions', {id: element.id, selectedMonth: this.selected.value}]);
      }
 }
 
@@ -58,5 +57,13 @@ export class OverviewComponent implements OnInit {
 
     getSelectedMonth(date: Date): Month {
        return this.dateService.getSelectedMonth(date);
+    }
+
+    isInTheFuture(): boolean {
+      const firstOfNextMonth = new Date(Date.now());
+      firstOfNextMonth.setDate(1);
+      firstOfNextMonth.setMonth(firstOfNextMonth.getMonth() + 1);
+      firstOfNextMonth.setHours(0);
+      return this.month >= firstOfNextMonth;
     }
 }

@@ -7,7 +7,7 @@
     </mat-list>
   </mat-sidenav>
   <mat-sidenav-content>
-    <mat-toolbar color="accent">
+    <mat-toolbar class="mainColor">
       <mat-toolbar-row>
         <button mat-icon-button>
           <mat-icon (click)="sidenav.toggle()">menu</mat-icon>
@@ -46,14 +46,14 @@
             <mat-icon (click)="openDialog(transaction)">edit</mat-icon>
           </button>
           <button mat-icon-button>
-            <mat-icon (click)="openDublicateDialog(transaction)">file_copy</mat-icon>
+            <mat-icon (click)="openDuplicateDialog(transaction)">file_copy</mat-icon>
           </button>
           <button mat-icon-button color="warn">
             <mat-icon (click)="deleteTransaction(transaction)">delete</mat-icon>
           </button>
         </mat-card-actions>
       </mat-card>
-          <button mat-fab class="fab-button-right" color="accent">
+          <button mat-fab class="fab-button-right mainButton">
       <mat-icon (click)="openDialog(null)">add</mat-icon>
     </button>
     </mat-list>

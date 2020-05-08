@@ -22,7 +22,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { AppComponent } from './app.component';
 import { OverviewComponent } from './view/overview/overview.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { TransactionComponent, TransactionDublicationDialogComponent } from './view/transaction/transaction.component';
+import { TransactionComponent, TransactionDuplicationDialogComponent } from './view/transaction/transaction.component';
 import { TransactionCreationDialogComponent } from './view/transaction/transaction.creation.component';
 import { AccountComponent } from './view/account/account.component';
 import { AccountCreationDialogComponent } from './view/account/account.component';
@@ -52,7 +52,7 @@ const routes: Routes = [
     MatElevationDirective,
     VirtualAccountTransactionsComponent,
     RealAccountTransactionsComponent,
-    TransactionDublicationDialogComponent
+    TransactionDuplicationDialogComponent
   ],
   imports: [
     BrowserModule,

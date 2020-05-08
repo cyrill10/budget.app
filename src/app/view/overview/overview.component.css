@@ -16,6 +16,15 @@ table {
   cursor: pointer;
 }
 
-.right-align{
+.right-align {
   text-align: right;
+  border-left-width: 1px;
+  border-left-style: solid;
+  border-left-color: rgba(0, 0, 0, .3);
+  padding-right: 10px;
+}
+
+.realAccount-name {
+  background-color: #3C6654;
+  color: white;
 }

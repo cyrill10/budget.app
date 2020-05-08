@@ -7,8 +7,8 @@ export class LoggerService {
 
   constructor() { }
 
-    log(msg: any)   { console.log(msg); }
-  error(msg: any) { console.error(msg); }
-  warn(msg: any)  { console.warn(msg); }
+    log(msg: any, className: string)   { console.log(className + ': ' + msg); }
+  error(msg: any, className: string) { console.error(className + ': ' + msg); }
+  warn(msg: any, className: string)  { console.warn(className + ': ' + msg); }
 }
 

@@ -1,0 +1,8 @@
+<h1 mat-dialog-title>Duplicate Transaction</h1>
+<div mat-dialog-content class="form-container">
+Are you sure you want to duplicte the Transaction {{data.description}}?
+</div>
+<div mat-dialog-actions>
+  <button mat-raised-button (click)="onNoClick()">No</button>
+  <button mat-raised-button [mat-dialog-close]="data" class="mainColor">Yes</button>
+</div>

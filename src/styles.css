@@ -15,3 +15,15 @@ body {
 .mat-drawer-container {
   min-height: 250px;
 }
+
+.mat-drawer-inner-container {
+  background-color: #dbdeba;
+}
+
+.mat-drawer-content {
+  background-color: #ffdfdf;
+}
+
+.mainColor {
+  background-color: #FEB9B7;
+}

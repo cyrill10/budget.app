@@ -34,39 +34,60 @@ export class VirtualAccountTransactionsComponent implements OnInit {
     private indicationService: IndicationService,
     private statusService: StatusService,
     public dialog: MatDialog) {
-    this.dateService.getMonths().subscribe(data => this.months = data);
     }
 
   virtualAccount: VirtualAccount;
   selectedId: number;
   month = new Date(Date.now());
-  selected = new FormControl(this.month.getMonth());
+  selected = new FormControl(0);
   opened: boolean;
   private readonly refreshTokenTransaction$ = new BehaviorSubject(undefined);
   transactions = this.refreshTokenTransaction$.pipe(
     switchMap(() => this.transactionService.getTransactionsForVirtualAccount(this.virtualAccount, this.month))
   );
   months: Date[];
-    displayedColumns: string[] = ['name', 'b-amount', 'b-balance', 'amount', 'balance'];
+  displayedColumns: string[] = ['name', 'b-amount', 'b-balance', 'amount', 'balance'];
 
 
   ngOnInit() {
-    const virtualAccount$ = this.route.paramMap.pipe(
-      switchMap(params => {
-        return this.virtualAcccountService.getVirtualAccount(params.get('id'));
-      })
-    );
-    virtualAccount$.subscribe(d => {
-      this.virtualAccount = d;
-      this.transactions = this.refreshTokenTransaction$.pipe(
+    this.dateService.getMonths().subscribe(data => {
+      this.months = data;
+      const virtualAccount$ = this.route.paramMap.pipe(
+        switchMap(params => {
+          if (params.get('selectedMonth') !== null && params.get('selectedMonth') !== undefined) {
+            this.selectMonthFromString(params.get('selectedMonth'));
+          } else {
+            this.dateService.getCurrent().subscribe(d => this.selected.setValue(d));
+          }
+          return this.virtualAcccountService.getVirtualAccount(params.get('id'));
+        })
+      );
+      virtualAccount$.subscribe(d => {
+        this.virtualAccount = d;
+        this.transactions = this.refreshTokenTransaction$.pipe(
           switchMap(() => this.transactionService.getTransactionsForVirtualAccount(this.virtualAccount, this.month)));
       }
-  );
+      );
+    });
   }
 
   selectMonth(event: Event) {
     this.selected.setValue(event);
+    this.recalcMonth();
+  }
+
+  selectMonthFromString(value: string) {
+    this.selected.setValue(parseInt(value, 10));
+    this.recalcMonth();
+  }
+
+  private recalcMonth() {
     this.month = this.months[this.selected.value];
+    if (this.isInTheFuture()) {
+      this.displayedColumns = ['name', 'b-amount', 'b-balance'];
+    }else {
+      this.displayedColumns = ['name', 'b-amount', 'b-balance', 'amount', 'balance'];
+    }
     this.refreshTokenTransaction$.next(undefined);
   }
 
@@ -75,7 +96,6 @@ export class VirtualAccountTransactionsComponent implements OnInit {
   }
 
     selectTranaction(editedTransaction: TransactionElement): void {
-      this.logger.log(editedTransaction);
       if (editedTransaction === null || editedTransaction.id === 0) {
         const transaction = {
           date: this.getSuggestedTransactionDate(this.month),
@@ -94,7 +114,6 @@ export class VirtualAccountTransactionsComponent implements OnInit {
     const indications = this.indicationService.getIndications();
     const virtualAccounts = this.virtualAccountService.getVirtualAccounts();
 
-    this.logger.log(transaction);
     const dialogRef = this.dialog.open(TransactionCreationDialogComponent, {
       data: { transaction, virtualAccounts, paymentTypes, statuses, indications, isNew }
     });
@@ -124,5 +143,14 @@ export class VirtualAccountTransactionsComponent implements OnInit {
     endOfMonth.setDate(25);
     return endOfMonth;
   }
+
+    isInTheFuture(): boolean {
+    const firstOfNextMonth = new Date(Date.now());
+    firstOfNextMonth.setDate(1);
+    firstOfNextMonth.setMonth(firstOfNextMonth.getMonth() + 1);
+    firstOfNextMonth.setHours(0);
+    return this.month >= firstOfNextMonth;
+  }
+
 
 }

@@ -22,7 +22,7 @@ import { TransactionCreationDialogComponent } from './transaction.creation.compo
 export class TransactionComponent implements OnInit {
 
   month = new Date(Date.now());
-  selected: FormControl;
+  selected = new FormControl(0);
   opened: boolean;
   private readonly refreshTokenTransaction$ = new BehaviorSubject(undefined);
   transactions = this.refreshTokenTransaction$.pipe(
@@ -44,7 +44,7 @@ export class TransactionComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.logger.log('Init transaction.component');
+    this.logger.log('Init', 'TransactionComponent');
   }
 
   selectMonth(event: Event) {
@@ -117,8 +117,8 @@ export class TransactionComponent implements OnInit {
   }
 
 
-  openDublicateDialog(selectedTransaction: Transaction): void {
-    const dialogRef = this.dialog.open(TransactionDublicationDialogComponent, {
+  openDuplicateDialog(selectedTransaction: Transaction): void {
+    const dialogRef = this.dialog.open(TransactionDuplicationDialogComponent, {
       data: selectedTransaction
     });
 
@@ -130,15 +130,15 @@ export class TransactionComponent implements OnInit {
   }
 }
 @Component({
-  selector: 'app-transatction-dublication-dialog',
-  templateUrl: 'transatction-dublication-dialog.html',
+  selector: 'app-transaction-duplication-dialog',
+  templateUrl: 'transaction-duplication-dialog.html',
   styleUrls: ['./transaction.component.css']
 })
-export class TransactionDublicationDialogComponent {
+export class TransactionDuplicationDialogComponent {
 
 
   constructor(
-    public dialogRef: MatDialogRef<TransactionDublicationDialogComponent>,
+    public dialogRef: MatDialogRef<TransactionDuplicationDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: Transaction) {
   }
 

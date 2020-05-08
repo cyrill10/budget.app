@@ -18,8 +18,8 @@ export interface DialogData {
 }
 
 @Component({
-  selector: 'app-transatction-creation-dialog',
-  templateUrl: 'transatction-creation-dialog.html',
+  selector: 'app-transaction-creation-dialog',
+  templateUrl: 'transaction-creation-dialog.html',
   styleUrls: ['./transaction.component.css']
 })
 export class TransactionCreationDialogComponent {
