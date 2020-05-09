@@ -25,5 +25,9 @@ body {
 }
 
 ion-toolbar {
-padding-top: 30px !important;
+  padding-top: 30px !important;
+}
+
+mat-tab-group {
+  background-color: #ffdfdf;
 }
