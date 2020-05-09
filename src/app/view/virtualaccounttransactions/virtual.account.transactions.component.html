@@ -7,14 +7,16 @@
     </mat-list>
   </mat-sidenav>
   <mat-sidenav-content>
-    <mat-toolbar class="mainColor">
-      <mat-toolbar-row>
+    <ion-toolbar color="pink" class="mainColor">
+      <ion-buttons slot="start">
         <button mat-icon-button>
           <mat-icon (click)="sidenav.toggle()">menu</mat-icon>
         </button>
+      </ion-buttons>
+      <ion-title>
         <span class="header-spacer" *ngIf="virtualAccount !== undefined">{{virtualAccount.name}}</span>
-      </mat-toolbar-row>
-    </mat-toolbar>
+      </ion-title>
+    </ion-toolbar>
     <mat-tab-group [selectedIndex]="selected.value" (selectedIndexChange)="selectMonth($event)">
       <mat-tab *ngFor="let selectedMonth of months" [label]="getShortName(selectedMonth)">
       </mat-tab>

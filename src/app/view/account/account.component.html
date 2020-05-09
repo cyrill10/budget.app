@@ -1,4 +1,4 @@
- <mat-sidenav-container>
+<mat-sidenav-container>
     <mat-sidenav #sidenav mode="side" [(opened)]="opened">
         <mat-list role="list">
             <mat-list-item role="listitem"><a mat-button routerLink="/overview/">Overview</a></mat-list-item>
@@ -7,68 +7,75 @@
         </mat-list>
     </mat-sidenav>
     <mat-sidenav-content>
-        <mat-toolbar class="mainColor">
-            <mat-toolbar-row>
+        <ion-toolbar color="pink" class="mainColor">
+            <ion-buttons slot="start">
                 <button mat-icon-button>
                     <mat-icon (click)="sidenav.toggle()">menu</mat-icon>
                 </button>
+            </ion-buttons>
+            <ion-title>
                 <span class="header-spacer">Account</span>
+            </ion-title>
+            <ion-buttons slot="end">
                 <button mat-icon-button>
                     <mat-icon (click)="editAccount(null)">add</mat-icon>
                 </button>
-            </mat-toolbar-row>
-        </mat-toolbar>
-        <mat-list>
-            <mat-card class="example-card" *ngFor="let iteratedAccount of accounts | async" matRipple appMatElevation>
-                <mat-card-header>
-                    <mat-card-title>
-                        <span class="aligned-with-icon">{{iteratedAccount.realAccount.name}}</span>
-                    </mat-card-title>
-                    <mat-card-subtitle>
-                        <span>{{iteratedAccount.realAccount.id}} | {{iteratedAccount.realAccount.accountType.name}}</span>
-                    </mat-card-subtitle>
-                </mat-card-header>
-                <mat-card-content>
-                    <table mat-table [dataSource]="iteratedAccount.virtualAccounts">
+            </ion-buttons>
+        </ion-toolbar>
+            <mat-list>
+                <mat-card class="example-card" *ngFor="let iteratedAccount of accounts | async" matRipple
+                    appMatElevation>
+                    <mat-card-header>
+                        <mat-card-title>
+                            <span class="aligned-with-icon">{{iteratedAccount.realAccount.name}}</span>
+                        </mat-card-title>
+                        <mat-card-subtitle>
+                            <span>{{iteratedAccount.realAccount.id}} |
+                                {{iteratedAccount.realAccount.accountType.name}}</span>
+                        </mat-card-subtitle>
+                    </mat-card-header>
+                    <mat-card-content>
+                        <table mat-table [dataSource]="iteratedAccount.virtualAccounts">
 
-                        <ng-container matColumnDef="name">
-                            <td mat-cell *matCellDef="let element"> 
-                                 {{element.name}}
-                             </td>
-                        </ng-container>
+                            <ng-container matColumnDef="name">
+                                <td mat-cell *matCellDef="let element">
+                                    {{element.name}}
+                                </td>
+                            </ng-container>
 
-                        <ng-container matColumnDef="edit">
-                            <td mat-cell *matCellDef="let element">
-                                <button mat-icon-button>
-                                    <mat-icon (click)="selectVirtualAccount(element)">launch</mat-icon>
-                                </button>
-                                <button mat-icon-button>
-                                    <mat-icon (click)="editVirtualAccount(element, iteratedAccount.realAccount)">edit</mat-icon>
-                                </button>
-                                <!-- <button mat-icon-button color="warn">
+                            <ng-container matColumnDef="edit">
+                                <td mat-cell *matCellDef="let element">
+                                    <button mat-icon-button>
+                                        <mat-icon (click)="selectVirtualAccount(element)">launch</mat-icon>
+                                    </button>
+                                    <button mat-icon-button>
+                                        <mat-icon (click)="editVirtualAccount(element, iteratedAccount.realAccount)">
+                                            edit</mat-icon>
+                                    </button>
+                                    <!-- <button mat-icon-button color="warn">
                                     <mat-icon (click)="deleteVirtualAccount(element)">delete</mat-icon>
                                 </button> -->
-                            </td>
-                        </ng-container>
+                                </td>
+                            </ng-container>
 
-                        <tr mat-row  *matRowDef="let row; columns: displayedColumns;"></tr>
-                    </table>
-                </mat-card-content>
-                <mat-card-actions>
-                    <button mat-icon-button>
-                        <mat-icon (click)="editVirtualAccount(null, iteratedAccount.realAccount)">add</mat-icon>
-                    </button>
-                    <button mat-icon-button>
-                        <mat-icon (click)="editAccount(iteratedAccount.realAccount)">edit</mat-icon>
-                    </button>
-                    <button mat-icon-button>
-                        <mat-icon (click)="selectAccount(iteratedAccount.realAccount)">launch</mat-icon>
-                    </button>
-                    <!-- <button mat-icon-button color="warn">
+                            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                        </table>
+                    </mat-card-content>
+                    <mat-card-actions>
+                        <button mat-icon-button>
+                            <mat-icon (click)="editVirtualAccount(null, iteratedAccount.realAccount)">add</mat-icon>
+                        </button>
+                        <button mat-icon-button>
+                            <mat-icon (click)="editAccount(iteratedAccount.realAccount)">edit</mat-icon>
+                        </button>
+                        <button mat-icon-button>
+                            <mat-icon (click)="selectAccount(iteratedAccount.realAccount)">launch</mat-icon>
+                        </button>
+                        <!-- <button mat-icon-button color="warn">
                         <mat-icon (click)="deleteAccount(iteratedAccount)">delete</mat-icon>
                     </button> -->
-                </mat-card-actions>
-            </mat-card>
-        </mat-list>
+                    </mat-card-actions>
+                </mat-card>
+            </mat-list>
     </mat-sidenav-content>
 </mat-sidenav-container>
