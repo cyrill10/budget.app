@@ -23,3 +23,7 @@ body {
 .mainColor {
   background-color: #FEB9B7;
 }
+
+ion-toolbar {
+padding-top: 30px !important;
+}
