@@ -54,7 +54,12 @@ import { RealAccountTransactionsComponent } from './view/realaccounttransaction/
     RealAccountTransactionsComponent,
     TransactionDuplicationDialogComponent
   ],
-  entryComponents: [],
+  entryComponents: [
+    TransactionCreationDialogComponent,
+    VirtualAccountCreationDialogComponent,
+    TransactionDuplicationDialogComponent,
+    AccountCreationDialogComponent
+  ],
   imports: [
     BrowserModule,
     RouterModule,
