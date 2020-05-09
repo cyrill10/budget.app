@@ -23,7 +23,3 @@ body {
 .mainColor {
   background-color: #FEB9B7;
 }
-
-ion-toolbar, .mat-drawer-inner-container {
-  padding-top: 30px;
-}
