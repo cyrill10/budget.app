@@ -16,10 +16,6 @@ body {
   min-height: 250px;
 }
 
-.mat-drawer-inner-container {
-  background-color: #dbdeba;
-}
-
 .mat-drawer-content {
   background-color: #ffdfdf;
 }

@@ -56,3 +56,8 @@
 .mat-drawer-content {
   overflow: hidden;
 }
+
+ion-content{
+  --background: #ffdfdf;
+  min-height: 100vh;
+}

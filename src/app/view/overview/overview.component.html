@@ -1,17 +1,7 @@
-<mat-sidenav-container>
-  <mat-sidenav #sidenav mode="side" [(opened)]="opened">
-    <mat-list role="list">
-      <mat-list-item role="listitem"><a mat-button [routerLink]="['/overview/']">Overview</a></mat-list-item>
-      <mat-list-item role="listitem"><a mat-button [routerLink]="['/account/']">Accounts</a></mat-list-item>
-      <mat-list-item role="listitem"><a mat-button [routerLink]="['/transaction/']">Transactions</a></mat-list-item>
-    </mat-list>
-  </mat-sidenav>
-  <mat-sidenav-content>
+  <ion-header id="main">
     <ion-toolbar color="pink" class="mainColor">
       <ion-buttons slot="start">
-        <button mat-icon-button>
-          <mat-icon (click)="sidenav.toggle()">menu</mat-icon>
-        </button>
+        <ion-menu-button><mat-icon>menu</mat-icon></ion-menu-button>
       </ion-buttons>
       <ion-title>
         <span class="header-spacer">Budget</span>
@@ -21,6 +11,8 @@
       <mat-tab *ngFor="let selectedMonth of months" [label]="getShortName(selectedMonth)">
       </mat-tab>
     </mat-tab-group>
+  </ion-header>
+  <ion-content>
     <table mat-table [dataSource]="accounts" class="mat-elevation-z8" >
 
       <ng-container matColumnDef="name">
@@ -57,6 +49,4 @@
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row appMatElevation class="clickable" *matRowDef="let row; columns: displayedColumns;" (click)="selectAccount(row)"></tr>
     </table>
-
-  </mat-sidenav-content>
-</mat-sidenav-container>
+</ion-content>

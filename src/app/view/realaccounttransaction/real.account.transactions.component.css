@@ -5,3 +5,8 @@ table {
 .right-align{
   text-align: right;
 }
+
+ion-content{
+  --background: #ffdfdf;
+  min-height: 100vh;
+}

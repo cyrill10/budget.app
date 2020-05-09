@@ -28,3 +28,7 @@ table {
   background-color: #3C6654;
   color: white;
 }
+ion-content{
+  --background: #ffdfdf;
+  min-height: 100vh;
+}

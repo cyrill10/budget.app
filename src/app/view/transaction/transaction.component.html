@@ -1,16 +1,9 @@
 <mat-sidenav-container>
-  <mat-sidenav #sidenav mode="side" [(opened)]="opened">
-    <mat-list role="list">
-      <mat-list-item role="listitem"><a mat-button routerLink="/overview/">Overview</a></mat-list-item>
-      <mat-list-item role="listitem"><a mat-button routerLink="/account/">Accounts</a></mat-list-item>
-      <mat-list-item role="listitem"><a mat-button routerLink="/transaction/">Transactions</a></mat-list-item>
-    </mat-list>
-  </mat-sidenav>
-  <mat-sidenav-content>
+  <ion-header id="main">
     <ion-toolbar color="pink" class="mainColor">
       <ion-buttons slot="start">
         <button mat-icon-button>
-          <mat-icon (click)="sidenav.toggle()">menu</mat-icon>
+          <ion-menu-button><mat-icon>menu</mat-icon></ion-menu-button>
         </button>
       </ion-buttons>
       <ion-title>
@@ -21,6 +14,8 @@
       <mat-tab *ngFor="let selectedMonth of months" [label]="getShortName(selectedMonth)">
       </mat-tab>
     </mat-tab-group>
+      </ion-header>
+  <ion-content>
     <mat-list>
       <mat-card *ngFor="let transaction of transactions | async" class="card-container">
         <mat-card-header>
@@ -59,7 +54,4 @@
       <mat-icon (click)="openDialog(null)">add</mat-icon>
     </button>
     </mat-list>
-
-
-  </mat-sidenav-content>
-</mat-sidenav-container>
+  </ion-content>
