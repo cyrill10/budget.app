@@ -7,8 +7,7 @@ import { FormControl } from '@angular/forms';
 import { TransactionService } from 'src/app/services/transaction.service';
 import { DateService } from 'src/app/services/date.service';
 import { Transaction } from 'src/app/element/transaction';
-import { TransactionCreationDialogComponent } from '../transaction/transaction.creation.component';
-import { LoggerService } from 'src/app/services/logger.service';
+import { TransactionCreationDialogComponent } from '../transaction/transaction.creation.component';;
 import { PaymentTypeService } from 'src/app/services/paymenttype.service';
 import { IndicationService } from 'src/app/services/indication.service';
 import { StatusService } from 'src/app/services/status.service';
@@ -28,7 +27,6 @@ export class RealAccountTransactionsComponent implements OnInit {
     private route: ActivatedRoute,
     private transactionService: TransactionService,
     private dateService: DateService,
-    private logger: LoggerService,
     private accountService: AccountService,
     private virtualAccountService: VirtualAccountService,
     private paymentTypeService: PaymentTypeService,
