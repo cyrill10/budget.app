@@ -10,3 +10,11 @@ ion-content{
   --background: #ffdfdf;
   min-height: 80vh;
 }
+
+.header {
+  background-color: #dbdeba;
+}
+
+.budgeted {
+  color: grey;
+}
