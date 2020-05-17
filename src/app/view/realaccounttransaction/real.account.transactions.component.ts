@@ -7,8 +7,7 @@ import { FormControl } from '@angular/forms';
 import { TransactionService } from 'src/app/services/transaction.service';
 import { DateService } from 'src/app/services/date.service';
 import { Transaction } from 'src/app/element/transaction';
-import { TransactionCreationDialogComponent } from '../transaction/transaction.creation.component';
-import { LoggerService } from 'src/app/services/logger.service';
+import { TransactionCreationDialogComponent } from '../transaction/transaction.creation.component';;
 import { PaymentTypeService } from 'src/app/services/paymenttype.service';
 import { IndicationService } from 'src/app/services/indication.service';
 import { StatusService } from 'src/app/services/status.service';
@@ -28,7 +27,6 @@ export class RealAccountTransactionsComponent implements OnInit {
     private route: ActivatedRoute,
     private transactionService: TransactionService,
     private dateService: DateService,
-    private logger: LoggerService,
     private accountService: AccountService,
     private virtualAccountService: VirtualAccountService,
     private paymentTypeService: PaymentTypeService,
@@ -47,7 +45,7 @@ export class RealAccountTransactionsComponent implements OnInit {
     switchMap(() => this.transactionService.getTransactionsForRealAccount(this.realAccount, this.month))
   );
   months: Date[];
-  displayedColumns: string[] = ['name', 'b-amount', 'b-balance', 'amount', 'balance'];
+  displayedColumns: string[] = ['name', 'amount', 'balance'];
 
   ngOnInit() {
     this.dateService.getMonths().subscribe(data => {
@@ -83,11 +81,6 @@ export class RealAccountTransactionsComponent implements OnInit {
 
   private recalcMonth() {
     this.month = this.months[this.selected.value];
-    if (this.isInTheFuture()) {
-      this.displayedColumns = ['name', 'b-amount', 'b-balance'];
-    }else {
-      this.displayedColumns = ['name', 'b-amount', 'b-balance', 'amount', 'balance'];
-    }
     this.refreshTokenTransaction$.next(undefined);
   }
 

@@ -6,6 +6,7 @@ body {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     margin: 0px;
+    background-color: #ffdfdf;
   }
 
 .header-spacer {
@@ -16,14 +17,18 @@ body {
   min-height: 250px;
 }
 
-.mat-drawer-inner-container {
-  background-color: #dbdeba;
-}
-
 .mat-drawer-content {
   background-color: #ffdfdf;
 }
 
 .mainColor {
   background-color: #FEB9B7;
+}
+
+ion-toolbar {
+  padding-top: 30px !important;
+}
+
+mat-tab-group {
+  background-color: #ffdfdf;
 }

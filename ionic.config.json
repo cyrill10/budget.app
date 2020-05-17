@@ -1,0 +1,8 @@
+{
+  "name": "budget-app",
+  "integrations": {
+    "cordova": {},
+    "capacitor": {}
+  },
+  "type": "angular"
+}

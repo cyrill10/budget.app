@@ -75,4 +75,13 @@ export class TransactionCreationDialogComponent {
     active = active && transaction.description !== null;
     return !active;
   }
+
+  canMakeEffective(transaction: Transaction): boolean {
+    return transaction.budgetedAmount !== null &&
+           transaction.budgetedAmount > 0 && transaction.effectiveAmount === 0;
+  }
+
+  makeEffective(transaction: Transaction) {
+    transaction.effectiveAmount = transaction.budgetedAmount;
+  }
 }

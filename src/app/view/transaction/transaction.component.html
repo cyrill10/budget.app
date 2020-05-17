@@ -1,63 +1,58 @@
-<mat-sidenav-container>
-  <mat-sidenav #sidenav mode="side" [(opened)]="opened">
-    <mat-list role="list">
-      <mat-list-item role="listitem"><a mat-button routerLink="/overview/">Overview</a></mat-list-item>
-      <mat-list-item role="listitem"><a mat-button routerLink="/account/">Accounts</a></mat-list-item>
-      <mat-list-item role="listitem"><a mat-button routerLink="/transaction/">Transactions</a></mat-list-item>
-    </mat-list>
-  </mat-sidenav>
-  <mat-sidenav-content>
-    <mat-toolbar class="mainColor">
-      <mat-toolbar-row>
+<ion-header id="main">
+  <ion-toolbar color="pink" class="mainColor">
+    <ion-buttons slot="start">
+      <button mat-icon-button>
+        <ion-menu-button>
+          <mat-icon>menu</mat-icon>
+        </ion-menu-button>
+      </button>
+    </ion-buttons>
+    <ion-title>
+      <span class="header-spacer">Transaction</span>
+    </ion-title>
+  </ion-toolbar>
+  <mat-tab-group [selectedIndex]="selected.value" (selectedIndexChange)="selectMonth($event)">
+    <mat-tab *ngFor="let selectedMonth of months" [label]="getShortName(selectedMonth)">
+    </mat-tab>
+  </mat-tab-group>
+</ion-header>
+<ion-content>
+  <mat-list>
+    <mat-card *ngFor="let transaction of transactions | async" class="card-container">
+      <mat-card-header>
+        <div mat-card-avatar class="header-image" [ngStyle]="{'background-color': transaction.paymentStatus.color}">
+        </div>
+        <mat-card-title>
+          <span>{{transaction.description}}</span>
+        </mat-card-title>
+        <mat-card-subtitle>
+          <span class="aligned-with-icon">{{transaction.creditedAccount.name}}</span>
+          <mat-icon matListIcon>keyboard_arrow_right</mat-icon>
+          <span class="aligned-with-icon">{{transaction.debitedAccount.name}}</span>
+          <div *ngIf="transaction.budgetedAmount"> Budgeted Fr. {{transaction.budgetedAmount | number: '0.2-2'}}</div>
+        </mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <div><span>{{transaction.indication.name}}</span></div>
+        <div><span>{{transaction.paymentType.name}}</span></div>
+      </mat-card-content>
+      <mat-card-actions>
+        <mat-card-title *ngIf="transaction.effectiveAmount">
+          <span>Fr. {{transaction.effectiveAmount | number: '0.2-2'}}</span>
+        </mat-card-title>
         <button mat-icon-button>
-          <mat-icon (click)="sidenav.toggle()">menu</mat-icon>
+          <mat-icon (click)="openDialog(transaction)">edit</mat-icon>
         </button>
-        <span class="header-spacer">Transaction</span>
-      </mat-toolbar-row>
-    </mat-toolbar>
-    <mat-tab-group [selectedIndex]="selected.value" (selectedIndexChange)="selectMonth($event)">
-      <mat-tab *ngFor="let selectedMonth of months" [label]="getShortName(selectedMonth)">
-      </mat-tab>
-    </mat-tab-group>
-    <mat-list>
-      <mat-card *ngFor="let transaction of transactions | async" class="card-container">
-        <mat-card-header>
-          <div mat-card-avatar class="header-image" [ngStyle]="{'background-color': transaction.paymentStatus.color}">
-          </div>
-          <mat-card-title>
-            <span>{{transaction.description}}</span>
-          </mat-card-title>
-          <mat-card-subtitle>
-            <span class="aligned-with-icon">{{transaction.creditedAccount.name}}</span>
-            <mat-icon matListIcon>keyboard_arrow_right</mat-icon>
-            <span class="aligned-with-icon">{{transaction.debitedAccount.name}}</span>
-            <div *ngIf="transaction.budgetedAmount"> Budgeted Fr. {{transaction.budgetedAmount | number: '0.2-2'}}</div>
-          </mat-card-subtitle>
-        </mat-card-header>
-        <mat-card-content>
-          <div><span>{{transaction.indication.name}}</span></div>
-          <div><span>{{transaction.paymentType.name}}</span></div>
-        </mat-card-content>
-        <mat-card-actions>
-          <mat-card-title *ngIf="transaction.effectiveAmount">
-            <span>Fr. {{transaction.effectiveAmount | number: '0.2-2'}}</span>
-          </mat-card-title>
-          <button mat-icon-button>
-            <mat-icon (click)="openDialog(transaction)">edit</mat-icon>
-          </button>
-          <button mat-icon-button>
-            <mat-icon (click)="openDuplicateDialog(transaction)">file_copy</mat-icon>
-          </button>
-          <button mat-icon-button color="warn">
-            <mat-icon (click)="deleteTransaction(transaction)">delete</mat-icon>
-          </button>
-        </mat-card-actions>
-      </mat-card>
-          <button mat-fab class="fab-button-right mainButton">
+        <button mat-icon-button>
+          <mat-icon (click)="openDuplicateDialog(transaction)">file_copy</mat-icon>
+        </button>
+        <button mat-icon-button color="warn">
+          <mat-icon (click)="deleteTransaction(transaction)">delete</mat-icon>
+        </button>
+      </mat-card-actions>
+    </mat-card>
+    <button mat-fab class="fab-button-right mainButton">
       <mat-icon (click)="openDialog(null)">add</mat-icon>
     </button>
-    </mat-list>
-
-
-  </mat-sidenav-content>
-</mat-sidenav-container>
+  </mat-list>
+</ion-content>

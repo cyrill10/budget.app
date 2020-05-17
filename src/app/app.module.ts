@@ -1,6 +1,15 @@
-import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import { BrowserModule } from '@angular/platform-browser';
+import { RouteReuseStrategy } from '@angular/router';
+
+import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
+import { SplashScreen } from '@ionic-native/splash-screen/ngx';
+import { StatusBar } from '@ionic-native/status-bar/ngx';
+
+import { AppComponent } from './app.component';
+import { AppRoutingModule } from './app-routing.module';
+import { RouterModule } from '@angular/router';
+
 import {MatSidenavModule} from '@angular/material/sidenav';
 import {MAT_FORM_FIELD_DEFAULT_OPTIONS, MatFormFieldModule} from '@angular/material/form-field';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
@@ -19,7 +28,6 @@ import {MatDividerModule} from '@angular/material/divider';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import { HttpClientModule } from '@angular/common/http';
 
-import { AppComponent } from './app.component';
 import { OverviewComponent } from './view/overview/overview.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TransactionComponent, TransactionDuplicationDialogComponent } from './view/transaction/transaction.component';
@@ -31,14 +39,6 @@ import { MatElevationDirective } from './directives/matelevation.directive';
 import { VirtualAccountTransactionsComponent } from './view/virtualaccounttransactions/virtual.account.transactions.component';
 import { RealAccountTransactionsComponent } from './view/realaccounttransaction/real.account.transactions.component';
 
-const routes: Routes = [
-      { path: '', redirectTo: '/overview', pathMatch: 'full' },
-      { path: 'overview', component: OverviewComponent },
-      { path: 'transaction', component: TransactionComponent  },
-      { path: 'account', component: AccountComponent },
-      { path: 'virtualAccount/transactions', component: VirtualAccountTransactionsComponent },
-      { path: 'realAccount/transactions', component: RealAccountTransactionsComponent }
-];
 
 @NgModule({
   declarations: [
@@ -54,9 +54,17 @@ const routes: Routes = [
     RealAccountTransactionsComponent,
     TransactionDuplicationDialogComponent
   ],
+  entryComponents: [
+    TransactionCreationDialogComponent,
+    VirtualAccountCreationDialogComponent,
+    TransactionDuplicationDialogComponent,
+    AccountCreationDialogComponent
+  ],
   imports: [
     BrowserModule,
-    RouterModule.forRoot(routes),
+    RouterModule,
+    IonicModule.forRoot(),
+    AppRoutingModule,
     BrowserAnimationsModule,
     MatSidenavModule,
     ReactiveFormsModule,
@@ -78,8 +86,11 @@ const routes: Routes = [
     HttpClientModule
   ],
   providers: [
-    { provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: { appearance: 'fill' } },
+    StatusBar,
+    SplashScreen,
+    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
+    { provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: { appearance: 'fill' } }
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {}

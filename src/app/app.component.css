@@ -1,0 +1,14 @@
+.inner-scroll {
+    background-color: #dbdeba;
+}
+ion-menu{
+          --ion-background-color:#dbdeba;
+}
+ion-title {
+    text-align: left;
+}
+
+ion-toolbar {
+  padding-top: 30px !important;
+  --background: #dbdeba;
+}

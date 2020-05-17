@@ -46,7 +46,7 @@ export class VirtualAccountTransactionsComponent implements OnInit {
     switchMap(() => this.transactionService.getTransactionsForVirtualAccount(this.virtualAccount, this.month))
   );
   months: Date[];
-  displayedColumns: string[] = ['name', 'b-amount', 'b-balance', 'amount', 'balance'];
+  displayedColumns: string[] = ['name', 'amount', 'balance'];
 
 
   ngOnInit() {
@@ -83,11 +83,6 @@ export class VirtualAccountTransactionsComponent implements OnInit {
 
   private recalcMonth() {
     this.month = this.months[this.selected.value];
-    if (this.isInTheFuture()) {
-      this.displayedColumns = ['name', 'b-amount', 'b-balance'];
-    }else {
-      this.displayedColumns = ['name', 'b-amount', 'b-balance', 'amount', 'balance'];
-    }
     this.refreshTokenTransaction$.next(undefined);
   }
 
@@ -99,8 +94,8 @@ export class VirtualAccountTransactionsComponent implements OnInit {
       if (editedTransaction === null || editedTransaction.id === 0) {
         const transaction = {
           date: this.getSuggestedTransactionDate(this.month),
-          budgetedAmount: 0, creditedAccount: null,
-          debitedAccount: null, effectiveAmount: 0,
+          budgetedAmount: 0, creditedAccount: this.virtualAccount,
+          debitedAccount: this.virtualAccount, effectiveAmount: 0,
           id: null, indication: null, paymentType: null, paymentStatus: null, description: null
         };
         this.openDialog(transaction, true);
