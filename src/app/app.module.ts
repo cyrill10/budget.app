@@ -6,7 +6,7 @@ import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 
-import { AppComponent } from './app.component';
+import { AppComponent, SettingsDialogComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { RouterModule } from '@angular/router';
 
@@ -32,12 +32,12 @@ import { OverviewComponent } from './view/overview/overview.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TransactionComponent, TransactionDuplicationDialogComponent } from './view/transaction/transaction.component';
 import { TransactionCreationDialogComponent } from './view/transaction/transaction.creation.component';
-import { AccountComponent } from './view/account/account.component';
-import { AccountCreationDialogComponent } from './view/account/account.component';
-import { VirtualAccountCreationDialogComponent } from './view/account/account.component';
+import { AccountComponent, AccountCreationDialogComponent, VirtualAccountCreationDialogComponent } from './view/account/account.component';
 import { MatElevationDirective } from './directives/matelevation.directive';
 import { VirtualAccountTransactionsComponent } from './view/virtualaccounttransactions/virtual.account.transactions.component';
 import { RealAccountTransactionsComponent } from './view/realaccounttransaction/real.account.transactions.component';
+
+import { IonicStorageModule } from '@ionic/storage';
 
 
 @NgModule({
@@ -52,18 +52,21 @@ import { RealAccountTransactionsComponent } from './view/realaccounttransaction/
     MatElevationDirective,
     VirtualAccountTransactionsComponent,
     RealAccountTransactionsComponent,
-    TransactionDuplicationDialogComponent
+    TransactionDuplicationDialogComponent,
+	SettingsDialogComponent
   ],
   entryComponents: [
     TransactionCreationDialogComponent,
     VirtualAccountCreationDialogComponent,
     TransactionDuplicationDialogComponent,
-    AccountCreationDialogComponent
+    AccountCreationDialogComponent,
+	SettingsDialogComponent
   ],
   imports: [
     BrowserModule,
     RouterModule,
     IonicModule.forRoot(),
+	IonicStorageModule.forRoot(),
     AppRoutingModule,
     BrowserAnimationsModule,
     MatSidenavModule,

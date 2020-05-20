@@ -6,8 +6,6 @@ import { HttpHeaders, HttpParams } from '@angular/common/http';
 
 export const environment = {
   production: false,
-  apiURL: 'http://192.168.0.28:8080/budget/', // Prod
-  // apiURL: 'http://192.168.0.15:8080/budget/', // Dev
 
 
   getHttpOptions() {

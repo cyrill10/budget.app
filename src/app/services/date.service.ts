@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { ErrorService } from './error.service';
-import { Observable , of } from 'rxjs';
+import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { StorageService } from './storage.service';
 import { retry, catchError, map} from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import { Month } from '../date/month';
@@ -14,8 +15,10 @@ export class DateService {
   months: Month[];
 
 
-  constructor(private errorHandler: ErrorService,
-              private http: HttpClient) {
+  constructor(
+	private errorHandler: ErrorService,
+	private http: HttpClient,
+	private storage: StorageService) {
    this.months = [
       new Month('January',
         'Jan',
@@ -105,7 +108,7 @@ export class DateService {
   }
 
   getMonths(): Observable<Date[]> {
-    const url = environment.apiURL + 'date/month/list';
+    const url = this.storage.getServicePath() + 'date/month/list';
     const downloadedMonths = this.http.get<Date[]>(url, environment.getHttpOptions()).pipe(
       retry(3), // retry a failed request up to 3 times
       // tslint:disable-next-line: no-shadowed-variable
@@ -116,7 +119,7 @@ export class DateService {
   }
 
     getCurrent(): Observable<Date> {
-    const url = environment.apiURL + 'date/current';
+    const url = this.storage.getServicePath() + 'date/current';
     const downloadedCurrtant = this.http.get<Date>(url, environment.getHttpOptions()).pipe(
       retry(3), // retry a failed request up to 3 times
       catchError(this.errorHandler.handleError) // then handle the error

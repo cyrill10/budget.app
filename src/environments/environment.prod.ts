@@ -2,8 +2,6 @@ import { HttpHeaders, HttpParams } from '@angular/common/http';
 
 export const environment = {
   production: true,
-  apiURL: 'http://192.168.0.28:8080/budget/',
-
 
   getHttpOptions() {
     const headers = {

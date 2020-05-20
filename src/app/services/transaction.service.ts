@@ -3,6 +3,7 @@ import { Transaction } from '../element/transaction';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { ErrorService } from './error.service';
 import { LoggerService } from './logger.service';
+import { StorageService } from './storage.service';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { retry, catchError } from 'rxjs/operators';
@@ -19,11 +20,12 @@ export class TransactionService {
   constructor(
     private errorHandler: ErrorService,
     private http: HttpClient,
-    private logger: LoggerService) { }
+    private logger: LoggerService,
+	private storage: StorageService) { }
 
 
   getTransactions(date: Date): Observable<Transaction[]> {
-    const url = environment.apiURL + 'transaction/list';
+    const url = this.storage.getServicePath() + 'transaction/list';
     const httpOptions = environment.getHttpOptions();
     httpOptions.params = new HttpParams().set('date', '' + date.getTime());
     const observer = this.http.get<Transaction[]>(url, httpOptions).pipe(
@@ -34,7 +36,7 @@ export class TransactionService {
   }
 
   getTransaction(id: number): Observable<Transaction> {
-    const url = environment.apiURL + 'transaction/';
+    const url = this.storage.getServicePath() + 'transaction/';
     const httpOptions = environment.getHttpOptions();
     httpOptions.params = new HttpParams().set('id', '' + id);
     const observer = this.http.get<Transaction>(url, httpOptions).pipe(
@@ -46,7 +48,7 @@ export class TransactionService {
 
   getTransactionsForVirtualAccount(virtualAccount: VirtualAccount, date: Date): Observable<TransactionElement[]> {
     if (virtualAccount !== undefined) {
-      const url = environment.apiURL + 'transaction/listByMonthAndVirtualAccount';
+      const url = this.storage.getServicePath() + 'transaction/listByMonthAndVirtualAccount';
       const httpOptions = environment.getHttpOptions();
       httpOptions.params = new HttpParams()
         .set('date', '' + date.getTime())
@@ -62,7 +64,7 @@ export class TransactionService {
 
   getTransactionsForRealAccount(account: Account, date: Date): Observable<TransactionElement[]> {
     if (account !== undefined) {
-      const url = environment.apiURL + 'transaction/listByMonthAndRealAccount';
+      const url = this.storage.getServicePath() + 'transaction/listByMonthAndRealAccount';
       const httpOptions = environment.getHttpOptions();
       httpOptions.params = new HttpParams()
         .set('date', '' + date.getTime())
@@ -78,7 +80,7 @@ export class TransactionService {
 
   addTransaction(transaction: Transaction): Observable<Transaction> {
     transaction.date.setHours(12);
-    const url = environment.apiURL + 'transaction/add';
+    const url = this.storage.getServicePath() + 'transaction/add';
     return this.http.post<Transaction>(url, transaction, environment.getHttpOptions())
       .pipe(
         catchError(this.errorHandler.handleError)
@@ -86,7 +88,7 @@ export class TransactionService {
   }
 
   updateTransaction(transaction: Transaction): Observable<Transaction> {
-    const url = environment.apiURL + 'transaction/update';
+    const url = this.storage.getServicePath() + 'transaction/update';
     return this.http.put<Transaction>(url, transaction, environment.getHttpOptions())
       .pipe(
         catchError(this.errorHandler.handleError)
@@ -94,7 +96,7 @@ export class TransactionService {
   }
 
   deleteTransaction(transaction: Transaction): Observable<any> {
-    const url = environment.apiURL + 'transaction/delete';
+    const url = this.storage.getServicePath() + 'transaction/delete';
     const httpOptions = environment.getHttpOptions();
     httpOptions.params = new HttpParams().set('transactionId', '' + transaction.id);
     return this.http.delete(url, httpOptions)
@@ -104,7 +106,7 @@ export class TransactionService {
   }
 
   createDublicatesTillEndOfTheYear(transaction: Transaction): Observable<any> {
-    const url = environment.apiURL + 'transaction/dublicate';
+    const url = this.storage.getServicePath() + 'transaction/dublicate';
     return this.http.post(url, transaction, environment.getHttpOptions())
       .pipe(
         catchError(this.errorHandler.handleError)

@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Account } from '../element/account';
-import { environment } from './../../environments/environment';
+import { StorageService } from './storage.service';
+import { environment } from 'src/environments/environment';
 import { Observable } from 'rxjs';
 import { catchError, retry } from 'rxjs/operators';
 import { HttpClient, HttpParams } from '@angular/common/http';
@@ -12,12 +13,14 @@ import { AccountElement } from '../element/accountelement';
 })
 export class AccountService {
 
-  constructor(private errorHandler: ErrorService,
-              private http: HttpClient) { }
+  constructor(
+	private errorHandler: ErrorService,
+    private http: HttpClient,
+	private storage: StorageService) { }
 
 
   getAccounts(): Observable<AccountElement[]>{
-    const accountUrl = environment.apiURL + 'realAccount/list';
+    const accountUrl = this.storage.getServicePath() + 'realAccount/list';
     const downloadedAccounts = this.http.get<AccountElement[]>(accountUrl, environment.getHttpOptions()).pipe(
       retry(3), // retry a failed request up to 3 times
       catchError(this.errorHandler.handleError) // then handle the error
@@ -26,7 +29,7 @@ export class AccountService {
   }
 
     getAccount(id: string): Observable<Account>{
-    const accountUrl = environment.apiURL + 'realAccount/';
+    const accountUrl = this.storage.getServicePath() + 'realAccount/';
     const httpOptions = environment.getHttpOptions();
     httpOptions.params = new HttpParams().set('id', id);
     const downloadedAccounts = this.http.get<Account>(accountUrl, httpOptions).pipe(
@@ -37,7 +40,7 @@ export class AccountService {
   }
 
   addAccount(account: Account): Observable<Account> {
-    const accountUrl = environment.apiURL + 'realAccount/add';
+    const accountUrl = this.storage.getServicePath() + 'realAccount/add';
     return this.http.post<Account>(accountUrl, account, environment.getHttpOptions())
       .pipe(
         catchError(this.errorHandler.handleError)
@@ -45,7 +48,7 @@ export class AccountService {
   }
 
     updateAccount(account: Account): Observable<Account> {
-    const accountUrl = environment.apiURL + 'realAccount/update';
+    const accountUrl = this.storage.getServicePath() + 'realAccount/update';
     return this.http.put<Account>(accountUrl, account, environment.getHttpOptions())
       .pipe(
         catchError(this.errorHandler.handleError)
