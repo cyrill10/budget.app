@@ -40,29 +40,12 @@ export class TransactionCreationDialogComponent {
     return day !== 0 && day !== 6;
   }
 
-  compareStatus(value1: Status, value2: Status) {
-    if (value1 !== null && value2 !== null) {
-      return value1.name === value2.name;
-    }
-  }
-
   compareVirtualAccount(value1: VirtualAccount, value2: VirtualAccount) {
     if (value1 !== null && value2 !== null) {
       return value1.id === value2.id;
     }
   }
 
-  comparePaymentType(value1: PaymentType, value2: PaymentType) {
-    if (value1 !== null && value2 !== null) {
-      return value1.name === value2.name;
-    }
-  }
-
-  compareIndication(value1: Indication, value2: Indication) {
-    if (value1 !== null && value2 !== null) {
-      return value1.name === value2.name;
-    }
-  }
   isDisabled(transaction: Transaction): boolean {
     let active = true;
     active = active && transaction.creditedAccount !== null;

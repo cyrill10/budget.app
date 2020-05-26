@@ -139,12 +139,8 @@ export class VirtualAccountTransactionsComponent implements OnInit {
     return endOfMonth;
   }
 
-    isInTheFuture(): boolean {
-    const firstOfNextMonth = new Date(Date.now());
-    firstOfNextMonth.setDate(1);
-    firstOfNextMonth.setMonth(firstOfNextMonth.getMonth() + 1);
-    firstOfNextMonth.setHours(0);
-    return this.month >= firstOfNextMonth;
+  isInTheFuture(): boolean {
+    return this.dateService.isInTheFuture(this.month);
   }
 
 

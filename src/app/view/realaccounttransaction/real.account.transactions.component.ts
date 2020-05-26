@@ -138,11 +138,7 @@ export class RealAccountTransactionsComponent implements OnInit {
   }
 
   isInTheFuture(): boolean {
-    const firstOfNextMonth = new Date(Date.now());
-    firstOfNextMonth.setDate(1);
-    firstOfNextMonth.setMonth(firstOfNextMonth.getMonth() + 1);
-    firstOfNextMonth.setHours(0);
-    return this.month >= firstOfNextMonth;
+    return this.dateService.isInTheFuture(this.month);
   }
 
 }

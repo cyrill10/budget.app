@@ -15,6 +15,7 @@ import {MAT_FORM_FIELD_DEFAULT_OPTIONS, MatFormFieldModule} from '@angular/mater
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {MatDialogModule} from '@angular/material/dialog';
 import {MatButtonModule} from '@angular/material/button';
+import {MatButtonToggleModule} from '@angular/material/button-toggle';
 import {MatInputModule} from '@angular/material/input';
 import {MatTabsModule} from '@angular/material/tabs';
 import {MatTableModule} from '@angular/material/table';
@@ -75,6 +76,7 @@ import { IonicStorageModule } from '@ionic/storage';
     MatFormFieldModule,
     MatDialogModule,
     MatButtonModule,
+	MatButtonToggleModule,
     MatInputModule,
     MatTabsModule,
     MatTableModule,

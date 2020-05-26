@@ -146,4 +146,13 @@ export class DateService {
       }
       return result;
   }
+
+  isInTheFuture(month: Date): boolean {
+    const billingDateCreditCard = new Date(Date.now());
+	const displayedMonth = new Date(month);
+	displayedMonth.setFullYear(displayedMonth.getFullYear());
+	displayedMonth.setMonth(displayedMonth.getMonth()-1);
+	displayedMonth.setDate(20);
+    return displayedMonth >= billingDateCreditCard;
+  }
 }

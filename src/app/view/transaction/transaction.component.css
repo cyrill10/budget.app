@@ -61,3 +61,30 @@ ion-content{
   --background: #ffdfdf;
   min-height: 80vh;
 }
+
+.mat-button-toggle-checked.green {
+	background: green;
+	color: white;
+}
+
+
+.mat-button-toggle-checked.yellow {
+	background: yellow;
+}
+
+
+.mat-button-toggle-checked.red {
+	background: red;
+	color: white;
+}
+
+mat-button-toggle-group {
+	margin-left: 5px;
+	margin-bottom: 10px;
+	clear: both;
+	float: left;
+}
+
+.mat-form-field-wrapper {
+	padding-bottom: 10px;
+}
