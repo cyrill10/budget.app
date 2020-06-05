@@ -120,11 +120,11 @@ export class DateService {
 
     getCurrent(): Observable<Date> {
     const url = this.storage.getServicePath() + 'date/current';
-    const downloadedCurrtant = this.http.get<Date>(url, environment.getHttpOptions()).pipe(
+    const downloadedCurrent = this.http.get<Date>(url, environment.getHttpOptions()).pipe(
       retry(3), // retry a failed request up to 3 times
       catchError(this.errorHandler.handleError) // then handle the error
     );
-    return downloadedCurrtant;
+    return downloadedCurrent;
   }
 
   getSelectedMonth(date: Date): Month {

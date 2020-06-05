@@ -39,12 +39,14 @@ export class TransactionComponent implements OnInit {
     private indicationService: IndicationService,
     private statusService: StatusService,
     public dialog: MatDialog) {
-    this.dateService.getMonths().subscribe(data => this.months = data);
-    this.dateService.getCurrent().subscribe(d => this.selected = new FormControl(d));
+	    this.dateService.getMonths().subscribe(data => this.months = data);
+    	this.dateService.getCurrent().subscribe(d => this.selected = new FormControl(d));
   }
 
   ngOnInit() {
     this.logger.log('Init', 'TransactionComponent');
+    this.dateService.getMonths().subscribe(data => this.months = data);
+    this.dateService.getCurrent().subscribe(d => this.selected = new FormControl(d));
   }
 
   selectMonth(event: Event) {

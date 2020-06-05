@@ -21,7 +21,7 @@ export class OverviewComponent implements OnInit {
   accounts = this.refreshToken$.pipe(
     switchMap(() => this.overviewService.getOverview(this.month))
   );
-  displayedColumns: string[] = ['name', 'nextMonth', 'projection'];
+  displayedColumns: string[] = ['name', 'balance', 'projection'];
   opened: boolean;
 
   constructor(
@@ -29,12 +29,14 @@ export class OverviewComponent implements OnInit {
     private logger: LoggerService,
     private overviewService: OverviewService,
     private route: Router) {
-    this.dateService.getMonths().subscribe(data => this.months = data);
-    this.dateService.getCurrent().subscribe(d => this.selected = new FormControl(d));
+		this.dateService.getMonths().subscribe(data => this.months = data);
+    	this.dateService.getCurrent().subscribe(d => this.selected = new FormControl(d));
   }
 
     ngOnInit(){
     this.logger.log('Init', 'OverviewComponent');
+    this.dateService.getMonths().subscribe(data => this.months = data);
+    this.dateService.getCurrent().subscribe(d => this.selected = new FormControl(d));
   }
 
   selectAccount(element: OverviewElement) {
