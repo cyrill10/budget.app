@@ -29,7 +29,7 @@
           <span class="aligned-with-icon">{{transaction.creditedAccount.name}}</span>
           <mat-icon matListIcon>keyboard_arrow_right</mat-icon>
           <span class="aligned-with-icon">{{transaction.debitedAccount.name}}</span>
-          <div *ngIf="transaction.budgetedAmount"> Budgeted Fr. {{transaction.budgetedAmount | number: '0.2-2'}}</div>
+          <div *ngIf="transaction.budgetedAmount && !isBudgetedAccount(transaction)"> Budgeted Fr. {{transaction.budgetedAmount | number: '0.2-2'}}</div>
         </mat-card-subtitle>
       </mat-card-header>
       <mat-card-content>
@@ -39,6 +39,9 @@
       <mat-card-actions>
         <mat-card-title *ngIf="transaction.effectiveAmount">
           <span>Fr. {{transaction.effectiveAmount | number: '0.2-2'}}</span>
+        </mat-card-title>
+        <mat-card-title *ngIf="isBudgetedAccount(transaction)">
+          <span>Fr. {{transaction.budgetedAmount | number: '0.2-2'}}</span>
         </mat-card-title>
         <button mat-icon-button>
           <mat-icon (click)="openDialog(transaction)">edit</mat-icon>

@@ -105,8 +105,6 @@ export class AccountComponent implements OnInit {
         id: null,
         name: null,
         underlyingAccount: account,
-        may: null,
-        june: null,
         projection: null,
       };
     } else {

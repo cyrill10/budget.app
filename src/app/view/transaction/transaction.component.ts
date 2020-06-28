@@ -66,6 +66,10 @@ export class TransactionComponent implements OnInit {
 
   }
 
+  isBudgetedAccount(transaction: Transaction) {
+	 return transaction.creditedAccount.underlyingAccount.accountType.value == 5 || transaction.debitedAccount.underlyingAccount.accountType.value == 5;
+  }
+
   openDialog(editedTransaction: Transaction): void {
     let transaction: Transaction;
     if (editedTransaction === null) {
