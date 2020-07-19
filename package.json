@@ -22,7 +22,7 @@
     "@angular/platform-browser": "~8.2.14",
     "@angular/platform-browser-dynamic": "~8.2.14",
     "@angular/router": "^8.2.14",
-    "@capacitor/core": "^2.1.0",
+    "@capacitor/core": "^2.0.0",
     "@capacitor/ios": "^2.1.0",
     "@ionic-native/core": "^5.0.7",
     "@ionic-native/keyboard": "^5.25.0",
@@ -39,11 +39,12 @@
     "zone.js": "~0.9.1"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "^0.1000.3",
+    "@angular-devkit/build-angular": "^0.803.24",
     "@angular/cli": "^8.3.26",
     "@angular/compiler": "~8.2.14",
     "@angular/compiler-cli": "~8.2.14",
     "@angular/language-service": "~8.2.14",
+    "@babel/compat-data": "~7.8.0",
     "@capacitor/cli": "2.1.0",
     "@ionic/angular-toolkit": "^2.1.1",
     "@types/jasmine": "~3.3.8",
