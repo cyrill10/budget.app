@@ -1,14 +1,13 @@
-import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
-import { RouteReuseStrategy } from '@angular/router';
+import {NgModule} from '@angular/core';
+import {BrowserModule} from '@angular/platform-browser';
+import {RouteReuseStrategy, RouterModule} from '@angular/router';
 
-import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
-import { SplashScreen } from '@ionic-native/splash-screen/ngx';
-import { StatusBar } from '@ionic-native/status-bar/ngx';
+import {IonicModule, IonicRouteStrategy} from '@ionic/angular';
+import {SplashScreen} from '@ionic-native/splash-screen/ngx';
+import {StatusBar} from '@ionic-native/status-bar/ngx';
 
-import { AppComponent, SettingsDialogComponent } from './app.component';
-import { AppRoutingModule } from './app-routing.module';
-import { RouterModule } from '@angular/router';
+import {AppComponent, SettingsDialogComponent} from './app.component';
+import {AppRoutingModule} from './app-routing.module';
 
 import {MatSidenavModule} from '@angular/material/sidenav';
 import {MAT_FORM_FIELD_DEFAULT_OPTIONS, MatFormFieldModule} from '@angular/material/form-field';
@@ -27,18 +26,23 @@ import {MatSelectModule} from '@angular/material/select';
 import {MatCardModule} from '@angular/material/card';
 import {MatDividerModule} from '@angular/material/divider';
 import {MatToolbarModule} from '@angular/material/toolbar';
-import { HttpClientModule } from '@angular/common/http';
+import {HttpClientModule} from '@angular/common/http';
 
-import { OverviewComponent } from './view/overview/overview.component';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { TransactionComponent, TransactionDuplicationDialogComponent } from './view/transaction/transaction.component';
-import { TransactionCreationDialogComponent } from './view/transaction/transaction.creation.component';
-import { AccountComponent, AccountCreationDialogComponent, VirtualAccountCreationDialogComponent } from './view/account/account.component';
-import { MatElevationDirective } from './directives/matelevation.directive';
-import { VirtualAccountTransactionsComponent } from './view/virtualaccounttransactions/virtual.account.transactions.component';
-import { RealAccountTransactionsComponent } from './view/realaccounttransaction/real.account.transactions.component';
+import {OverviewComponent} from './view/overview/overview.component';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {TransactionComponent, TransactionDuplicationDialogComponent} from './view/transaction/transaction.component';
+import {TransactionCreationDialogComponent} from './view/transaction/transaction.creation.component';
+import {
+  AccountComponent,
+  AccountCreationDialogComponent,
+  VirtualAccountCreationDialogComponent
+} from './view/account/account.component';
+import {MatElevationDirective} from './directives/matelevation.directive';
+import {VirtualAccountTransactionsComponent} from './view/virtualaccounttransactions/virtual.account.transactions.component';
+import {RealAccountTransactionsComponent} from './view/realaccounttransaction/real.account.transactions.component';
 
-import { IonicStorageModule } from '@ionic/storage';
+import {IonicStorageModule} from '@ionic/storage';
+import {AdMobFree} from '@ionic-native/admob-free/ngx';
 
 
 @NgModule({
@@ -54,20 +58,20 @@ import { IonicStorageModule } from '@ionic/storage';
     VirtualAccountTransactionsComponent,
     RealAccountTransactionsComponent,
     TransactionDuplicationDialogComponent,
-	SettingsDialogComponent
+    SettingsDialogComponent
   ],
   entryComponents: [
     TransactionCreationDialogComponent,
     VirtualAccountCreationDialogComponent,
     TransactionDuplicationDialogComponent,
     AccountCreationDialogComponent,
-	SettingsDialogComponent
+    SettingsDialogComponent
   ],
   imports: [
     BrowserModule,
     RouterModule,
     IonicModule.forRoot(),
-	IonicStorageModule.forRoot(),
+    IonicStorageModule.forRoot(),
     AppRoutingModule,
     BrowserAnimationsModule,
     MatSidenavModule,
@@ -76,7 +80,7 @@ import { IonicStorageModule } from '@ionic/storage';
     MatFormFieldModule,
     MatDialogModule,
     MatButtonModule,
-	MatButtonToggleModule,
+    MatButtonToggleModule,
     MatInputModule,
     MatTabsModule,
     MatTableModule,
@@ -93,9 +97,11 @@ import { IonicStorageModule } from '@ionic/storage';
   providers: [
     StatusBar,
     SplashScreen,
-    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
-    { provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: { appearance: 'fill' } }
+    AdMobFree,
+    {provide: RouteReuseStrategy, useClass: IonicRouteStrategy},
+    {provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: {appearance: 'fill'}}
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule {}
+export class AppModule {
+}

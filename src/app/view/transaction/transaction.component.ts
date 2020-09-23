@@ -1,17 +1,17 @@
-import { Component, OnInit, Inject } from '@angular/core';
-import { DateService } from '../../services/date.service';
-import { FormControl } from '@angular/forms';
-import { TransactionService } from 'src/app/services/transaction.service';
-import { VirtualAccountService } from 'src/app/services/virtualaccount.service';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { LoggerService } from 'src/app/services/logger.service';
-import { Transaction } from 'src/app/element/transaction';
-import { PaymentTypeService } from 'src/app/services/paymenttype.service';
-import { IndicationService } from 'src/app/services/indication.service';
-import { StatusService } from 'src/app/services/status.service';
-import { BehaviorSubject } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
-import { TransactionCreationDialogComponent } from './transaction.creation.component';
+import {Component, Inject, OnInit} from '@angular/core';
+import {DateService} from '../../services/date.service';
+import {FormControl} from '@angular/forms';
+import {TransactionService} from 'src/app/services/transaction.service';
+import {VirtualAccountService} from 'src/app/services/virtualaccount.service';
+import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from '@angular/material/dialog';
+import {LoggerService} from 'src/app/services/logger.service';
+import {Transaction} from 'src/app/element/transaction';
+import {PaymentTypeService} from 'src/app/services/paymenttype.service';
+import {IndicationService} from 'src/app/services/indication.service';
+import {StatusService} from 'src/app/services/status.service';
+import {BehaviorSubject} from 'rxjs';
+import {switchMap} from 'rxjs/operators';
+import {TransactionCreationDialogComponent} from './transaction.creation.component';
 
 
 @Component({
@@ -39,8 +39,8 @@ export class TransactionComponent implements OnInit {
     private indicationService: IndicationService,
     private statusService: StatusService,
     public dialog: MatDialog) {
-	    this.dateService.getMonths().subscribe(data => this.months = data);
-    	this.dateService.getCurrent().subscribe(d => this.selected = new FormControl(d));
+    this.dateService.getMonths().subscribe(data => this.months = data);
+    this.dateService.getCurrent().subscribe(d => this.selected = new FormControl(d));
   }
 
   ngOnInit() {
@@ -49,7 +49,7 @@ export class TransactionComponent implements OnInit {
     this.dateService.getCurrent().subscribe(d => this.selected = new FormControl(d));
   }
 
-  selectMonth(event: Event) {
+  selectMonth(event: number) {
     this.selected.setValue(event);
     this.month = this.months[this.selected.value];
     this.refreshTokenTransaction$.next(undefined);
@@ -66,8 +66,10 @@ export class TransactionComponent implements OnInit {
 
   }
 
-  isBudgetedAccount(transaction: Transaction) {
-	 return transaction.creditedAccount.underlyingAccount.accountType.value == 5 || transaction.debitedAccount.underlyingAccount.accountType.value == 5;
+  isForBudgetedAccount(transaction: Transaction) {
+    return transaction.effectiveAmount == 0 &&
+      (transaction.creditedAccount.underlyingAccount.accountType.value == 5
+        || transaction.debitedAccount.underlyingAccount.accountType.value == 5);
   }
 
   openDialog(editedTransaction: Transaction): void {
@@ -89,7 +91,7 @@ export class TransactionComponent implements OnInit {
     const indications = this.indicationService.getIndications();
     const virtualAccounts = this.virtualAccountService.getVirtualAccounts();
     const dialogRef = this.dialog.open(TransactionCreationDialogComponent, {
-      data: { transaction, virtualAccounts, paymentTypes, statuses, indications, isNew }
+      data: {transaction, virtualAccounts, paymentTypes, statuses, indications, isNew}
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -135,6 +137,7 @@ export class TransactionComponent implements OnInit {
     });
   }
 }
+
 @Component({
   selector: 'app-transaction-duplication-dialog',
   templateUrl: 'transaction-duplication-dialog.html',
