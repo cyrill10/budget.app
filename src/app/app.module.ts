@@ -42,7 +42,6 @@ import {VirtualAccountTransactionsComponent} from './view/virtualaccounttransact
 import {RealAccountTransactionsComponent} from './view/realaccounttransaction/real.account.transactions.component';
 
 import {IonicStorageModule} from '@ionic/storage';
-import {AdMobFree} from '@ionic-native/admob-free/ngx';
 import {StoreModule} from '@ngrx/store';
 import * as fromOverview from './view/overview/overview.reducers';
 
@@ -100,7 +99,6 @@ import * as fromOverview from './view/overview/overview.reducers';
   providers: [
     StatusBar,
     SplashScreen,
-    AdMobFree,
     {provide: RouteReuseStrategy, useClass: IonicRouteStrategy},
     {provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: {appearance: 'fill'}}
   ],

@@ -4,7 +4,6 @@ import {Platform} from '@ionic/angular';
 import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from '@angular/material/dialog';
 
 import {StorageService} from './services/storage.service';
-import {AdMobFree, AdMobFreeBannerConfig} from "@ionic-native/admob-free/ngx";
 
 
 @Component({
@@ -18,23 +17,14 @@ export class AppComponent {
     private platform: Platform,
     public dialog: MatDialog,
     private storage: StorageService,
-    private admobFree: AdMobFree
   ) {
     this.initializeApp();
-    let bannerConfig: AdMobFreeBannerConfig = {
-      isTesting: true, // Remove in production
-      autoShow: true,
-      id: "ca-app-pub-2394265918006916/8613809469"
-    };
-    this.admobFree.banner.config(bannerConfig);
+
 
   }
 
   initializeApp() {
     this.platform.ready().then(() => {
-      if (this.platform.is("ios")) {
-        this.showBannerAd();
-      }
     });
   }
 
@@ -49,14 +39,6 @@ export class AppComponent {
         this.storage.setURL(result);
       }
     });
-  }
-
-  showBannerAd() {
-
-
-    this.admobFree.banner.prepare().then(() => {
-      // success
-    }).catch(e => alert(e));
   }
 }
 
