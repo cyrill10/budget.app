@@ -1,11 +1,11 @@
-import { Injectable } from '@angular/core';
-import { ErrorService } from './error.service';
-import { Observable } from 'rxjs';
-import { environment } from 'src/environments/environment';
-import { StorageService } from './storage.service';
-import { retry, catchError, map} from 'rxjs/operators';
-import { HttpClient } from '@angular/common/http';
-import { Month } from '../date/month';
+import {Injectable} from '@angular/core';
+import {ErrorService} from './error.service';
+import {Observable} from 'rxjs';
+import {environment} from 'src/environments/environment';
+import {StorageService} from './storage.service';
+import {catchError, map, retry} from 'rxjs/operators';
+import {HttpClient} from '@angular/common/http';
+import {Month} from '../date/month';
 
 @Injectable({
   providedIn: 'root'
@@ -109,26 +109,24 @@ export class DateService {
 
   getMonths(): Observable<Date[]> {
     const url = this.storage.getServicePath() + 'date/month/list';
-    const downloadedMonths = this.http.get<Date[]>(url, environment.getHttpOptions()).pipe(
+    return this.http.get<Date[]>(url, environment.getHttpOptions()).pipe(
       retry(3), // retry a failed request up to 3 times
       // tslint:disable-next-line: no-shadowed-variable
       map((dates: any[]) => dates.map((d) => new Date(d))),
       catchError(this.errorHandler.handleError) // then handle the error
     );
-    return downloadedMonths;
   }
 
-    getCurrent(): Observable<Date> {
+    getCurrent(): Observable<number> {
     const url = this.storage.getServicePath() + 'date/current';
-    const downloadedCurrent = this.http.get<Date>(url, environment.getHttpOptions()).pipe(
+      return this.http.get<number>(url, environment.getHttpOptions()).pipe(
       retry(3), // retry a failed request up to 3 times
       catchError(this.errorHandler.handleError) // then handle the error
     );
-    return downloadedCurrent;
   }
 
   getSelectedMonth(date: Date): Month {
-    let month: Month;
+    let month = this.months[1];
     this.months.forEach(element => {
       if (element.id === date.getMonth()) {
         month = element;
