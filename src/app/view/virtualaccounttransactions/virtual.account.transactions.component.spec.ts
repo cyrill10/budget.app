@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { VirtualAccountTransactionsComponent } from './virtual.account.transactions.component';
 
@@ -6,7 +6,7 @@ describe('VirtualAccountTransactionComponent', () => {
   let component: VirtualAccountTransactionsComponent;
   let fixture: ComponentFixture<VirtualAccountTransactionsComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ VirtualAccountTransactionsComponent ]
     })
