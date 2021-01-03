@@ -43,6 +43,8 @@ import {RealAccountTransactionsComponent} from './view/realaccounttransaction/re
 
 import {IonicStorageModule} from '@ionic/storage';
 import {AdMobFree} from '@ionic-native/admob-free/ngx';
+import {StoreModule} from '@ngrx/store';
+import * as fromOverview from './view/overview/overview.reducers';
 
 
 @NgModule({
@@ -72,6 +74,7 @@ import {AdMobFree} from '@ionic-native/admob-free/ngx';
     RouterModule,
     IonicModule.forRoot(),
     IonicStorageModule.forRoot(),
+    StoreModule.forRoot({overview: fromOverview.reducer}),
     AppRoutingModule,
     BrowserAnimationsModule,
     MatSidenavModule,
