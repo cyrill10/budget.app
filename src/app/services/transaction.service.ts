@@ -1,21 +1,21 @@
-import { Injectable } from '@angular/core';
-import { Transaction } from '../element/transaction';
-import { HttpClient, HttpParams } from '@angular/common/http';
-import { ErrorService } from './error.service';
-import { LoggerService } from './logger.service';
-import { StorageService } from './storage.service';
-import { Observable } from 'rxjs';
-import { environment } from 'src/environments/environment';
-import { retry, catchError } from 'rxjs/operators';
-import { VirtualAccount } from '../element/virtualaccount';
-import { TransactionElement } from '../element/transactionelement';
-import { Account } from '../element/account';
+import {Injectable} from '@angular/core';
+import {Transaction} from '../element/transaction';
+import {HttpClient, HttpParams} from '@angular/common/http';
+import {ErrorService} from './error.service';
+import {LoggerService} from './logger.service';
+import {StorageService} from './storage.service';
+import {Observable} from 'rxjs';
+import {environment} from 'src/environments/environment';
+import {catchError} from 'rxjs/operators';
+import {VirtualAccount} from '../element/virtualaccount';
+import {TransactionElement} from '../element/transactionelement';
+import {Account} from '../element/account';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TransactionService {
-  
+
 
   constructor(
     private errorHandler: ErrorService,
@@ -28,22 +28,18 @@ export class TransactionService {
     const url = this.storage.getServicePath() + 'transaction/list';
     const httpOptions = environment.getHttpOptions();
     httpOptions.params = new HttpParams().set('date', '' + date.getTime());
-    const observer = this.http.get<Transaction[]>(url, httpOptions).pipe(
-      retry(3), // retry a failed request up to 3 times
+    return this.http.get<Transaction[]>(url, httpOptions).pipe(
       catchError(this.errorHandler.handleError) // then handle the error
     );
-    return observer;
   }
 
   getTransaction(id: number): Observable<Transaction> {
     const url = this.storage.getServicePath() + 'transaction/';
     const httpOptions = environment.getHttpOptions();
     httpOptions.params = new HttpParams().set('id', '' + id);
-    const observer = this.http.get<Transaction>(url, httpOptions).pipe(
-      retry(3), // retry a failed request up to 3 times
+    return this.http.get<Transaction>(url, httpOptions).pipe(
       catchError(this.errorHandler.handleError) // then handle the error
     );
-    return observer;
   }
 
   getTransactionsForVirtualAccount(virtualAccount: VirtualAccount, date: Date): Observable<TransactionElement[]> {
@@ -53,11 +49,9 @@ export class TransactionService {
       httpOptions.params = new HttpParams()
         .set('date', '' + date.getTime())
         .set('accountId', '' + virtualAccount.id);
-      const observer = this.http.get<TransactionElement[]>(url, httpOptions).pipe(
-        retry(3), // retry a failed request up to 3 times
+      return this.http.get<TransactionElement[]>(url, httpOptions).pipe(
         catchError(this.errorHandler.handleError) // then handle the error
       );
-      return observer;
     }
     return new Observable();
   }
@@ -69,11 +63,9 @@ export class TransactionService {
       httpOptions.params = new HttpParams()
         .set('date', '' + date.getTime())
         .set('accountId', '' + account.id);
-      const observer = this.http.get<TransactionElement[]>(url, httpOptions).pipe(
-        retry(3), // retry a failed request up to 3 times
+      return this.http.get<TransactionElement[]>(url, httpOptions).pipe(
         catchError(this.errorHandler.handleError) // then handle the error
       );
-      return observer;
     }
     return new Observable();
   }

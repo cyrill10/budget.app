@@ -1,20 +1,28 @@
-import { Injectable } from '@angular/core';
-import { Storage } from '@ionic/storage';
+import {Injectable} from '@angular/core';
+import {Storage} from '@ionic/storage-angular';
 
 @Injectable({
 	providedIn: 'root'
 })
 export class StorageService {
 
-	url = '144.2.66.231';
-	constructor(private storage: Storage) {
-		this.getURLPromise().then(val => this.url = val);
-	 }
+	url = '192.168.0.28';
+  private _storage: Storage | null = null;
+
+  constructor(private storage: Storage) {
+    this.init();
+  }
+
+  async init() {
+    // If using, define drivers here: await this.storage.defineDriver(/*...*/);
+    this._storage = await this.storage.create();
+    this.getURLPromise().then(val => this.url = val);
+  }
 
 	public setURL(url: string) {
 		if (url === null || url === undefined || url ==='') {
 			this.storage.remove('url');
-			this.url = '144.2.66.231';
+			this.url = '192.168.0.28';
 		}else {
 			this.storage.set('url', url);
 			this.url = url;

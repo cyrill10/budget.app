@@ -1,4 +1,4 @@
-  <ion-header id="main" *ngIf="months$ | async as months">
+  <ion-header id="main">
     <ion-toolbar color="pink" class="mainColor">
       <ion-buttons slot="start">
         <ion-menu-button><mat-icon>menu</mat-icon></ion-menu-button>
@@ -7,10 +7,12 @@
         <span class="header-spacer">Budget</span>
       </ion-title>
     </ion-toolbar>
+    <ng-container *ngIf="months$ | async as months">
     <mat-tab-group [selectedIndex]="selected$ |async" (selectedIndexChange)="selectMonth($event)">
       <mat-tab *ngFor="let selectedMonth of months" [label]="getShortName(selectedMonth)">
       </mat-tab>
     </mat-tab-group>
+    </ng-container>
   </ion-header>
   <ion-content *ngIf="currentMonth$ | async">
     <table mat-table [dataSource]="accounts$ | async" class="mat-elevation-z8" >

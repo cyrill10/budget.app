@@ -1,12 +1,12 @@
-import { Injectable } from '@angular/core';
-import { Account } from '../element/account';
-import { StorageService } from './storage.service';
-import { environment } from 'src/environments/environment';
-import { Observable } from 'rxjs';
-import { catchError, retry } from 'rxjs/operators';
-import { HttpClient, HttpParams } from '@angular/common/http';
-import { ErrorService } from './error.service';
-import { AccountElement } from '../element/accountelement';
+import {Injectable} from '@angular/core';
+import {Account} from '../element/account';
+import {StorageService} from './storage.service';
+import {environment} from 'src/environments/environment';
+import {Observable} from 'rxjs';
+import {catchError} from 'rxjs/operators';
+import {HttpClient, HttpParams} from '@angular/common/http';
+import {ErrorService} from './error.service';
+import {AccountElement} from '../element/accountelement';
 
 @Injectable({
   providedIn: 'root'
@@ -14,29 +14,26 @@ import { AccountElement } from '../element/accountelement';
 export class AccountService {
 
   constructor(
-	private errorHandler: ErrorService,
+    private errorHandler: ErrorService,
     private http: HttpClient,
-	private storage: StorageService) { }
-
-
-  getAccounts(): Observable<AccountElement[]>{
-    const accountUrl = this.storage.getServicePath() + 'realAccount/list';
-    const downloadedAccounts = this.http.get<AccountElement[]>(accountUrl, environment.getHttpOptions()).pipe(
-      retry(3), // retry a failed request up to 3 times
-      catchError(this.errorHandler.handleError) // then handle the error
-    );
-    return downloadedAccounts;
+    private storage: StorageService) {
   }
 
-    getAccount(id: string): Observable<Account>{
+
+  getAccounts(): Observable<AccountElement[]> {
+    const accountUrl = this.storage.getServicePath() + 'realAccount/list';
+    return this.http.get<AccountElement[]>(accountUrl, environment.getHttpOptions()).pipe(
+      catchError(this.errorHandler.handleError) // then handle the error
+    );
+  }
+
+  getAccount(id: string): Observable<Account> {
     const accountUrl = this.storage.getServicePath() + 'realAccount/';
     const httpOptions = environment.getHttpOptions();
     httpOptions.params = new HttpParams().set('id', id);
-    const downloadedAccounts = this.http.get<Account>(accountUrl, httpOptions).pipe(
-      retry(3), // retry a failed request up to 3 times
+    return this.http.get<Account>(accountUrl, httpOptions).pipe(
       catchError(this.errorHandler.handleError) // then handle the error
     );
-    return downloadedAccounts;
   }
 
   addAccount(account: Account): Observable<Account> {
@@ -47,7 +44,7 @@ export class AccountService {
       );
   }
 
-    updateAccount(account: Account): Observable<Account> {
+  updateAccount(account: Account): Observable<Account> {
     const accountUrl = this.storage.getServicePath() + 'realAccount/update';
     return this.http.put<Account>(accountUrl, account, environment.getHttpOptions())
       .pipe(

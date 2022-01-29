@@ -67,9 +67,9 @@ export class TransactionComponent implements OnInit {
   }
 
   isForBudgetedAccount(transaction: Transaction) {
-    return transaction.effectiveAmount == 0 &&
-      (transaction.creditedAccount.underlyingAccount.accountType.value == 5
-        || transaction.debitedAccount.underlyingAccount.accountType.value == 5);
+    return transaction.effectiveAmount === 0 &&
+      (transaction.creditedAccount.underlyingAccount.accountType.value === 5
+        || transaction.debitedAccount.underlyingAccount.accountType.value === 5);
   }
 
   openDialog(editedTransaction: Transaction): void {

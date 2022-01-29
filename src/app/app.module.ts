@@ -41,7 +41,7 @@ import {MatElevationDirective} from './directives/matelevation.directive';
 import {VirtualAccountTransactionsComponent} from './view/virtualaccounttransactions/virtual.account.transactions.component';
 import {RealAccountTransactionsComponent} from './view/realaccounttransaction/real.account.transactions.component';
 
-import {IonicStorageModule} from '@ionic/storage';
+import {IonicStorageModule} from '@ionic/storage-angular';
 import {StoreModule} from '@ngrx/store';
 import * as fromOverview from './view/overview/overview.reducers';
 
