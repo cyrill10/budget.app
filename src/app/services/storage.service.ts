@@ -1,5 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Storage} from '@ionic/storage-angular';
+import {from, Observable} from 'rxjs';
+import {map} from 'rxjs/operators';
 
 @Injectable({
 	providedIn: 'root'
@@ -38,6 +40,15 @@ export class StorageService {
 		return url;
 	}
 
+	private getURL$(): Observable<string> {
+    return from(this.storage.get('url').then(val => {
+      if (!val) {
+        return '192.168.0.28'
+    }
+      return val;
+    }));
+  }
+
 	public getURL(): string{
 		return this.url;
 	}
@@ -48,4 +59,13 @@ export class StorageService {
 		const path = '/budget/'
 		return start + this.url + ':' + port + path;
 	}
+
+  public getServicePath$():Observable<string> {
+    return this.getURL$().pipe(map(val => {
+      const start = 'http://'
+      const port = '8085';
+      const path = '/budget/'
+      return start + val + ':' + port + path;
+    }));
+  }
 }
