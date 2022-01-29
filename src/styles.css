@@ -5,8 +5,8 @@ body {
     box-sizing: border-box;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    margin: 0px;
-    background-color: #ffdfdf;
+    margin: 0;
+    background-color: #a690be;
   }
 
 .header-spacer {
@@ -18,17 +18,36 @@ body {
 }
 
 .mat-drawer-content {
-  background-color: #ffdfdf;
+  background-color: #a690be;
 }
 
 .mainColor {
-  background-color: #FEB9B7;
+  background-color: #9581ab;
 }
 
 ion-toolbar {
   padding-top: 30px !important;
+  --background: #9581ab;
 }
 
 mat-tab-group {
-  background-color: #ffdfdf;
+  background-color: #a690be;
+}
+
+ion-content{
+  --background: #a690be;
+  min-height: 80vh;
+}
+
+.realAccount-name {
+  background-color: #d4ccdd;
+  color: black;
+}
+
+.header {
+  background-color: #9581ab;
+}
+
+.budgeted {
+  color: grey;
 }

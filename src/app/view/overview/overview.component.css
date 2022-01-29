@@ -8,10 +8,6 @@ table {
   padding-left: 15px;
 }
 
-.budgeted {
-  color: grey;
-}
-
 .clickable {
   cursor: pointer;
 }
@@ -24,11 +20,3 @@ table {
   padding-right: 10px;
 }
 
-.realAccount-name {
-  background-color: #3C6654;
-  color: white;
-}
-ion-content{
-  --background: #ffdfdf;
-  min-height: 80vh;
-}

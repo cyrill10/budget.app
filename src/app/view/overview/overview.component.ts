@@ -55,7 +55,6 @@ export class OverviewComponent implements OnInit {
   }
 
   selectAccount(element: OverviewElement) {
-    // TODO selectedMonth should be initially set in store and not used for navigation
     if (element.realAccount) {
       this.route.navigate(['/realAccount/transactions', {id: element.id, selectedMonth: this.selectedMonth}]);
     } else {

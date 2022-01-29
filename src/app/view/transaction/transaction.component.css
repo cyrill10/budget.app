@@ -57,11 +57,6 @@
   overflow: hidden;
 }
 
-ion-content{
-  --background: #ffdfdf;
-  min-height: 80vh;
-}
-
 .mat-button-toggle-checked.green {
 	background: green;
 	color: white;

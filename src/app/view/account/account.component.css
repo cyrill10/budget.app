@@ -33,8 +33,3 @@
 .clickable {
   cursor: pointer;
 }
-
-ion-content{
-  --background: #ffdfdf;
-  min-height: 80vh;
-}
