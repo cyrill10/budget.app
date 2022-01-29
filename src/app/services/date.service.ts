@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {ErrorService} from './error.service';
-import {Observable} from 'rxjs';
+import {mergeMap, Observable} from 'rxjs';
 import {environment} from 'src/environments/environment';
 import {StorageService} from './storage.service';
 import {catchError, map} from 'rxjs/operators';
@@ -108,19 +108,23 @@ export class DateService {
   }
 
   getMonths(): Observable<Date[]> {
-    const url = this.storage.getServicePath() + 'date/month/list';
-    return this.http.get<Date[]>(url, environment.getHttpOptions()).pipe(
-      // tslint:disable-next-line: no-shadowed-variable
-      map((dates: any[]) => dates.map((d) => new Date(d))),
-      catchError(this.errorHandler.handleError) // then handle the error
-    );
+    return this.storage.getServicePath$().pipe(mergeMap(host => {
+      const url = host + 'date/month/list';
+      return this.http.get<Date[]>(url, environment.getHttpOptions()).pipe(
+        // tslint:disable-next-line: no-shadowed-variable
+        map((dates: any[]) => dates.map((d) => new Date(d))),
+        catchError(this.errorHandler.handleError) // then handle the error
+      );
+    }))
   }
 
   getCurrent(): Observable<number> {
-    const url = this.storage.getServicePath() + 'date/current';
+    return this.storage.getServicePath$().pipe(mergeMap(host => {
+    const url = host + 'date/current';
     return this.http.get<number>(url, environment.getHttpOptions()).pipe(
       catchError(this.errorHandler.handleError) // then handle the error
     );
+    }))
   }
 
   getSelectedMonth(date: Date): Month {
