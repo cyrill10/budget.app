@@ -2,6 +2,6 @@
   window["env"] = window["env"] || {};
 
   // Environment variables
-  window["env"]["auth.username"] = "${auth.username}";
-  window["env"]["auth.password"] = "${auth.password}";
+  window["env"]["auth.username"] = "${AUTH.USERNAME}";
+  window["env"]["auth.password"] = "${AUTH.PASSWORD}";
 })(this);
