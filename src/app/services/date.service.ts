@@ -1,9 +1,9 @@
 import {Injectable} from '@angular/core';
 import {ErrorService} from './error.service';
-import {mergeMap, Observable} from 'rxjs';
+import {Observable} from 'rxjs';
 import {environment} from 'src/environments/environment';
 import {StorageService} from './storage.service';
-import {catchError, map} from 'rxjs/operators';
+import {catchError, map, mergeMap} from 'rxjs/operators';
 import {HttpClient} from '@angular/common/http';
 import {Month} from '../date/month';
 
