@@ -1,8 +1,7 @@
 {
-  "name": "app",
-  "version": "0.0.1",
-  "author": "Ionic Framework",
-  "homepage": "https://ionicframework.com/",
+  "name": "budget-app",
+  "version": "1.0.0",
+  "author": "Cyrill Bader",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -37,7 +36,7 @@
     "cordova-sqlite-storage": "^6.0.0",
     "core-js": "^3.21.1",
     "npm-check-updates": "^12.3.1",
-    "rxjs": "^7.5.4",
+    "rxjs": "^6.5.3",
     "tslib": "^2.3.1",
     "zone.js": "~0.11.4"
   },
