@@ -1,4 +1,5 @@
 import { HttpHeaders, HttpParams } from '@angular/common/http';
+import { Buffer } from 'buffer';
 
 // This file can be replaced during build by using the `fileReplacements` array.
 // `ng build --prod` replaces `environment.ts` with `environment.prod.ts`.
@@ -6,13 +7,14 @@ import { HttpHeaders, HttpParams } from '@angular/common/http';
 
 export const environment = {
   production: false,
-
+  authUsername: window['env']['auth.username'] || 'user',
+  authPassword: window['env']['auth.password'] || 'password',
 
   getHttpOptions() {
     const headers = {
       headers: new HttpHeaders({
         'Access-Control-Allow-Origin' : '*',
-        Authorization : 'Basic ' + btoa('user:password')
+        Authorization : 'Basic ' + Buffer.from(this.authUsername + ':' + this.authPassword).toString('base64')
       }),
       params: new HttpParams()
     };
