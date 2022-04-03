@@ -1,11 +1,9 @@
 import {Injectable} from '@angular/core';
 import {VirtualAccount} from '../element/virtualaccount';
-import {environment} from 'src/environments/environment';
 import {Observable} from 'rxjs';
 import {catchError} from 'rxjs/operators';
-import {HttpClient, HttpParams} from '@angular/common/http';
+import {HttpClient} from '@angular/common/http';
 import {ErrorService} from './error.service';
-import {StorageService} from './storage.service';
 
 @Injectable({
   providedIn: 'root'
@@ -16,57 +14,42 @@ export class VirtualAccountService {
 
   constructor(
     private http: HttpClient,
-    private errorHandler: ErrorService,
-    private storage: StorageService) {
+    private errorHandler: ErrorService) {
   }
 
   getVirtualAccountsForAccount(accountId: number): Observable<VirtualAccount[]> {
-    const accountUrl = this.storage.getServicePath() + 'virtualAccount/listForAccount';
-    const httpOptions = environment.getHttpOptions();
-    httpOptions.params = new HttpParams().set('realAccountId', '' + accountId);
-    return this.http.get<VirtualAccount[]>(accountUrl, httpOptions).pipe(
+    return this.http.get<VirtualAccount[]>('virtualAccount/listForAccount',
+      {params: {realAccountId: accountId}}).pipe(
       catchError(this.errorHandler.handleError) // then handle the error
     );
   }
 
   getVirtualAccounts(): Observable<VirtualAccount[]> {
-    const accountUrl = this.storage.getServicePath() + 'virtualAccount/list';
-    return this.http.get<VirtualAccount[]>(accountUrl, environment.getHttpOptions()).pipe(
+    return this.http.get<VirtualAccount[]>('virtualAccount/list').pipe(
       catchError(this.errorHandler.handleError) // then handle the error
     );
   }
 
   getVirtualAccount(id: string): Observable<VirtualAccount> {
-    const accountUrl = this.storage.getServicePath() + 'virtualAccount/';
-    const httpOptions = environment.getHttpOptions();
-    httpOptions.params = new HttpParams().set('id', id);
-    return this.http.get<VirtualAccount>(accountUrl, httpOptions).pipe(
+    return this.http.get<VirtualAccount>('virtualAccount/', {params: {id}}).pipe(
       catchError(this.errorHandler.handleError) // then handle the error
     );
   }
 
   getVirtualAccountByName(name: string): VirtualAccount {
-    let result: VirtualAccount;
-    this.virtualAccounts.forEach(element => {
-      if (element.name === name) {
-        result = element;
-      }
-    });
-    return result;
+    return this.virtualAccounts.find(element => element.name === name);
   }
 
 
   addVirtualAccount(account: VirtualAccount): Observable<VirtualAccount> {
-    const accountUrl = this.storage.getServicePath() + 'virtualAccount/add';
-    return this.http.post<VirtualAccount>(accountUrl, account, environment.getHttpOptions())
+    return this.http.post<VirtualAccount>('virtualAccount/add', account)
       .pipe(
         catchError(this.errorHandler.handleError)
       );
   }
 
   updateVirtualAccount(account: VirtualAccount): Observable<VirtualAccount> {
-    const accountUrl = this.storage.getServicePath() + 'virtualAccount/update';
-    return this.http.put<VirtualAccount>(accountUrl, account, environment.getHttpOptions())
+    return this.http.put<VirtualAccount>('virtualAccount/update', account)
       .pipe(
         catchError(this.errorHandler.handleError)
       );

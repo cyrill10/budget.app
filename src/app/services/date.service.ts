@@ -1,9 +1,7 @@
 import {Injectable} from '@angular/core';
 import {ErrorService} from './error.service';
 import {Observable} from 'rxjs';
-import {environment} from 'src/environments/environment';
-import {StorageService} from './storage.service';
-import {catchError, map, mergeMap} from 'rxjs/operators';
+import {catchError, map} from 'rxjs/operators';
 import {HttpClient} from '@angular/common/http';
 import {Month} from '../date/month';
 
@@ -17,8 +15,7 @@ export class DateService {
 
   constructor(
     private errorHandler: ErrorService,
-    private http: HttpClient,
-    private storage: StorageService) {
+    private http: HttpClient) {
     this.months = [
       new Month('January',
         'Jan',
@@ -108,23 +105,17 @@ export class DateService {
   }
 
   getMonths(): Observable<Date[]> {
-    return this.storage.getServicePath$().pipe(mergeMap(host => {
-      const url = host + 'date/month/list';
-      return this.http.get<Date[]>(url, environment.getHttpOptions()).pipe(
-        // tslint:disable-next-line: no-shadowed-variable
-        map((dates: any[]) => dates.map((d) => new Date(d))),
-        catchError(this.errorHandler.handleError) // then handle the error
-      );
-    }))
+    return this.http.get<Date[]>('date/month/list').pipe(
+      // tslint:disable-next-line: no-shadowed-variable
+      map((dates: any[]) => dates.map((d) => new Date(d))),
+      catchError(this.errorHandler.handleError) // then handle the error
+    );
   }
 
   getCurrent(): Observable<number> {
-    return this.storage.getServicePath$().pipe(mergeMap(host => {
-    const url = host + 'date/current';
-    return this.http.get<number>(url, environment.getHttpOptions()).pipe(
+    return this.http.get<number>('date/current').pipe(
       catchError(this.errorHandler.handleError) // then handle the error
     );
-    }))
   }
 
   getSelectedMonth(date: Date): Month {
@@ -142,7 +133,7 @@ export class DateService {
     let result = month.short;
     const now = new Date(Date.now());
     if (date.getFullYear() !== now.getFullYear()) {
-      result += ' ' + date.getFullYear().toString().substr(-2);
+      result += ' ' + date.getFullYear().toString().substring(-2);
     }
     return result;
   }
