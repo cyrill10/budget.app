@@ -26,7 +26,7 @@ import {MatSelectModule} from '@angular/material/select';
 import {MatCardModule} from '@angular/material/card';
 import {MatDividerModule} from '@angular/material/divider';
 import {MatToolbarModule} from '@angular/material/toolbar';
-import {HttpClientModule} from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 
 import {OverviewComponent} from './view/overview/overview.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
@@ -44,58 +44,60 @@ import {RealAccountTransactionsComponent} from './view/realaccounttransaction/re
 import {IonicStorageModule} from '@ionic/storage-angular';
 import {StoreModule} from '@ngrx/store';
 import * as fromOverview from './view/overview/overview.reducers';
+import {DefaultInterceptor} from './services/default.interceptor';
 
 
 @NgModule({
-    declarations: [
-        AppComponent,
-        OverviewComponent,
-        TransactionComponent,
-        TransactionCreationDialogComponent,
-        AccountComponent,
-        AccountCreationDialogComponent,
-        VirtualAccountCreationDialogComponent,
-        MatElevationDirective,
-        VirtualAccountTransactionsComponent,
-        RealAccountTransactionsComponent,
-        TransactionDuplicationDialogComponent,
-        SettingsDialogComponent
-    ],
-    imports: [
-        BrowserModule,
-        RouterModule,
-        IonicModule.forRoot(),
-        IonicStorageModule.forRoot(),
-        StoreModule.forRoot({ overview: fromOverview.reducer }),
-        AppRoutingModule,
-        BrowserAnimationsModule,
-        MatSidenavModule,
-        ReactiveFormsModule,
-        FormsModule,
-        MatFormFieldModule,
-        MatDialogModule,
-        MatButtonModule,
-        MatButtonToggleModule,
-        MatInputModule,
-        MatTabsModule,
-        MatTableModule,
-        MatDatepickerModule,
-        MatNativeDateModule,
-        MatListModule,
-        MatIconModule,
-        MatSelectModule,
-        MatCardModule,
-        MatDividerModule,
-        MatToolbarModule,
-        HttpClientModule
-    ],
-    providers: [
-        StatusBar,
-        SplashScreen,
-        { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
-        { provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: { appearance: 'fill' } }
-    ],
-    bootstrap: [AppComponent]
+  declarations: [
+    AppComponent,
+    OverviewComponent,
+    TransactionComponent,
+    TransactionCreationDialogComponent,
+    AccountComponent,
+    AccountCreationDialogComponent,
+    VirtualAccountCreationDialogComponent,
+    MatElevationDirective,
+    VirtualAccountTransactionsComponent,
+    RealAccountTransactionsComponent,
+    TransactionDuplicationDialogComponent,
+    SettingsDialogComponent
+  ],
+  imports: [
+    BrowserModule,
+    RouterModule,
+    IonicModule.forRoot(),
+    IonicStorageModule.forRoot(),
+    StoreModule.forRoot({overview: fromOverview.reducer}),
+    AppRoutingModule,
+    BrowserAnimationsModule,
+    MatSidenavModule,
+    ReactiveFormsModule,
+    FormsModule,
+    MatFormFieldModule,
+    MatDialogModule,
+    MatButtonModule,
+    MatButtonToggleModule,
+    MatInputModule,
+    MatTabsModule,
+    MatTableModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatListModule,
+    MatIconModule,
+    MatSelectModule,
+    MatCardModule,
+    MatDividerModule,
+    MatToolbarModule,
+    HttpClientModule
+  ],
+  providers: [
+    StatusBar,
+    SplashScreen,
+    {provide: RouteReuseStrategy, useClass: IonicRouteStrategy},
+    {provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: {appearance: 'fill'}},
+    {provide: HTTP_INTERCEPTORS, useClass: DefaultInterceptor, multi: true},
+  ],
+  bootstrap: [AppComponent]
 })
 export class AppModule {
 }
