@@ -1,34 +1,40 @@
-import {Component, Inject, OnInit} from '@angular/core';
-import {DateService} from '../../services/date.service';
-import {FormControl} from '@angular/forms';
-import {TransactionService} from 'src/app/services/transaction.service';
-import {VirtualAccountService} from 'src/app/services/virtualaccount.service';
-import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from '@angular/material/dialog';
-import {LoggerService} from 'src/app/services/logger.service';
-import {Transaction} from 'src/app/element/transaction';
-import {PaymentTypeService} from 'src/app/services/paymenttype.service';
-import {IndicationService} from 'src/app/services/indication.service';
-import {StatusService} from 'src/app/services/status.service';
-import {BehaviorSubject} from 'rxjs';
-import {switchMap} from 'rxjs/operators';
-import {TransactionCreationDialogComponent} from './transaction.creation.component';
-
+import { Component, Inject, OnInit } from '@angular/core';
+import { DateService } from '../../services/date.service';
+import { TransactionService } from 'src/app/services/transaction.service';
+import { VirtualAccountService } from 'src/app/services/virtualaccount.service';
+import {
+  MAT_DIALOG_DATA,
+  MatDialog,
+  MatDialogRef,
+} from '@angular/material/dialog';
+import { LoggerService } from 'src/app/services/logger.service';
+import { Transaction } from 'src/app/element/transaction';
+import { PaymentTypeService } from 'src/app/services/paymenttype.service';
+import { IndicationService } from 'src/app/services/indication.service';
+import { StatusService } from 'src/app/services/status.service';
+import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
+import { filter, map, switchMap, tap } from 'rxjs/operators';
+import { TransactionCreationDialogComponent } from './transaction.creation.component';
+import { updateSelectedDate } from '../../state/date/date.actions';
+import { select, Store } from '@ngrx/store';
+import {
+  selectMonthList,
+  selectSelectedDate,
+} from '../../state/date/date.selectors';
 
 @Component({
   selector: 'app-transaction',
   templateUrl: './transaction.component.html',
-  styleUrls: ['./transaction.component.css']
+  styleUrls: ['./transaction.component.css'],
 })
 export class TransactionComponent implements OnInit {
-
-  month = new Date(Date.now());
-  selected = new FormControl(0);
+  months$: Observable<Date[]>;
+  months: Date[];
+  currentMonth$: Observable<Date>;
+  initialSelectedMonth$: Observable<number>;
+  transactions$: Observable<Transaction[]>;
   opened: boolean;
   private readonly refreshTokenTransaction$ = new BehaviorSubject(undefined);
-  transactions = this.refreshTokenTransaction$.pipe(
-    switchMap(() => this.transactionService.getTransactions(this.month))
-  );
-  months: Date[];
 
   constructor(
     private dateService: DateService,
@@ -38,48 +44,75 @@ export class TransactionComponent implements OnInit {
     private paymentTypeService: PaymentTypeService,
     private indicationService: IndicationService,
     private statusService: StatusService,
-    public dialog: MatDialog) {
-    this.dateService.getMonths().subscribe(data => this.months = data);
-    this.dateService.getCurrent().subscribe(d => this.selected = new FormControl(d));
-  }
+    public dialog: MatDialog,
+    private store: Store
+  ) {}
 
   ngOnInit() {
     this.logger.log('Init', 'TransactionComponent');
-    this.dateService.getMonths().subscribe(data => this.months = data);
-    this.dateService.getCurrent().subscribe(d => this.selected = new FormControl(d));
+
+    this.months$ = this.store.pipe(
+      select(selectMonthList),
+      tap((months) => (this.months = months))
+    );
+    this.currentMonth$ = this.store.select(selectSelectedDate);
+
+    this.initialSelectedMonth$ = combineLatest([
+      this.months$,
+      this.currentMonth$,
+    ]).pipe(
+      filter(([months]) => months.length > 0),
+      map(([months, month]) => months.indexOf(month))
+    );
+
+    this.transactions$ = combineLatest([
+      this.refreshTokenTransaction$,
+      this.currentMonth$,
+    ]).pipe(
+      switchMap(([, month]) => this.transactionService.getTransactions(month))
+    );
   }
 
   selectMonth(event: number) {
-    this.selected.setValue(event);
-    this.month = this.months[this.selected.value];
-    this.refreshTokenTransaction$.next(undefined);
+    this.store.dispatch(
+      updateSelectedDate({ selectedDate: this.months[event] })
+    );
   }
 
   deleteTransaction(transaction: Transaction) {
-    this.transactionService.deleteTransaction(transaction)
+    this.transactionService
+      .deleteTransaction(transaction)
       .subscribe(() => this.refreshTokenTransaction$.next(undefined));
   }
 
   createDublicatesTillEndOfTheYear(transaction: Transaction) {
-    this.transactionService.createDublicatesTillEndOfTheYear(transaction)
+    this.transactionService
+      .createDublicatesTillEndOfTheYear(transaction)
       .subscribe(() => this.refreshTokenTransaction$.next(undefined));
-
   }
 
   isForBudgetedAccount(transaction: Transaction) {
-    return transaction.effectiveAmount === 0 &&
-      (transaction.creditedAccount.underlyingAccount.accountType.value === 5
-        || transaction.debitedAccount.underlyingAccount.accountType.value === 5);
+    return (
+      transaction.effectiveAmount === 0 &&
+      (transaction.creditedAccount.underlyingAccount.accountType.value === 5 ||
+        transaction.debitedAccount.underlyingAccount.accountType.value === 5)
+    );
   }
 
-  openDialog(editedTransaction: Transaction): void {
+  openDialog(editedTransaction: Transaction, month: Date): void {
     let transaction: Transaction;
     if (editedTransaction === null) {
       transaction = {
-        date: this.getSuggestedTransactionDate(this.month),
-        budgetedAmount: 0, creditedAccount: null,
-        debitedAccount: null, effectiveAmount: 0,
-        id: null, indication: null, paymentType: null, paymentStatus: null, description: null
+        date: this.getSuggestedTransactionDate(month),
+        budgetedAmount: 0,
+        creditedAccount: null,
+        debitedAccount: null,
+        effectiveAmount: 0,
+        id: null,
+        indication: null,
+        paymentType: null,
+        paymentStatus: null,
+        description: null,
       };
     } else {
       transaction = editedTransaction;
@@ -91,16 +124,25 @@ export class TransactionComponent implements OnInit {
     const indications = this.indicationService.getIndications();
     const virtualAccounts = this.virtualAccountService.getVirtualAccounts();
     const dialogRef = this.dialog.open(TransactionCreationDialogComponent, {
-      data: {transaction, virtualAccounts, paymentTypes, statuses, indications, isNew}
+      data: {
+        transaction,
+        virtualAccounts,
+        paymentTypes,
+        statuses,
+        indications,
+        isNew,
+      },
     });
 
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe((result) => {
       if (result !== undefined) {
         if (editedTransaction === null) {
-          this.transactionService.addTransaction(result.transaction)
+          this.transactionService
+            .addTransaction(result.transaction)
             .subscribe(() => this.refreshTokenTransaction$.next(undefined));
         } else {
-          this.transactionService.updateTransaction(result.transaction)
+          this.transactionService
+            .updateTransaction(result.transaction)
             .subscribe(() => this.refreshTokenTransaction$.next(undefined));
         }
       } else {
@@ -111,8 +153,10 @@ export class TransactionComponent implements OnInit {
 
   getSuggestedTransactionDate(selectedMonth: Date): Date {
     const now = new Date(Date.now());
-    if (now.getMonth() === selectedMonth.getMonth() &&
-      now.getFullYear() === selectedMonth.getFullYear()) {
+    if (
+      now.getMonth() === selectedMonth.getMonth() &&
+      now.getFullYear() === selectedMonth.getFullYear()
+    ) {
       return now;
     }
     const endOfMonth = new Date(selectedMonth);
@@ -124,13 +168,12 @@ export class TransactionComponent implements OnInit {
     return this.dateService.getMonthShortString(date);
   }
 
-
   openDuplicateDialog(selectedTransaction: Transaction): void {
     const dialogRef = this.dialog.open(TransactionDuplicationDialogComponent, {
-      data: selectedTransaction
+      data: selectedTransaction,
     });
 
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe((result) => {
       if (result !== undefined) {
         this.createDublicatesTillEndOfTheYear(selectedTransaction);
       }
@@ -141,20 +184,15 @@ export class TransactionComponent implements OnInit {
 @Component({
   selector: 'app-transaction-duplication-dialog',
   templateUrl: 'transaction-duplication-dialog.html',
-  styleUrls: ['./transaction.component.css']
+  styleUrls: ['./transaction.component.css'],
 })
 export class TransactionDuplicationDialogComponent {
-
-
   constructor(
     public dialogRef: MatDialogRef<TransactionDuplicationDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: Transaction) {
-  }
+    @Inject(MAT_DIALOG_DATA) public data: Transaction
+  ) {}
 
   onNoClick(): void {
     this.dialogRef.close();
   }
 }
-
-
-

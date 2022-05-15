@@ -6,16 +6,22 @@
       </ion-menu-button>
     </ion-buttons>
     <ion-title>
-      <span class="header-spacer" *ngIf="virtualAccount !== undefined">{{virtualAccount.name}}</span>
+      <span class="header-spacer" *ngIf="virtualAccount$ | async as virtualAccount">{{virtualAccount.name}}</span>
     </ion-title>
   </ion-toolbar>
-  <mat-tab-group [selectedIndex]="selected.value" (selectedIndexChange)="selectMonth($event)">
-    <mat-tab *ngFor="let selectedMonth of months" [label]="getShortName(selectedMonth)">
-    </mat-tab>
-  </mat-tab-group>
+  <ng-container *ngIf="months$ | async as months">
+    <mat-tab-group
+      [selectedIndex]="initialSelectedMonth$ | async"
+      (selectedIndexChange)="selectMonth($event)"
+    >
+      <mat-tab *ngFor="let month of months" [label]="getShortName(month)">
+      </mat-tab>
+    </mat-tab-group>
+  </ng-container>
 </ion-header>
-<ion-content>
-  <table mat-table [dataSource]="transactions">
+<ion-content *ngIf="virtualAccount$ | async as virtualAccount">
+  <ng-container *ngIf="currentMonth$ | async as month">
+  <table mat-table [dataSource]="transactions$ | async">
 
     <ng-container matColumnDef="name">
       <th mat-header-cell *matHeaderCellDef> Name </th>
@@ -27,7 +33,7 @@
     <ng-container matColumnDef="amount">
       <th class="right-align" mat-header-cell *matHeaderCellDef> Amount </th>
       <td class="right-align"  mat-cell *matCellDef="let element">
-          <div *ngIf="element.hasAmount && !isInTheFuture()"> {{element.amount | number: '0.2-2'}}</div>
+          <div *ngIf="element.hasAmount && !isInTheFuture(month)"> {{element.amount | number: '0.2-2'}}</div>
           <div *ngIf="element.hasAmount" class="budgeted">{{element.budgetedAmount | number: '0.2-2'}}</div>
       </td>
     </ng-container>
@@ -35,12 +41,13 @@
     <ng-container matColumnDef="balance">
       <th class="right-align" mat-header-cell *matHeaderCellDef> Balance </th>
       <td class="right-align" mat-cell *matCellDef="let element">
-         <div *ngIf="!isInTheFuture()"> {{element.balance | number: '0.2-2'}}</div>
+         <div *ngIf="!isInTheFuture(month)"> {{element.balance | number: '0.2-2'}}</div>
           <div class="budgeted">{{element.budgetedBalance | number: '0.2-2'}}</div>
       </td>
     </ng-container>
 
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="selectTranaction(row)" [ngClass]="{'header' : !row.hasAmount}"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="selectTranaction(row, month, virtualAccount)" [ngClass]="{'header' : !row.hasAmount}"></tr>
   </table>
+  </ng-container>
 </ion-content>

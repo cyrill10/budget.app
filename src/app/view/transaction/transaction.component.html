@@ -11,14 +11,20 @@
       <span class="header-spacer">Transaction</span>
     </ion-title>
   </ion-toolbar>
-  <mat-tab-group [selectedIndex]="selected.value" (selectedIndexChange)="selectMonth($event)">
-    <mat-tab *ngFor="let selectedMonth of months" [label]="getShortName(selectedMonth)">
-    </mat-tab>
-  </mat-tab-group>
+  <ng-container *ngIf="months$ | async as months">
+    <mat-tab-group
+      [selectedIndex]="initialSelectedMonth$ | async"
+      (selectedIndexChange)="selectMonth($event)"
+    >
+      <mat-tab *ngFor="let month of months" [label]="getShortName(month)">
+      </mat-tab>
+    </mat-tab-group>
+  </ng-container>
 </ion-header>
 <ion-content>
+  <ng-container *ngIf="currentMonth$ | async as month">
   <mat-list>
-    <mat-card *ngFor="let transaction of transactions | async" class="card-container">
+    <mat-card *ngFor="let transaction of transactions$ | async" class="card-container">
       <mat-card-header>
         <div mat-card-avatar class="header-image" [ngStyle]="{'background-color': transaction.paymentStatus.color}">
         </div>
@@ -44,7 +50,7 @@
           <span>Fr. {{transaction.budgetedAmount | number: '0.2-2'}}</span>
         </mat-card-title>
         <button mat-icon-button>
-          <mat-icon (click)="openDialog(transaction)">edit</mat-icon>
+          <mat-icon (click)="openDialog(transaction, month)">edit</mat-icon>
         </button>
         <button mat-icon-button>
           <mat-icon (click)="openDuplicateDialog(transaction)">file_copy</mat-icon>
@@ -55,7 +61,8 @@
       </mat-card-actions>
     </mat-card>
     <button mat-fab class="fab-button-right mainButton">
-      <mat-icon (click)="openDialog(null)">add</mat-icon>
+      <mat-icon (click)="openDialog(null, month)">add</mat-icon>
     </button>
   </mat-list>
+  </ng-container>
 </ion-content>

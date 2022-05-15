@@ -1,0 +1,38 @@
+<ion-header id="main">
+  <ion-toolbar color="pink" class="mainColor">
+    <ion-buttons slot="start">
+      <ion-menu-button>
+        <mat-icon>menu</mat-icon>
+      </ion-menu-button>
+    </ion-buttons>
+    <ion-title>
+      <span class="header-spacer">Budget</span>
+    </ion-title>
+  </ion-toolbar>
+  <ng-container *ngIf="months$ | async as months">
+    <mat-tab-group
+      [selectedIndex]="initialSelectedMonth$ | async"
+      (selectedIndexChange)="selectMonth($event)"
+    >
+      <mat-tab *ngFor="let month of months" [label]="getShortName(month)">
+      </mat-tab>
+    </mat-tab-group>
+  </ng-container>
+</ion-header>
+<ion-content *ngIf="currentMonth$ | async">
+  <ng-container *ngIf="processData$ | async as processData">
+    <mat-action-list>
+      <button mat-list-item (click)="uploadFile(processData.uploadStatus)">
+        <h4 matLine>Import Pdf</h4>
+        <mat-icon *ngIf="processData.uploadStatus.value === 2" matListIcon>done</mat-icon>
+      </button>
+      <mat-divider></mat-divider>
+      <button mat-list-item (click)="enterManualData()">
+        <h4 matLine>Enter Manual Data</h4>
+        <mat-icon *ngIf="processData.manualEntryStatus.value=== 2" matListIcon>done</mat-icon>
+      </button>
+    </mat-action-list>
+  </ng-container>
+  <input type="file" class="file-input" style="display: none;" accept=".csv"
+         (change)="onFileSelected($event)" #fileUpload>
+</ion-content>
