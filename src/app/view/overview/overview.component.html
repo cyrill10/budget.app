@@ -8,8 +8,8 @@
       </ion-title>
     </ion-toolbar>
     <ng-container *ngIf="months$ | async as months">
-    <mat-tab-group [selectedIndex]="selected$ |async" (selectedIndexChange)="selectMonth($event)">
-      <mat-tab *ngFor="let selectedMonth of months" [label]="getShortName(selectedMonth)">
+    <mat-tab-group [selectedIndex] = "initialSelectedMonth$ | async" (selectedIndexChange)="selectMonth($event)">
+      <mat-tab *ngFor="let month of months" [label]="getShortName(month)">
       </mat-tab>
     </mat-tab-group>
     </ng-container>
