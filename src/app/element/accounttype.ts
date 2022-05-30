@@ -1,5 +1,4 @@
 export class AccountType {
-    name: string;
-    value: number;
-    transactionLimit: number;
+  name: string;
+  value: number;
 }

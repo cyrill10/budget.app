@@ -37,7 +37,7 @@ export interface ScannedTransaction {
   amount: number;
   cardType: string;
   description: string;
-  id: number;
+  id: string;
   transactionCreated: boolean;
 }
 

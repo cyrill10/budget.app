@@ -35,7 +35,7 @@ export class ScannedTransactionsComponent implements OnInit {
   virtualAccounts$: Observable<VirtualAccount[]>;
   selectedAccount$: Observable<VirtualAccount>;
 
-  selectedTransactions: number[];
+  selectedTransactions: string[];
 
   @ViewChild('selectedTransactionList')
   selectedTransactionList: MatSelectionList;

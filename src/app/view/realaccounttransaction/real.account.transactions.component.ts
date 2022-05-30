@@ -95,7 +95,12 @@ export class RealAccountTransactionsComponent implements OnInit {
     editedTransaction: TransactionElement,
     selectedMonth: Date
   ): void {
-    if (editedTransaction === null || editedTransaction.id === 0) {
+    if (
+      editedTransaction === null ||
+      editedTransaction.id === '0' ||
+      editedTransaction.id === '2147483646' ||
+      editedTransaction.id === '2147483647'
+    ) {
       const transaction = {
         date: this.getSuggestedTransactionDate(selectedMonth),
         budgetedAmount: 0,

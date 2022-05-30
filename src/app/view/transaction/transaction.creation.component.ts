@@ -7,7 +7,6 @@ import { Status } from 'src/app/element/status';
 import { Indication } from 'src/app/element/indication';
 import { Observable } from 'rxjs';
 
-
 export interface DialogData {
   transaction: Transaction;
   virtualAccounts: Observable<VirtualAccount[]>;
@@ -20,15 +19,13 @@ export interface DialogData {
 @Component({
   selector: 'app-transaction-creation-dialog',
   templateUrl: 'transaction-creation-dialog.html',
-  styleUrls: ['./transaction.component.css']
+  styleUrls: ['./transaction.component.css'],
 })
 export class TransactionCreationDialogComponent {
-
-
   constructor(
     public dialogRef: MatDialogRef<TransactionCreationDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: DialogData) {
-     }
+    @Inject(MAT_DIALOG_DATA) public data: DialogData
+  ) {}
 
   onNoClick(): void {
     this.dialogRef.close();
@@ -38,7 +35,7 @@ export class TransactionCreationDialogComponent {
     const day = (d || new Date()).getDay();
     // Prevent Saturday and Sunday from being selected.
     return day !== 0 && day !== 6;
-  }
+  };
 
   compareVirtualAccount(value1: VirtualAccount, value2: VirtualAccount) {
     if (value1 !== null && value2 !== null) {
@@ -60,8 +57,11 @@ export class TransactionCreationDialogComponent {
   }
 
   canMakeEffective(transaction: Transaction): boolean {
-    return transaction.budgetedAmount !== null &&
-           transaction.budgetedAmount > 0 && transaction.effectiveAmount === 0;
+    return (
+      transaction.budgetedAmount !== null &&
+      transaction.budgetedAmount > 0 &&
+      transaction.effectiveAmount === 0
+    );
   }
 
   makeEffective(transaction: Transaction) {

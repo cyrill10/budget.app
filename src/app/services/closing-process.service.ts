@@ -9,10 +9,10 @@ import {
 } from '../state/closing-process/closing-process.reducers';
 
 export interface SaveTransactionDto {
-  transactionIds: number[];
-  creditedAccountId: number;
-  debitedAccountId: number;
-  throughAccountId: number;
+  transactionIds: string[];
+  creditedAccountId: string;
+  debitedAccountId: string;
+  throughAccountId: string;
 }
 
 @Injectable({

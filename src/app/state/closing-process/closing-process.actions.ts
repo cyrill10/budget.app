@@ -34,9 +34,9 @@ export const loadProcessTransactions = createAction(
 export const saveProcessTransactions = createAction(
   '[Closing Process] saveProcessTransactions',
   props<{
-    transactionIds: number[];
-    creditedAccountId: number;
-    debitedAccountId: number;
-    throughAccountId: number;
+    transactionIds: string[];
+    creditedAccountId: string;
+    debitedAccountId: string;
+    throughAccountId: string;
   }>()
 );
