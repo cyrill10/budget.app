@@ -3,7 +3,11 @@ import { AccountService } from 'src/app/services/account.service';
 import { Account } from 'src/app/element/account';
 import { VirtualAccount } from 'src/app/element/virtualaccount';
 import { LoggerService } from 'src/app/services/logger.service';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import {
+  MatDialog,
+  MatDialogRef,
+  MAT_DIALOG_DATA,
+} from '@angular/material/dialog';
 import { AccountType } from 'src/app/element/accounttype';
 import { AccountTypeService } from 'src/app/services/accounttype.service';
 import { VirtualAccountService } from 'src/app/services/virtualaccount.service';
@@ -25,10 +29,9 @@ export interface VirtualAccountDialogData {
 @Component({
   selector: 'app-account',
   templateUrl: './account.component.html',
-  styleUrls: ['./account.component.css']
+  styleUrls: ['./account.component.css'],
 })
 export class AccountComponent implements OnInit {
-
   displayedColumns: string[] = ['name', 'edit'];
   opened: boolean;
   private readonly refreshToken$ = new BehaviorSubject(undefined);
@@ -42,13 +45,12 @@ export class AccountComponent implements OnInit {
     private virtualAccountService: VirtualAccountService,
     private logger: LoggerService,
     public dialog: MatDialog,
-    private route: Router) { }
+    private route: Router
+  ) {}
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   selectAccount(account: Account) {
-
     this.route.navigate(['/realAccount/transactions', { id: account.id }]);
   }
 
@@ -75,16 +77,18 @@ export class AccountComponent implements OnInit {
     const isNew = editedAccount === null;
     const accountTypes = this.accountTypeService.getAccountTypes();
     const accountDialog = this.dialog.open(AccountCreationDialogComponent, {
-      data: { account, accountTypes, isNew }
+      data: { account, accountTypes, isNew },
     });
 
-    accountDialog.afterClosed().subscribe(result => {
+    accountDialog.afterClosed().subscribe((result) => {
       if (result !== undefined) {
         if (editedAccount === null) {
-          this.accountService.addAccount(result.account)
+          this.accountService
+            .addAccount(result.account)
             .subscribe(() => this.refreshToken$.next(undefined));
         } else {
-          this.accountService.updateAccount(result.account)
+          this.accountService
+            .updateAccount(result.account)
             .subscribe(() => this.refreshToken$.next(undefined));
         }
       } else {
@@ -105,22 +109,26 @@ export class AccountComponent implements OnInit {
         id: null,
         name: null,
         underlyingAccount: account,
-        projection: null,
       };
     } else {
       virtualAccount = editedAccount;
     }
-    const virtualAccountDialog = this.dialog.open(VirtualAccountCreationDialogComponent, {
-      data: { virtualAccount }
-    });
+    const virtualAccountDialog = this.dialog.open(
+      VirtualAccountCreationDialogComponent,
+      {
+        data: { virtualAccount },
+      }
+    );
 
-    virtualAccountDialog.afterClosed().subscribe(result => {
+    virtualAccountDialog.afterClosed().subscribe((result) => {
       if (result !== undefined) {
         if (editedAccount === null) {
-          this.virtualAccountService.addVirtualAccount(result.virtualAccount)
+          this.virtualAccountService
+            .addVirtualAccount(result.virtualAccount)
             .subscribe(() => this.refreshToken$.next(undefined));
         } else {
-          this.virtualAccountService.updateVirtualAccount(result.virtualAccount)
+          this.virtualAccountService
+            .updateVirtualAccount(result.virtualAccount)
             .subscribe(() => this.refreshToken$.next(undefined));
         }
       } else {
@@ -133,13 +141,13 @@ export class AccountComponent implements OnInit {
 @Component({
   selector: 'app-account-creation-dialog',
   templateUrl: 'account-creation-dialog.html',
-  styleUrls: ['./account.component.css']
+  styleUrls: ['./account.component.css'],
 })
 export class AccountCreationDialogComponent {
-
   constructor(
     public accountDialog: MatDialogRef<AccountCreationDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: AccountDialogData) { }
+    @Inject(MAT_DIALOG_DATA) public data: AccountDialogData
+  ) {}
 
   onNoClick(): void {
     this.accountDialog.close();
@@ -159,17 +167,16 @@ export class AccountCreationDialogComponent {
   }
 }
 
-
 @Component({
   selector: 'app-account-creation-dialog',
   templateUrl: 'virtual-account-creation-dialog.html',
-  styleUrls: ['./account.component.css']
+  styleUrls: ['./account.component.css'],
 })
 export class VirtualAccountCreationDialogComponent {
-
   constructor(
     public virtualAccountDialog: MatDialogRef<VirtualAccountCreationDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: VirtualAccountDialogData) { }
+    @Inject(MAT_DIALOG_DATA) public data: VirtualAccountDialogData
+  ) {}
 
   onNoClick(): void {
     this.virtualAccountDialog.close();
