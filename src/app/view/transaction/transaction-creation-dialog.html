@@ -37,7 +37,7 @@
   <mat-button-toggle-group [(ngModel)] = data.transaction.paymentStatus>
   	<mat-button-toggle *ngFor="let status of data.statuses | async"
   		[value]="status" [checked]= "status !== null && data.transaction.paymentStatus !== null && status.value ==data.transaction.paymentStatus.value"
-  		[ngClass]="status.color">
+  		[ngClass]="'status-' + status.value">
     	{{status.name}}
   	</mat-button-toggle>
   </mat-button-toggle-group>

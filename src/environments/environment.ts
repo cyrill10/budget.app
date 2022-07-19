@@ -20,6 +20,10 @@ export const environment = {
         ),
     });
   },
+
+  getPort() {
+    return '8080';
+  },
 };
 
 /*

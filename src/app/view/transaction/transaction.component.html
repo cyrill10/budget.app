@@ -26,7 +26,7 @@
   <mat-list>
     <mat-card *ngFor="let transaction of transactions$ | async" class="card-container">
       <mat-card-header>
-        <div mat-card-avatar class="header-image" [ngStyle]="{'background-color': transaction.paymentStatus.color}">
+        <div mat-card-avatar class="header-image" [ngStyle]="{'background-color': getStatusColor(transaction.paymentStatus.value)}">
         </div>
         <mat-card-title>
           <span>{{transaction.description}}</span>
