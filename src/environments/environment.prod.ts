@@ -14,4 +14,7 @@ export const environment = {
         ),
     });
   },
+  getPort() {
+    return null;
+  },
 };
