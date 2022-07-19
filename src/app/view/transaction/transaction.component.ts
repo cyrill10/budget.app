@@ -179,6 +179,17 @@ export class TransactionComponent implements OnInit {
       }
     });
   }
+
+  getStatusColor(value: number): string {
+    switch (value) {
+      case 2:
+        return 'yellow';
+      case 3:
+        return 'green';
+      default:
+        return 'red';
+    }
+  }
 }
 
 @Component({

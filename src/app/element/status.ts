@@ -1,5 +1,4 @@
 export class Status {
-    name: string;
-    color: string;
-    value: number;
+  name: string;
+  value: number;
 }

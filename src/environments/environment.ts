@@ -1,5 +1,5 @@
-import {HttpHeaders} from '@angular/common/http';
-import {Buffer} from 'buffer';
+import { HttpHeaders } from '@angular/common/http';
+import { Buffer } from 'buffer';
 
 // This file can be replaced during build by using the `fileReplacements` array.
 // `ng build --prod` replaces `environment.ts` with `environment.prod.ts`.
@@ -7,15 +7,23 @@ import {Buffer} from 'buffer';
 
 export const environment = {
   production: false,
-  authUsername: window['env']['auth.username'] || 'user',
-  authPassword: window['env']['auth.password'] || 'password',
+  authUsername: 'user',
+  authPassword: 'password',
 
   getAuthorizationHeaders() {
     return new HttpHeaders({
       'Access-Control-Allow-Origin': '*',
-      Authorization: 'Basic ' + Buffer.from(this.authUsername + ':' + this.authPassword).toString('base64')
+      Authorization:
+        'Basic ' +
+        Buffer.from(this.authUsername + ':' + this.authPassword).toString(
+          'base64'
+        ),
     });
-  }
+  },
+
+  getPort() {
+    return '8080';
+  },
 };
 
 /*

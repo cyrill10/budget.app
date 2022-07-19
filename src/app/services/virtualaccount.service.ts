@@ -13,18 +13,6 @@ export class VirtualAccountService {
 
   constructor(private http: HttpClient, private errorHandler: ErrorService) {}
 
-  getVirtualAccountsForAccount(
-    accountId: string
-  ): Observable<VirtualAccount[]> {
-    return this.http
-      .get<VirtualAccount[]>('virtualAccount/listForAccount', {
-        params: { realAccountId: accountId },
-      })
-      .pipe(
-        catchError(this.errorHandler.handleError) // then handle the error
-      );
-  }
-
   getVirtualAccounts(): Observable<VirtualAccount[]> {
     return this.http.get<VirtualAccount[]>('virtualAccount/list').pipe(
       catchError(this.errorHandler.handleError) // then handle the error
