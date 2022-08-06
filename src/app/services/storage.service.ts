@@ -8,7 +8,7 @@ import { environment } from '../../environments/environment';
   providedIn: 'root',
 })
 export class StorageService {
-  url = 'budget-server-prod-budget-server-z9ef36.mo2.mogenius.io';
+  url = environment.getDefaultUrl();
   private _storage: Storage | null = null;
 
   constructor(private storage: Storage) {
@@ -24,7 +24,7 @@ export class StorageService {
   public setURL(url: string) {
     if (url === null || url === undefined || url === '') {
       this.storage.remove('url');
-      this.url = 'budget-server-prod-budget-server-z9ef36.mo2.mogenius.io';
+      this.url = environment.getDefaultUrl();
     } else {
       this.storage.set('url', url);
       this.url = url;
@@ -38,7 +38,7 @@ export class StorageService {
   public getServicePath$(): Observable<string> {
     return this.getURL$().pipe(
       map((val) => {
-        const start = 'https://';
+        const start = environment.getProtocol();
         const port = environment.getPort();
         const path = '/budget/';
         if (port) {
@@ -54,7 +54,7 @@ export class StorageService {
       return val;
     });
     if (url === null) {
-      url = 'budget-server-prod-budget-server-z9ef36.mo2.mogenius.io';
+      url = environment.getDefaultUrl();
     }
     return url;
   }
@@ -63,7 +63,7 @@ export class StorageService {
     return from(
       this.storage.get('url').then((val) => {
         if (!val) {
-          return 'budget-server-prod-budget-server-z9ef36.mo2.mogenius.io';
+          return environment.getDefaultUrl();
         }
         return val;
       })

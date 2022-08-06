@@ -21,8 +21,16 @@ export const environment = {
     });
   },
 
-  getPort() {
+  getPort(): string {
     return '8080';
+  },
+
+  getProtocol(): string {
+    return 'http://';
+  },
+
+  getDefaultUrl(): string {
+    return '192.168.0.138';
   },
 };
 
