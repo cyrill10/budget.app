@@ -31,6 +31,11 @@
         <h4 matLine>Enter Manual Data</h4>
         <mat-icon *ngIf="processData.manualEntryStatus.value=== 2" matListIcon>done</mat-icon>
       </button>
+      <mat-divider></mat-divider>
+      <button mat-list-item (click)="showTransferDetails()">
+        <h4 matLine>Show Transfer Values</h4>
+        <mat-icon *ngIf="processData.transferStatus.value=== 2" matListIcon>done</mat-icon>
+      </button>
     </mat-action-list>
   </ng-container>
   <input type="file" class="file-input" style="display: none;" accept=".csv"

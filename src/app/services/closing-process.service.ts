@@ -6,6 +6,7 @@ import { catchError } from 'rxjs/operators';
 import {
   ProcessData,
   ScannedTransaction,
+  TransferDetail,
 } from '../state/closing-process/closing-process.reducers';
 
 export interface SaveTransactionDto {
@@ -67,6 +68,28 @@ export class ClosingProcessService {
       .set('month', date.getMonth());
     return this.http
       .post<ProcessData>('closingProcess/closeFileUpload', null, { params })
+      .pipe(
+        catchError(this.errorHandler.handleError) // then handle the error
+      );
+  }
+
+  finishTransfer(date: Date): Observable<ProcessData> {
+    const params = new HttpParams()
+      .set('year', date.getFullYear())
+      .set('month', date.getMonth());
+    return this.http
+      .post<ProcessData>('closingProcess/transfer/close', null, { params })
+      .pipe(
+        catchError(this.errorHandler.handleError) // then handle the error
+      );
+  }
+
+  loadTransferDetails(date: Date): Observable<TransferDetail[]> {
+    const params = new HttpParams()
+      .set('year', date.getFullYear())
+      .set('month', date.getMonth());
+    return this.http
+      .get<TransferDetail[]>('closingProcess/transfer/details', { params })
       .pipe(
         catchError(this.errorHandler.handleError) // then handle the error
       );

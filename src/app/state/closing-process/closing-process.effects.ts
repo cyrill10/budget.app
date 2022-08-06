@@ -1,12 +1,16 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import {
+  finishTransfer,
+  finishTransferSuccess,
   finishUpload,
   finishUploadSuccess,
   getScannedTransactionsSuccess,
   loadProcessData,
   loadProcessDataSuccess,
   loadProcessTransactions,
+  loadTransferDetails,
+  loadTransferDetailsSuccess,
   saveProcessTransactions,
   uploadFile,
 } from './closing-process.actions';
@@ -64,6 +68,22 @@ export class ClosingProcessEffects {
     )
   );
 
+  loadTransferDetails$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(loadTransferDetails),
+      withLatestFrom(this.store.select(selectSelectedDate)),
+      switchMap(([_, date]) =>
+        this.closingProcessService
+          .loadTransferDetails(date)
+          .pipe(
+            map((transferDetails) =>
+              loadTransferDetailsSuccess({ transferDetails })
+            )
+          )
+      )
+    )
+  );
+
   saveProcessTransactions$ = createEffect(() =>
     this.actions$.pipe(
       ofType(saveProcessTransactions),
@@ -87,6 +107,19 @@ export class ClosingProcessEffects {
         this.closingProcessService
           .closeFileUpload(date)
           .pipe(map((result) => finishUploadSuccess({ data: result })))
+      )
+    )
+  );
+
+  finishTransfer$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(finishTransfer),
+      withLatestFrom(this.store.select(selectSelectedDate)),
+      filter(([_, date]) => !!date),
+      switchMap(([_, date]) =>
+        this.closingProcessService
+          .finishTransfer(date)
+          .pipe(map((result) => finishTransferSuccess({ data: result })))
       )
     )
   );

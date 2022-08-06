@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 import {
   loadProcessData,
   loadProcessTransactions,
+  loadTransferDetails,
   uploadFile,
 } from '../../state/closing-process/closing-process.actions';
 import {
@@ -84,6 +85,10 @@ export class ClosingProcessComponent implements OnInit {
 
   enterManualData() {
     console.log('enterManualDataClicked');
+  }
+
+  showTransferDetails() {
+    this.store.dispatch(loadTransferDetails());
   }
 
   onFileSelected(event) {

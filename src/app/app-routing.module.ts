@@ -8,6 +8,7 @@ import { VirtualAccountTransactionsComponent } from './view/virtualaccounttransa
 import { RealAccountTransactionsComponent } from './view/realaccounttransaction/real.account.transactions.component';
 import { ClosingProcessComponent } from './view/closing-process/closing-process.component';
 import { ScannedTransactionsComponent } from './view/closing-process/scanned-transactions/scanned-transactions.component';
+import { TransferDetailsComponent } from './view/closing-process/transfer-details/transfer-details.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/overview', pathMatch: 'full' },
@@ -26,6 +27,10 @@ const routes: Routes = [
   {
     path: 'closingProcess/transactions',
     component: ScannedTransactionsComponent,
+  },
+  {
+    path: 'closingProcess/transferDetail',
+    component: TransferDetailsComponent,
   },
 ];
 

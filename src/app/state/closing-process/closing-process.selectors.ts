@@ -17,3 +17,10 @@ export const selectScannedTransactions = createSelector(
     return state.scannedTransactions;
   }
 );
+
+export const selectTransferDetail = createSelector(
+  selectClosingProcess,
+  (state: ClosingProcessState) => {
+    return state.transferDetails;
+  }
+);

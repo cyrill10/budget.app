@@ -1,18 +1,22 @@
 import { Action, createReducer, on } from '@ngrx/store';
 import {
+  finishTransferSuccess,
   finishUploadSuccess,
   getScannedTransactionsSuccess,
   loadProcessDataSuccess,
+  loadTransferDetailsSuccess,
 } from './closing-process.actions';
 
 export interface ClosingProcessState {
   processData: ProcessData;
   scannedTransactions: ScannedTransaction[];
+  transferDetails: TransferDetail[];
 }
 
 export const initialState: ClosingProcessState = {
   processData: undefined,
   scannedTransactions: [],
+  transferDetails: [],
 };
 
 export interface ProcessData {
@@ -20,6 +24,7 @@ export interface ProcessData {
   month: number;
   uploadStatus: ClosingProcessStatus;
   manualEntryStatus: ClosingProcessStatus;
+  transferStatus: ClosingProcessStatus;
 }
 
 export interface ClosingProcessStatus {
@@ -41,15 +46,29 @@ export interface ScannedTransaction {
   transactionCreated: boolean;
 }
 
+export interface TransferDetail {
+  name: string;
+  amount: number;
+}
+
 const selectProcessData = createReducer(
   initialState,
-  on(loadProcessDataSuccess, finishUploadSuccess, (state, newProcessData) => ({
-    ...state,
-    processData: newProcessData.data,
-  })),
+  on(
+    loadProcessDataSuccess,
+    finishUploadSuccess,
+    finishTransferSuccess,
+    (state, newProcessData) => ({
+      ...state,
+      processData: newProcessData.data,
+    })
+  ),
   on(getScannedTransactionsSuccess, (state, scannedTransactions) => ({
     ...state,
     scannedTransactions: scannedTransactions.scannedTransactions,
+  })),
+  on(loadTransferDetailsSuccess, (state, transferDetails) => ({
+    ...state,
+    transferDetails: transferDetails.transferDetails,
   }))
 );
 

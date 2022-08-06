@@ -3,6 +3,7 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import {
   finishUploadSuccess,
   getScannedTransactionsSuccess,
+  loadTransferDetailsSuccess,
 } from '../closing-process/closing-process.actions';
 import { map } from 'rxjs/operators';
 import { Router } from '@angular/router';
@@ -14,6 +15,17 @@ export class NavigationEffects {
       this.actions$.pipe(
         ofType(getScannedTransactionsSuccess),
         map((_) => this.route.navigate(['/closingProcess/transactions']))
+      ),
+    {
+      dispatch: false,
+    }
+  );
+
+  navigateToTransferDetail$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(loadTransferDetailsSuccess),
+        map((_) => this.route.navigate(['/closingProcess/transferDetail']))
       ),
     {
       dispatch: false,

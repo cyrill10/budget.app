@@ -1,5 +1,9 @@
 import { createAction, props } from '@ngrx/store';
-import { ProcessData, ScannedTransaction } from './closing-process.reducers';
+import {
+  ProcessData,
+  ScannedTransaction,
+  TransferDetail,
+} from './closing-process.reducers';
 
 export const uploadFile = createAction(
   '[Closing Process] upload File',
@@ -8,9 +12,16 @@ export const uploadFile = createAction(
 
 export const finishUpload = createAction('[Closing Process] finishUpload');
 
+export const finishTransfer = createAction('[Closing Process] finishTransfer');
+
 export const getScannedTransactionsSuccess = createAction(
-  '[Closing Process] getScannedTransactions sucess',
+  '[Closing Process] getScannedTransactions success',
   props<{ scannedTransactions: ScannedTransaction[] }>()
+);
+
+export const loadTransferDetailsSuccess = createAction(
+  '[Closing Process] loadTransferDetails success',
+  props<{ transferDetails: TransferDetail[] }>()
 );
 
 export const loadProcessData = createAction(
@@ -27,8 +38,17 @@ export const finishUploadSuccess = createAction(
   props<{ data: ProcessData }>()
 );
 
+export const finishTransferSuccess = createAction(
+  '[Closing Process] finishTransfer sucess',
+  props<{ data: ProcessData }>()
+);
+
 export const loadProcessTransactions = createAction(
   '[Closing Process] showProcessTransactions'
+);
+
+export const loadTransferDetails = createAction(
+  '[Closing Process] loadTransferDetails'
 );
 
 export const saveProcessTransactions = createAction(
