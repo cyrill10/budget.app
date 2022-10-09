@@ -1,5 +1,5 @@
 {
-  "appId": "bader.budget.app",
+  "appId": "ch.bader.budget.app",
   "appName": "budget-app",
   "bundledWebRuntime": false,
   "npmClient": "npm",

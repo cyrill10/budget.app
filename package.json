@@ -24,7 +24,7 @@
     "@angular/router": "^14.1.1",
     "@awesome-cordova-plugins/chooser": "^5.41.0",
     "@capacitor/core": "^4.0.1",
-    "@capacitor/ios": "^4.0.1",
+    "@capacitor/ios": "4.3.0",
     "@ionic-native/core": "^5.36.0",
     "@ionic-native/keyboard": "^5.36.0",
     "@ionic-native/splash-screen": "^5.36.0",
