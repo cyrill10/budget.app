@@ -3,10 +3,10 @@ import { DateService } from '../../services/date.service';
 import { TransactionService } from 'src/app/services/transaction.service';
 import { VirtualAccountService } from 'src/app/services/virtualaccount.service';
 import {
-  MAT_DIALOG_DATA,
-  MatDialog,
-  MatDialogRef,
-} from '@angular/material/dialog';
+  MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA,
+  MatLegacyDialog as MatDialog,
+  MatLegacyDialogRef as MatDialogRef,
+} from '@angular/material/legacy-dialog';
 import { LoggerService } from 'src/app/services/logger.service';
 import { Transaction } from 'src/app/element/transaction';
 import { PaymentTypeService } from 'src/app/services/paymenttype.service';

@@ -10,7 +10,7 @@ import { TransactionCreationDialogComponent } from '../transaction/transaction.c
 import { PaymentTypeService } from 'src/app/services/paymenttype.service';
 import { IndicationService } from 'src/app/services/indication.service';
 import { StatusService } from 'src/app/services/status.service';
-import { MatDialog } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 import { TransactionElement } from 'src/app/element/transactionelement';
 import { Account } from 'src/app/element/account';
 import { AccountService } from 'src/app/services/account.service';

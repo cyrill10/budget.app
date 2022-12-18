@@ -12,7 +12,7 @@ import { LoggerService } from 'src/app/services/logger.service';
 import { PaymentTypeService } from 'src/app/services/paymenttype.service';
 import { IndicationService } from 'src/app/services/indication.service';
 import { StatusService } from 'src/app/services/status.service';
-import { MatDialog } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 import { TransactionElement } from 'src/app/element/transactionelement';
 import { select, Store } from '@ngrx/store';
 import {
