@@ -59,7 +59,7 @@
       <tr
         mat-row
         *matRowDef="let row; columns: displayedColumns"
-        (click)="selectTranaction(row, month)"
+        (click)="selectTransaction(row, month)"
         [ngClass]="{ header: !row.hasAmount }"
       ></tr>
     </table>

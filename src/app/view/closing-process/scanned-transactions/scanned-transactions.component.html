@@ -31,9 +31,9 @@
   <mat-selection-list #selectedTransactionList [(ngModel)]="selectedTransactions">
     <ng-container *ngFor="let transaction of scannedTransactions$ | async">
       <mat-list-option [disabled]="transaction.transactionCreated" [value]="transaction.id">
-        <div matLine>{{transaction.description}}</div>
-        <div matLine>{{transaction.date | date:'dd.MM' }} - {{transaction.cardType}}</div>
-        <div matLine>{{transaction.amount  | number: '0.2-2' }}</div>
+        <div matListItemTitle>{{transaction.description}}</div>
+        <div matListItemLine>{{transaction.date | date:'dd.MM' }} - {{transaction.cardType}}</div>
+        <div matListItemLine>{{transaction.amount | number: '0.2-2' }}</div>
       </mat-list-option>
       <mat-divider></mat-divider>
     </ng-container>

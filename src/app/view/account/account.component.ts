@@ -4,10 +4,10 @@ import { Account } from 'src/app/element/account';
 import { VirtualAccount } from 'src/app/element/virtualaccount';
 import { LoggerService } from 'src/app/services/logger.service';
 import {
-  MatLegacyDialog as MatDialog,
-  MatLegacyDialogRef as MatDialogRef,
-  MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA,
-} from '@angular/material/legacy-dialog';
+  MatDialog,
+  MatDialogRef,
+  MAT_DIALOG_DATA,
+} from '@angular/material/dialog';
 import { AccountType } from 'src/app/element/accounttype';
 import { AccountTypeService } from 'src/app/services/accounttype.service';
 import { VirtualAccountService } from 'src/app/services/virtualaccount.service';

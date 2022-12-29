@@ -8,13 +8,13 @@ import { selectScannedTransactions } from '../../../state/closing-process/closin
 import { filter, map, tap } from 'rxjs/operators';
 import { VirtualAccount } from '../../../element/virtualaccount';
 import { VirtualAccountService } from '../../../services/virtualaccount.service';
-import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { CreationDialogComponent } from '../creation-dialog/creation-dialog.component';
 import {
   finishUpload,
   saveProcessTransactions,
 } from '../../../state/closing-process/closing-process.actions';
-import { MatLegacySelectionList as MatSelectionList } from '@angular/material/legacy-list';
+import { MatSelectionList } from '@angular/material/list';
 
 @Component({
   selector: 'app-scanned-transactions',
