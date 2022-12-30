@@ -8,9 +8,8 @@ describe('VirtualAccountTransactionComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ VirtualAccountTransactionsComponent ]
-    })
-    .compileComponents();
+      declarations: [VirtualAccountTransactionsComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

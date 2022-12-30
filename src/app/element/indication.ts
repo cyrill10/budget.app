@@ -1,4 +1,4 @@
 export class Indication {
-    name: string;
-    value: number;
+  name: string;
+  value: number;
 }

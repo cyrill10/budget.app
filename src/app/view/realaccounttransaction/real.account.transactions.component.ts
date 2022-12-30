@@ -91,7 +91,7 @@ export class RealAccountTransactionsComponent implements OnInit {
     return this.dateService.getMonthShortString(date);
   }
 
-  selectTranaction(
+  selectTransaction(
     editedTransaction: TransactionElement,
     selectedMonth: Date
   ): void {

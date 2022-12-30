@@ -23,46 +23,75 @@
 </ion-header>
 <ion-content>
   <ng-container *ngIf="currentMonth$ | async as month">
-  <mat-list>
-    <mat-card *ngFor="let transaction of transactions$ | async" class="card-container">
-      <mat-card-header>
-        <div mat-card-avatar class="header-image" [ngStyle]="{'background-color': getStatusColor(transaction.paymentStatus.value)}">
-        </div>
-        <mat-card-title>
-          <span>{{transaction.description}}</span>
-        </mat-card-title>
-        <mat-card-subtitle>
-          <span class="aligned-with-icon">{{transaction.creditedAccount.name}}</span>
-          <mat-icon matListIcon>keyboard_arrow_right</mat-icon>
-          <span class="aligned-with-icon">{{transaction.debitedAccount.name}}</span>
-          <div *ngIf="transaction.budgetedAmount && !isForBudgetedAccount(transaction)"> Budgeted Fr. {{transaction.budgetedAmount | number: '0.2-2'}}</div>
-        </mat-card-subtitle>
-      </mat-card-header>
-      <mat-card-content>
-        <div><span>{{transaction.indication.name}}</span></div>
-        <div><span>{{transaction.paymentType.name}}</span></div>
-      </mat-card-content>
-      <mat-card-actions>
-        <mat-card-title *ngIf="transaction.effectiveAmount">
-          <span>Fr. {{transaction.effectiveAmount | number: '0.2-2'}}</span>
-        </mat-card-title>
-        <mat-card-title *ngIf="isForBudgetedAccount(transaction)">
-          <span>Fr. {{transaction.budgetedAmount | number: '0.2-2'}}</span>
-        </mat-card-title>
-        <button mat-icon-button>
-          <mat-icon (click)="openDialog(transaction, month)">edit</mat-icon>
-        </button>
-        <button mat-icon-button>
-          <mat-icon (click)="openDuplicateDialog(transaction)">file_copy</mat-icon>
-        </button>
-        <button mat-icon-button color="warn">
-          <mat-icon (click)="deleteTransaction(transaction)">delete</mat-icon>
-        </button>
-      </mat-card-actions>
-    </mat-card>
-    <button mat-fab class="fab-button-right mainButton">
-      <mat-icon (click)="openDialog(null, month)">add</mat-icon>
-    </button>
-  </mat-list>
+    <mat-list>
+      <mat-card
+        appearance="outlined"
+        *ngFor="let transaction of transactions$ | async"
+        class="card-container"
+      >
+        <mat-card-header>
+          <div
+            mat-card-avatar
+            class="header-image"
+            [ngStyle]="{
+              'background-color': getStatusColor(
+                transaction.paymentStatus.value
+              )
+            }"
+          ></div>
+          <mat-card-title>
+            <span>{{ transaction.description }}</span>
+          </mat-card-title>
+          <mat-card-subtitle>
+            <span>From </span>
+            <span>{{ transaction.creditedAccount.name }}</span>
+            <span> to </span>
+            <span>{{ transaction.debitedAccount.name }}</span>
+            <div
+              *ngIf="
+                transaction.budgetedAmount && !isForBudgetedAccount(transaction)
+              "
+            >
+              Budgeted Fr.
+              {{ transaction.budgetedAmount | number: "0.2-2" }}
+            </div>
+          </mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+          <div *ngIf="transaction.effectiveAmount">
+            <span class="effective-amount"
+              >Fr. {{ transaction.effectiveAmount | number: "0.2-2" }}</span
+            >
+          </div>
+          <div *ngIf="isForBudgetedAccount(transaction)">
+            <span class="effective-amount"
+              >Fr. {{ transaction.budgetedAmount | number: "0.2-2" }}</span
+            >
+          </div>
+        </mat-card-content>
+        <mat-card-actions align="end">
+          <button mat-icon-button (click)="openDialog(transaction, month)">
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button mat-icon-button (click)="openDuplicateDialog(transaction)">
+            <mat-icon>file_copy</mat-icon>
+          </button>
+          <button
+            mat-icon-button
+            (click)="deleteTransaction(transaction)"
+            color="warn"
+          >
+            <mat-icon>delete</mat-icon>
+          </button>
+        </mat-card-actions>
+      </mat-card>
+      <button
+        mat-fab
+        class="fab-button-right mainButton"
+        (click)="openDialog(null, month)"
+      >
+        <mat-icon>add</mat-icon>
+      </button>
+    </mat-list>
   </ng-container>
 </ion-content>

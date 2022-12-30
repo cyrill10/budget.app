@@ -8,9 +8,8 @@ describe('RealAccountTransactionComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ RealAccountTransactionsComponent ]
-    })
-    .compileComponents();
+      declarations: [RealAccountTransactionsComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

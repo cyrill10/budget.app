@@ -1,10 +1,9 @@
 .inner-scroll {
-    background-color: #dbdeba;
+  background-color: #dbdeba;
 }
-ion-menu{
-          --ion-background-color:#dbdeba;
+ion-menu {
+  --ion-background-color: #dbdeba;
 }
 ion-title {
-    text-align: left;
+  text-align: left;
 }
-

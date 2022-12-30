@@ -1,23 +1,43 @@
 <div mat-dialog-content class="form-container">
   <mat-form-field appearance="fill">
     <mat-label>Money from</mat-label>
-    <mat-select [(ngModel)]="data.creditedAccount" [compareWith]="compareVirtualAccount">
-      <mat-option *ngFor="let creditedAccount of data.virtualAccounts" [value]="creditedAccount">
-        {{creditedAccount.name}} ({{creditedAccount.underlyingAccount.name}})
+    <mat-select
+      [(ngModel)]="data.creditedAccount"
+      [compareWith]="compareVirtualAccount"
+    >
+      <mat-option
+        *ngFor="let creditedAccount of data.virtualAccounts"
+        [value]="creditedAccount"
+      >
+        {{ creditedAccount.name }} ({{
+          creditedAccount.underlyingAccount.name
+        }})
       </mat-option>
     </mat-select>
   </mat-form-field>
   <mat-form-field appearance="fill">
     <mat-label>Money To</mat-label>
-    <mat-select [(ngModel)]="data.debitedAccount" [compareWith]="compareVirtualAccount">
-      <mat-option *ngFor="let debitedAccount of data.virtualAccounts" [value]="debitedAccount">
-        {{debitedAccount.name}} ({{debitedAccount.underlyingAccount.name}})
+    <mat-select
+      [(ngModel)]="data.debitedAccount"
+      [compareWith]="compareVirtualAccount"
+    >
+      <mat-option
+        *ngFor="let debitedAccount of data.virtualAccounts"
+        [value]="debitedAccount"
+      >
+        {{ debitedAccount.name }} ({{ debitedAccount.underlyingAccount.name }})
       </mat-option>
     </mat-select>
   </mat-form-field>
-
 </div>
 <div mat-dialog-actions>
   <button mat-raised-button (click)="onNoClick()">Cancel</button>
-  <button mat-raised-button [disabled]="isDisabled(data)" [mat-dialog-close]="data" class="mainColor">Save</button>
+  <button
+    mat-raised-button
+    [disabled]="isDisabled(data)"
+    [mat-dialog-close]="data"
+    class="mainColor"
+  >
+    Save
+  </button>
 </div>

@@ -9,8 +9,8 @@ describe('TransferDetailsComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ TransferDetailsComponent ],
-      imports: [IonicModule.forRoot()]
+      declarations: [TransferDetailsComponent],
+      imports: [IonicModule.forRoot()],
     }).compileComponents();
 
     fixture = TestBed.createComponent(TransferDetailsComponent);
