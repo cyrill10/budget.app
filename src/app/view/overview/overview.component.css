@@ -1,10 +1,10 @@
 table {
   width: 100%;
 }
-.realAccount{
+.realAccount {
   font-weight: bold;
 }
-.virtualAccount{
+.virtualAccount {
   padding-left: 15px;
 }
 
@@ -16,7 +16,7 @@ table {
   text-align: right;
   border-left-width: 1px;
   border-left-style: solid;
-  border-left-color: rgba(0, 0, 0, .3);
+  border-left-color: rgba(0, 0, 0, 0.3);
   padding-right: 10px;
 }
 

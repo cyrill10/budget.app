@@ -25,25 +25,39 @@
       <button mat-list-item (click)="uploadFile(processData.uploadStatus)">
         <h4 matListItemTitle>Import Pdf</h4>
         <div matListItemIcon>
-          <mat-icon *ngIf="processData.uploadStatus.value === 2" matListIcon>done</mat-icon>
+          <mat-icon *ngIf="processData.uploadStatus.value === 2" matListIcon
+            >done</mat-icon
+          >
         </div>
       </button>
       <mat-divider></mat-divider>
       <button mat-list-item (click)="enterManualData()">
         <h4 matListItemTitle>Enter Manual Data</h4>
         <div matListItemIcon>
-          <mat-icon *ngIf="processData.manualEntryStatus.value=== 2" matListIcon>done</mat-icon>
+          <mat-icon
+            *ngIf="processData.manualEntryStatus.value === 2"
+            matListIcon
+            >done</mat-icon
+          >
         </div>
       </button>
       <mat-divider></mat-divider>
       <button mat-list-item (click)="showTransferDetails()">
         <h4 matListItemTitle>Show Transfer Values</h4>
         <div matListItemIcon>
-          <mat-icon *ngIf="processData.transferStatus.value=== 2" matListIcon>done</mat-icon>
+          <mat-icon *ngIf="processData.transferStatus.value === 2" matListIcon
+            >done</mat-icon
+          >
         </div>
       </button>
     </mat-action-list>
   </ng-container>
-  <input type="file" class="file-input" style="display: none;" accept=".csv"
-         (change)="onFileSelected($event)" #fileUpload>
+  <input
+    type="file"
+    class="file-input"
+    style="display: none"
+    accept=".csv"
+    (change)="onFileSelected($event)"
+    #fileUpload
+  />
 </ion-content>

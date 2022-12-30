@@ -1,62 +1,111 @@
 <div mat-dialog-content class="form-container">
   <mat-form-field appearance="fill">
-    <input matInput [matDatepickerFilter]="myFilter" [matDatepicker]="picker" [(ngModel)]="data.transaction.date">
+    <input
+      matInput
+      [matDatepickerFilter]="myFilter"
+      [matDatepicker]="picker"
+      [(ngModel)]="data.transaction.date"
+    />
     <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
     <mat-datepicker touchUi #picker></mat-datepicker>
   </mat-form-field>
   <mat-form-field appearance="fill">
     <mat-label>Description</mat-label>
-  		<input matInput [(ngModel)]="data.transaction.description">
+    <input matInput [(ngModel)]="data.transaction.description" />
   </mat-form-field>
   <mat-form-field appearance="fill">
     <mat-label>Money from</mat-label>
-    <mat-select [(ngModel)]="data.transaction.creditedAccount" [compareWith]="compareVirtualAccount">
-      <mat-option *ngFor="let creditedAccount of data.virtualAccounts | async" [value]="creditedAccount">
+    <mat-select
+      [(ngModel)]="data.transaction.creditedAccount"
+      [compareWith]="compareVirtualAccount"
+    >
+      <mat-option
+        *ngFor="let creditedAccount of data.virtualAccounts | async"
+        [value]="creditedAccount"
+      >
         {{creditedAccount.name}} ({{creditedAccount.underlyingAccount.name}})
       </mat-option>
     </mat-select>
   </mat-form-field>
-    <mat-form-field appearance="fill">
+  <mat-form-field appearance="fill">
     <mat-label>Money To</mat-label>
-    <mat-select [(ngModel)]="data.transaction.debitedAccount" [compareWith]="compareVirtualAccount">
-      <mat-option *ngFor="let debitedAccount of data.virtualAccounts | async" [value]="debitedAccount">
+    <mat-select
+      [(ngModel)]="data.transaction.debitedAccount"
+      [compareWith]="compareVirtualAccount"
+    >
+      <mat-option
+        *ngFor="let debitedAccount of data.virtualAccounts | async"
+        [value]="debitedAccount"
+      >
         {{debitedAccount.name}} ({{debitedAccount.underlyingAccount.name}})
       </mat-option>
     </mat-select>
   </mat-form-field>
   <mat-form-field>
     <mat-label>Budgeted Amount</mat-label>
-    <input matInput class="example-right-align" [(ngModel)]="data.transaction.budgetedAmount">
+    <input
+      matInput
+      class="example-right-align"
+      [(ngModel)]="data.transaction.budgetedAmount"
+    />
     <span matPrefix>Fr.&nbsp;</span>
   </mat-form-field>
   <mat-form-field>
     <mat-label>Effective Amount</mat-label>
-    <input matInput class="example-right-align" [(ngModel)]="data.transaction.effectiveAmount">
+    <input
+      matInput
+      class="example-right-align"
+      [(ngModel)]="data.transaction.effectiveAmount"
+    />
     <span matPrefix>Fr.&nbsp;</span>
   </mat-form-field>
-  <mat-button-toggle-group [(ngModel)] = data.transaction.paymentStatus>
-  	<mat-button-toggle *ngFor="let status of data.statuses | async"
-  		[value]="status" [checked]= "status !== null && data.transaction.paymentStatus !== null && status.value ==data.transaction.paymentStatus.value"
-  		[ngClass]="'status-' + status.value">
-    	{{status.name}}
-  	</mat-button-toggle>
+  <mat-button-toggle-group [(ngModel)]="data.transaction.paymentStatus">
+    <mat-button-toggle
+      *ngFor="let status of data.statuses | async"
+      [value]="status"
+      [checked]="status !== null && data.transaction.paymentStatus !== null && status.value ==data.transaction.paymentStatus.value"
+      [ngClass]="'status-' + status.value"
+    >
+      {{status.name}}
+    </mat-button-toggle>
   </mat-button-toggle-group>
-  <mat-button-toggle-group [(ngModel)] = data.transaction.paymentType>
-  	<mat-button-toggle *ngFor="let type of data.paymentTypes | async"
-  		[value]="type" [checked]= "type !== null && data.transaction.paymentType !== null && type.value == data.transaction.paymentType.value">
-    	{{type.name}}
-  	</mat-button-toggle>
+  <mat-button-toggle-group [(ngModel)]="data.transaction.paymentType">
+    <mat-button-toggle
+      *ngFor="let type of data.paymentTypes | async"
+      [value]="type"
+      [checked]="type !== null && data.transaction.paymentType !== null && type.value == data.transaction.paymentType.value"
+    >
+      {{type.name}}
+    </mat-button-toggle>
   </mat-button-toggle-group>
-  <mat-button-toggle-group [(ngModel)] = data.transaction.indication>
-  	<mat-button-toggle *ngFor="let indication of data.indications | async"
-  		[value]="indication" [checked]= "indication !== null && data.transaction.indication !== null && indication.value == data.transaction.indication.value">
-    	{{indication.name}}
-  	</mat-button-toggle>
+  <mat-button-toggle-group [(ngModel)]="data.transaction.indication">
+    <mat-button-toggle
+      *ngFor="let indication of data.indications | async"
+      [value]="indication"
+      [checked]="indication !== null && data.transaction.indication !== null && indication.value == data.transaction.indication.value"
+    >
+      {{indication.name}}
+    </mat-button-toggle>
   </mat-button-toggle-group>
 </div>
 <div mat-dialog-actions>
   <button mat-raised-button (click)="onNoClick()">Cancel</button>
-  <button mat-raised-button [disabled]="isDisabled(data.transaction)" [mat-dialog-close]="data" class="mainColor">Save</button>
-  <button mat-raised-button *ngIf="canMakeEffective(data.transaction)" [disabled]="isDisabled(data.transaction)" (click)="makeEffective(data.transaction)" [mat-dialog-close]="data" class="mainColor">Effective</button>
-
+  <button
+    mat-raised-button
+    [disabled]="isDisabled(data.transaction)"
+    [mat-dialog-close]="data"
+    class="mainColor"
+  >
+    Save
+  </button>
+  <button
+    mat-raised-button
+    *ngIf="canMakeEffective(data.transaction)"
+    [disabled]="isDisabled(data.transaction)"
+    (click)="makeEffective(data.transaction)"
+    [mat-dialog-close]="data"
+    class="mainColor"
+  >
+    Effective
+  </button>
 </div>

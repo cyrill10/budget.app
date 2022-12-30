@@ -6,12 +6,19 @@
       </button>
     </ion-buttons>
     <ion-title>
-      <span class="header-spacer">{{ currentMonth$ | async | date:'MMMM, y' }}</span>
+      <span class="header-spacer">{{
+        currentMonth$ | async | date: "MMMM, y"
+      }}</span>
     </ion-title>
     <ion-buttons slot="end">
       <ng-container *ngIf="virtualAccounts$ | async as virtualAccounts">
         <ng-container *ngIf="selectedAccount$ | async as selectedAccount">
-          <button mat-icon-button (click)="createTransactionForSelected(virtualAccounts, selectedAccount )">
+          <button
+            mat-icon-button
+            (click)="
+              createTransactionForSelected(virtualAccounts, selectedAccount)
+            "
+          >
             <mat-icon>create</mat-icon>
           </button>
           <button mat-icon-button (click)="finishUpload()">
@@ -25,15 +32,23 @@
 <ion-content *ngIf="scannedTransactions$ | async">
   <mat-list>
     <mat-list-item>
-      Total Bill: {{billTotal$ | async | number: '0.2-2'}}
+      Total Bill: {{ billTotal$ | async | number: "0.2-2" }}
     </mat-list-item>
   </mat-list>
-  <mat-selection-list #selectedTransactionList [(ngModel)]="selectedTransactions">
+  <mat-selection-list
+    #selectedTransactionList
+    [(ngModel)]="selectedTransactions"
+  >
     <ng-container *ngFor="let transaction of scannedTransactions$ | async">
-      <mat-list-option [disabled]="transaction.transactionCreated" [value]="transaction.id">
-        <div matListItemTitle>{{transaction.description}}</div>
-        <div matListItemLine>{{transaction.date | date:'dd.MM' }} - {{transaction.cardType}}</div>
-        <div matListItemLine>{{transaction.amount | number: '0.2-2' }}</div>
+      <mat-list-option
+        [disabled]="transaction.transactionCreated"
+        [value]="transaction.id"
+      >
+        <div matListItemTitle>{{ transaction.description }}</div>
+        <div matListItemLine>
+          {{ transaction.date | date: "dd.MM" }} - {{ transaction.cardType }}
+        </div>
+        <div matListItemLine>{{ transaction.amount | number: "0.2-2" }}</div>
       </mat-list-option>
       <mat-divider></mat-divider>
     </ng-container>

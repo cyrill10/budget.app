@@ -8,9 +8,8 @@ describe('ClosingProcessComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ClosingProcessComponent ]
-    })
-    .compileComponents();
+      declarations: [ClosingProcessComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {
