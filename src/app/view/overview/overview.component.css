@@ -20,15 +20,14 @@ table {
   padding-right: 10px;
 }
 
-
 .mat-mdc-cell {
-border-bottom-width: 0;
-background: var(--theme-background);
+  border-bottom-width: 0;
+  background: var(--theme-background);
 }
 
 .mat-mdc-table .mat-mdc-header-cell {
-border-bottom-width: 0;
-background: var(--theme-background);
+  border-bottom-width: 0;
+  background: var(--theme-background);
 }
 
 .realAccount-name {

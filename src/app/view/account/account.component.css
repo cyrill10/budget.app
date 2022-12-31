@@ -18,14 +18,14 @@
 .form-container form > * {
   margin: 5px 0;
 }
-.mat-mdc-dialog-content{
-padding-top: 15px
+.mat-mdc-dialog-content {
+  padding-top: 15px;
 }
 
-.mat-mdc-header-cell, .mat-mdc-cell {
-background: var(--theme-background);
+.mat-mdc-header-cell,
+.mat-mdc-cell {
+  background: var(--theme-background);
 }
-
 
 .form-container .mat-mdc-radio-button {
   margin: 0 12px;
