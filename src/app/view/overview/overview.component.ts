@@ -36,7 +36,6 @@ export class OverviewComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.logger.log('Init', 'OverviewComponent');
     this.months$ = this.store.pipe(
       select(selectMonthList),
       tap((months) => (this.months = months))

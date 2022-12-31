@@ -45,7 +45,6 @@ export class ClosingProcessComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.logger.log('Init', 'ClosingProcessComponent');
     this.months$ = this.store.pipe(
       select(selectMonthList),
       tap((months) => (this.months = months))

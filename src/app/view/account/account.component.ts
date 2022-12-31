@@ -2,7 +2,6 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { AccountService } from 'src/app/services/account.service';
 import { Account } from 'src/app/element/account';
 import { VirtualAccount } from 'src/app/element/virtualaccount';
-import { LoggerService } from 'src/app/services/logger.service';
 import {
   MatDialog,
   MatDialogRef,
@@ -43,7 +42,6 @@ export class AccountComponent implements OnInit {
     private accountService: AccountService,
     private accountTypeService: AccountTypeService,
     private virtualAccountService: VirtualAccountService,
-    private logger: LoggerService,
     public dialog: MatDialog,
     private route: Router
   ) {}
@@ -56,11 +54,6 @@ export class AccountComponent implements OnInit {
 
   selectVirtualAccount(account: VirtualAccount) {
     this.route.navigate(['/virtualAccount/transactions', { id: account.id }]);
-  }
-
-  deleteAccount(account: Account) {
-    this.logger.log(account, 'AccountComponent');
-    // TODO delete and reload
   }
 
   editAccount(editedAccount: Account): void {
@@ -95,11 +88,6 @@ export class AccountComponent implements OnInit {
         this.refreshToken$.next(undefined);
       }
     });
-  }
-
-  deleteVirtualAccount(account: VirtualAccount) {
-    this.logger.log(account, 'AccountComponent');
-    // TODO delete and reload
   }
 
   editVirtualAccount(editedAccount: VirtualAccount, account: Account): void {
