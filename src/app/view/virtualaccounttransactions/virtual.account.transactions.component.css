@@ -5,3 +5,11 @@ table {
 .right-align {
   text-align: right;
 }
+
+.mat-mdc-cell {
+background: var(--theme-background);
+}
+
+.mat-mdc-table .mat-mdc-header-cell {
+background: var(--theme-background);
+}

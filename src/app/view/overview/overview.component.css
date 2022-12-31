@@ -20,7 +20,19 @@ table {
   padding-right: 10px;
 }
 
+
+.mat-mdc-cell {
+border-bottom-width: 0;
+background: var(--theme-background);
+}
+
+.mat-mdc-table .mat-mdc-header-cell {
+border-bottom-width: 0;
+background: var(--theme-background);
+}
+
 .realAccount-name {
-  background-color: #d4ccdd;
+  background-color: var(--accent-color);
   color: black;
+  border-top-width: 1px;
 }

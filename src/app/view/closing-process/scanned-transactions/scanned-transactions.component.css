@@ -1,5 +1,5 @@
 mat-list-option {
-  background-color: white;
+  background-color: var(--theme-background);
 }
 
 .selected-option {

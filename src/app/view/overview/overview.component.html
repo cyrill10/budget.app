@@ -1,10 +1,12 @@
 <ion-header id="main">
-  <ion-toolbar color="pink" class="mainColor">
+  <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-menu-button><mat-icon>menu</mat-icon></ion-menu-button>
+      <ion-menu-button>
+        <mat-icon>menu</mat-icon>
+      </ion-menu-button>
     </ion-buttons>
     <ion-title>
-      <span class="header-spacer">Budget</span>
+      <span class="header-spacer">Overview</span>
     </ion-title>
   </ion-toolbar>
   <ng-container *ngIf="months$ | async as months">
@@ -18,7 +20,7 @@
   </ng-container>
 </ion-header>
 <ion-content *ngIf="currentMonth$ | async">
-  <table mat-table [dataSource]="accounts$ | async" class="mat-elevation-z8">
+  <table mat-table [dataSource]="accounts$ | async">
     <ng-container matColumnDef="name">
       <th mat-header-cell *matHeaderCellDef>Name</th>
       <td
@@ -68,7 +70,6 @@
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr
       mat-row
-      appMatElevation
       class="clickable"
       *matRowDef="let row; columns: displayedColumns"
       (click)="selectAccount(row)"
