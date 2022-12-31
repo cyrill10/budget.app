@@ -49,8 +49,6 @@ export class TransactionComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.logger.log('Init', 'TransactionComponent');
-
     this.months$ = this.store.pipe(
       select(selectMonthList),
       tap((months) => (this.months = months))

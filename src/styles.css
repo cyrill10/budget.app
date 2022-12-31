@@ -7,7 +7,8 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   margin: 0;
-  background-color: #a690be;
+  background-color: var(--primary-color);
+  --theme-background: #e6dcd4;
 }
 
 .header-spacer {
@@ -19,25 +20,21 @@ body {
 }
 
 .mat-drawer-content {
-  background-color: #a690be;
-}
-
-.mainColor {
-  background-color: #9581ab;
+  background-color: var(--primary-color);
 }
 
 ion-toolbar {
   padding-top: 30px !important;
-  --background: #9581ab;
+  --background: var(--primary-color);
 }
 
 mat-tab-group {
-  background-color: #a690be;
+  background-color: var(--accent-color);
 }
 
 ion-content {
-  --background: #a690be;
   min-height: 80vh;
+  --background: var(--accent-color);
 }
 
 .realAccount-name {
@@ -45,10 +42,48 @@ ion-content {
   color: black;
 }
 
-.header {
-  background-color: #9581ab !important;
+.mat-mdc-table div,
+.mat-mdc-table th,
+.mat-mdc-table td {
+  font-family: "Times New Roman";
+}
+
+.mdc-data-table__content .header .mat-mdc-cell {
+  background-color: var(--accent-color);
 }
 
 .budgeted {
   color: grey;
+}
+
+a {
+  text-decoration: none;
+}
+
+.mat-app-background {
+  background-color: var(--accent-color);
+}
+
+input {
+  color: black;
+}
+
+.mat-mdc-tab:not(.mat-mdc-tab-disabled).mdc-tab--active .mdc-tab__text-label {
+  color: var(--primary-darker-color);
+}
+
+.mat-mdc-tab:not(.mat-mdc-tab-disabled) .mdc-tab-indicator__content--underline {
+  color: var(--primary-color);
+  border-color: var(--primary-darker-color);
+}
+
+.mat-mdc-list-option.mat-accent .mdc-list-item__end {
+  --mdc-checkbox-selected-focus-icon-color: var(--primary-darker-color);
+  --mdc-checkbox-selected-hover-icon-color: var(--primary-darker-color);
+  --mdc-checkbox-selected-icon-color: var(--primary-darker-color);
+  --mdc-checkbox-selected-pressed-icon-color: var(--primary-darker-color);
+}
+
+ion-menu-button {
+  color: #424242;
 }
