@@ -1,0 +1,46 @@
+<ion-header id="main">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button>
+        <mat-icon>menu</mat-icon>
+      </ion-menu-button>
+    </ion-buttons>
+    <ion-title>
+      <span class="header-spacer">Reccuring Transactions</span>
+    </ion-title>
+    <ion-buttons slot="end">
+      <button mat-icon-button (click)="editReoccurringTransaction(null)">
+        <mat-icon>add</mat-icon>
+      </button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+    <mat-list>
+      <mat-card
+        appearance="outlined"
+        *ngFor="let transaction of reoccuringTransactions$ | async"
+        class="card-container"
+      >
+        <mat-card-header>
+
+          <mat-card-title>
+            <span>{{ transaction.description }}</span>
+          </mat-card-title>
+          <mat-card-subtitle>
+            <span>From </span>
+            <span>{{ transaction.creditedAccount.name }}</span>
+            <span> to </span>
+            <span>{{ transaction.debitedAccount.name }}</span>
+          </mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+          <div>
+            <span class="effective-amount"
+              >Fr. {{ transaction.budgetedAmount | number: "0.2-2" }}</span
+            >
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </mat-list>
+</ion-content>

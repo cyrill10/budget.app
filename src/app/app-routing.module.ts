@@ -9,6 +9,7 @@ import { RealAccountTransactionsComponent } from './view/realaccounttransaction/
 import { ClosingProcessComponent } from './view/closing-process/closing-process.component';
 import { ScannedTransactionsComponent } from './view/closing-process/scanned-transactions/scanned-transactions.component';
 import { TransferDetailsComponent } from './view/closing-process/transfer-details/transfer-details.component';
+import { ReoccurringTransactionComponent } from './view/reoccurringtransaction/reoccurringtransaction.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/overview', pathMatch: 'full' },
@@ -32,6 +33,7 @@ const routes: Routes = [
     path: 'closingProcess/transferDetail',
     component: TransferDetailsComponent,
   },
+  { path: 'reoccurringTransactions', component: ReoccurringTransactionComponent },
 ];
 
 @NgModule({

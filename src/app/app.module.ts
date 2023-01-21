@@ -65,6 +65,7 @@ import { NavigationEffects } from './state/navigation/navigation.effects';
 import { ScannedTransactionsComponent } from './view/closing-process/scanned-transactions/scanned-transactions.component';
 import { CreationDialogComponent } from './view/closing-process/creation-dialog/creation-dialog.component';
 import { TransferDetailsComponent } from './view/closing-process/transfer-details/transfer-details.component';
+import { ReoccurringTransactionComponent } from './view/reoccurringtransaction/reoccurringtransaction.component';
 export interface State {
   date?: DateState;
   closingProcess?: ClosingProcessState;
@@ -99,6 +100,7 @@ export const metaReducers = environment.production ? [] : [debug];
     ScannedTransactionsComponent,
     CreationDialogComponent,
     TransferDetailsComponent,
+    ReoccurringTransactionComponent
   ],
   imports: [
     BrowserModule,

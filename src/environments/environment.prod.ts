@@ -3,6 +3,8 @@ import { Buffer } from 'buffer';
 
 export const environment = {
   production: true,
+  authUsername: 'budget-user',
+  authPassword: '83WoogdTloBM',
 
   getAuthorizationHeaders() {
     return new HttpHeaders({
@@ -16,5 +18,12 @@ export const environment = {
   },
   getPort() {
     return null;
+  },
+  getProtocol(): string {
+    return 'https://';
+  },
+
+  getDefaultUrl(): string {
+    return 'budget-server-prod-budget-server-z9ef36.mo2.mogenius.io';
   },
 };
