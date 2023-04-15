@@ -5,9 +5,11 @@
 /tmp
 /out-tsc
 /www
-/ios
 # Only exists if Bazel was run
 /bazel-out
+
+# Prod data
+/src/environments/environment.prod.ts
 
 # dependencies
 /node_modules
