@@ -5,7 +5,6 @@
 /tmp
 /out-tsc
 /www
-/ios
 # Only exists if Bazel was run
 /bazel-out
 
