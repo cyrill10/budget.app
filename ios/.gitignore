@@ -11,3 +11,11 @@ capacitor-cordova-ios-plugins
 # Generated Config files
 App/App/capacitor.config.json
 App/App/config.xml
+/App/Podfile
+/App/App.xcworkspace/xcshareddata/IDEWorkspaceChecks.plist
+/App/App.xcodeproj/project.pbxproj
+/App/App/Base.lproj/LaunchScreen.storyboard
+/App/App/Base.lproj/Main.storyboard
+/App/App/AppDelegate.swift
+/App/App/Info.plist
+/App/App.xcworkspace/contents.xcworkspacedata

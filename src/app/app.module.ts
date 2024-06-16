@@ -3,8 +3,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy, RouterModule } from '@angular/router';
 
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
-import { SplashScreen } from '@ionic-native/splash-screen/ngx';
-import { StatusBar } from '@ionic-native/status-bar/ngx';
 
 import { AppComponent, SettingsDialogComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
@@ -29,7 +27,11 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatCardModule } from '@angular/material/card';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import {
+  HTTP_INTERCEPTORS,
+  provideHttpClient,
+  withInterceptorsFromDi,
+} from '@angular/common/http';
 
 import { OverviewComponent } from './view/overview/overview.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -50,6 +52,7 @@ import { RealAccountTransactionsComponent } from './view/realaccounttransaction/
 import { IonicStorageModule } from '@ionic/storage-angular';
 import { ActionReducer, StoreModule } from '@ngrx/store';
 import * as fromDate from './state/date/date.reducers';
+import { DateState } from './state/date/date.reducers';
 import * as fromProcessData from './state/closing-process/closing-process.reducers';
 import { ClosingProcessState } from './state/closing-process/closing-process.reducers';
 import { DefaultInterceptor } from './services/default.interceptor';
@@ -57,7 +60,6 @@ import { ClosingProcessComponent } from './view/closing-process/closing-process.
 import { EffectsModule } from '@ngrx/effects';
 import { Chooser } from '@awesome-cordova-plugins/chooser/ngx';
 import { DateEffects } from './state/date/date.effects';
-import { DateState } from './state/date/date.reducers';
 import { ClosingProcessEffects } from './state/closing-process/closing-process.effects';
 
 import { environment } from 'src/environments/environment';
@@ -65,6 +67,8 @@ import { NavigationEffects } from './state/navigation/navigation.effects';
 import { ScannedTransactionsComponent } from './view/closing-process/scanned-transactions/scanned-transactions.component';
 import { CreationDialogComponent } from './view/closing-process/creation-dialog/creation-dialog.component';
 import { TransferDetailsComponent } from './view/closing-process/transfer-details/transfer-details.component';
+import { CommonModule } from '@angular/common';
+
 export interface State {
   date?: DateState;
   closingProcess?: ClosingProcessState;
@@ -110,7 +114,7 @@ export const metaReducers = environment.production ? [] : [debug];
         date: fromDate.reducer,
         closingProcess: fromProcessData.reducer,
       },
-      { metaReducers }
+      { metaReducers },
     ),
     EffectsModule.forRoot([
       DateEffects,
@@ -137,11 +141,9 @@ export const metaReducers = environment.production ? [] : [debug];
     MatCardModule,
     MatDividerModule,
     MatToolbarModule,
-    HttpClientModule,
+    CommonModule,
   ],
   providers: [
-    StatusBar,
-    SplashScreen,
     Chooser,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     {
@@ -149,6 +151,7 @@ export const metaReducers = environment.production ? [] : [debug];
       useValue: { appearance: 'fill' },
     },
     { provide: HTTP_INTERCEPTORS, useClass: DefaultInterceptor, multi: true },
+    provideHttpClient(withInterceptorsFromDi()),
   ],
   bootstrap: [AppComponent],
 })
