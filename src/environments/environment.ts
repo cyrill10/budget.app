@@ -7,7 +7,7 @@ import { Buffer } from 'buffer';
 
 export const environment = {
   production: false,
-  authUsername: 'user',
+  authUsername: 'budget-user',
   authPassword: 'password',
 
   getAuthorizationHeaders() {
@@ -30,7 +30,7 @@ export const environment = {
   },
 
   getDefaultUrl(): string {
-    return '192.168.0.138';
+    return 'localhost';
   },
 };
 
