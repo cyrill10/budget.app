@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import {
-  finishUploadSuccess,
   getScannedTransactionsSuccess,
   loadTransferDetailsSuccess,
 } from '../closing-process/closing-process.actions';
@@ -26,17 +25,6 @@ export class NavigationEffects {
       this.actions$.pipe(
         ofType(loadTransferDetailsSuccess),
         map((_) => this.route.navigate(['/closingProcess/transferDetail'])),
-      ),
-    {
-      dispatch: false,
-    },
-  );
-
-  navigateClosingProcess$ = createEffect(
-    () =>
-      this.actions$.pipe(
-        ofType(finishUploadSuccess),
-        map((_) => this.route.navigate(['/closingProcess'])),
       ),
     {
       dispatch: false,

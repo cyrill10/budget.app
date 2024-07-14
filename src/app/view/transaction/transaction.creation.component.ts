@@ -1,5 +1,5 @@
 import { Component, Inject } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { VirtualAccount } from 'src/app/element/virtualaccount';
 import { Transaction } from 'src/app/element/transaction';
 import { PaymentType } from 'src/app/element/paymenttype';
@@ -47,8 +47,6 @@ export class TransactionCreationDialogComponent {
     let active = true;
     active = active && transaction.creditedAccount !== null;
     active = active && transaction.debitedAccount !== null;
-    active = active && transaction.paymentType !== null;
-    active = active && transaction.indication !== null;
     active = active && transaction.paymentStatus !== null;
     active = active && transaction.budgetedAmount !== null;
     active = active && transaction.date !== null;
