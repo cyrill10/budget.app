@@ -2,7 +2,7 @@ table {
   width: 100%;
 }
 .realAccount {
-  font-weight: bold;
+  font-weight: bolder;
 }
 .virtualAccount {
   padding-left: 15px;
@@ -32,6 +32,6 @@ table {
 
 .realAccount-name {
   background-color: var(--accent-color);
-  color: black;
+  color: var(--text-accent-color);
   border-top-width: 1px;
 }
