@@ -10,17 +10,20 @@ import { AccountElement } from '../element/accountelement';
   providedIn: 'root',
 })
 export class AccountService {
-  constructor(private errorHandler: ErrorService, private http: HttpClient) {}
+  constructor(
+    private errorHandler: ErrorService,
+    private http: HttpClient,
+  ) {}
 
   getAccounts(): Observable<AccountElement[]> {
     return this.http.get<AccountElement[]>('realAccount/list').pipe(
-      catchError(this.errorHandler.handleError) // then handle the error
+      catchError(this.errorHandler.handleError), // then handle the error
     );
   }
 
   getAccount(id: string): Observable<Account> {
     return this.http.get<Account>('realAccount/', { params: { id } }).pipe(
-      catchError(this.errorHandler.handleError) // then handle the error
+      catchError(this.errorHandler.handleError), // then handle the error
     );
   }
 

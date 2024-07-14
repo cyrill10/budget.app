@@ -14,34 +14,37 @@ export class NavigationEffects {
     () =>
       this.actions$.pipe(
         ofType(getScannedTransactionsSuccess),
-        map((_) => this.route.navigate(['/closingProcess/transactions']))
+        map((_) => this.route.navigate(['/closingProcess/transactions'])),
       ),
     {
       dispatch: false,
-    }
+    },
   );
 
   navigateToTransferDetail$ = createEffect(
     () =>
       this.actions$.pipe(
         ofType(loadTransferDetailsSuccess),
-        map((_) => this.route.navigate(['/closingProcess/transferDetail']))
+        map((_) => this.route.navigate(['/closingProcess/transferDetail'])),
       ),
     {
       dispatch: false,
-    }
+    },
   );
 
   navigateClosingProcess$ = createEffect(
     () =>
       this.actions$.pipe(
         ofType(finishUploadSuccess),
-        map((_) => this.route.navigate(['/closingProcess']))
+        map((_) => this.route.navigate(['/closingProcess'])),
       ),
     {
       dispatch: false,
-    }
+    },
   );
 
-  constructor(private actions$: Actions, private route: Router) {}
+  constructor(
+    private actions$: Actions,
+    private route: Router,
+  ) {}
 }

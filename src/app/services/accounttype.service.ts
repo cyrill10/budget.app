@@ -9,11 +9,14 @@ import { HttpClient } from '@angular/common/http';
   providedIn: 'root',
 })
 export class AccountTypeService {
-  constructor(private errorHandler: ErrorService, private http: HttpClient) {}
+  constructor(
+    private errorHandler: ErrorService,
+    private http: HttpClient,
+  ) {}
 
   getAccountTypes(): Observable<AccountType[]> {
     return this.http.get<AccountType[]>('realAccount/type/list').pipe(
-      catchError(this.errorHandler.handleError) // then handle the error
+      catchError(this.errorHandler.handleError), // then handle the error
     );
   }
 }

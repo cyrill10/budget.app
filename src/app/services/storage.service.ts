@@ -45,7 +45,7 @@ export class StorageService {
           return start + val + ':' + port + path;
         }
         return start + val + path;
-      })
+      }),
     );
   }
 
@@ -66,7 +66,7 @@ export class StorageService {
           return environment.getDefaultUrl();
         }
         return val;
-      })
+      }),
     );
   }
 }

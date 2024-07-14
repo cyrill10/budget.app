@@ -33,11 +33,11 @@ export class ClosingProcessEffects {
           .uploadPdf(action.file, date)
           .pipe(
             map((scannedTransactions) =>
-              getScannedTransactionsSuccess({ scannedTransactions })
-            )
-          )
-      )
-    )
+              getScannedTransactionsSuccess({ scannedTransactions }),
+            ),
+          ),
+      ),
+    ),
   );
   loadProcessData$ = createEffect(() =>
     this.actions$.pipe(
@@ -47,9 +47,9 @@ export class ClosingProcessEffects {
       switchMap(([_, date]) =>
         this.closingProcessService
           .loadProcessData(date)
-          .pipe(map((result) => loadProcessDataSuccess({ data: result })))
-      )
-    )
+          .pipe(map((result) => loadProcessDataSuccess({ data: result }))),
+      ),
+    ),
   );
 
   loadTransactions$ = createEffect(() =>
@@ -61,11 +61,11 @@ export class ClosingProcessEffects {
           .loadProcessTransactions(date)
           .pipe(
             map((scannedTransactions) =>
-              getScannedTransactionsSuccess({ scannedTransactions })
-            )
-          )
-      )
-    )
+              getScannedTransactionsSuccess({ scannedTransactions }),
+            ),
+          ),
+      ),
+    ),
   );
 
   loadTransferDetails$ = createEffect(() =>
@@ -77,11 +77,11 @@ export class ClosingProcessEffects {
           .loadTransferDetails(date)
           .pipe(
             map((transferDetails) =>
-              loadTransferDetailsSuccess({ transferDetails })
-            )
-          )
-      )
-    )
+              loadTransferDetailsSuccess({ transferDetails }),
+            ),
+          ),
+      ),
+    ),
   );
 
   saveProcessTransactions$ = createEffect(() =>
@@ -94,8 +94,8 @@ export class ClosingProcessEffects {
         return this.closingProcessService
           .saveProcessTransactions(body)
           .pipe(map(() => loadProcessTransactions()));
-      })
-    )
+      }),
+    ),
   );
 
   finishUpload$ = createEffect(() =>
@@ -106,9 +106,9 @@ export class ClosingProcessEffects {
       switchMap(([_, date]) =>
         this.closingProcessService
           .closeFileUpload(date)
-          .pipe(map((result) => finishUploadSuccess({ data: result })))
-      )
-    )
+          .pipe(map((result) => finishUploadSuccess({ data: result }))),
+      ),
+    ),
   );
 
   finishTransfer$ = createEffect(() =>
@@ -119,14 +119,14 @@ export class ClosingProcessEffects {
       switchMap(([_, date]) =>
         this.closingProcessService
           .finishTransfer(date)
-          .pipe(map((result) => finishTransferSuccess({ data: result })))
-      )
-    )
+          .pipe(map((result) => finishTransferSuccess({ data: result }))),
+      ),
+    ),
   );
 
   constructor(
     private actions$: Actions,
     private closingProcessService: ClosingProcessService,
-    private store: Store
+    private store: Store,
   ) {}
 }

@@ -12,7 +12,10 @@ import { Account } from '../element/account';
   providedIn: 'root',
 })
 export class TransactionService {
-  constructor(private errorHandler: ErrorService, private http: HttpClient) {}
+  constructor(
+    private errorHandler: ErrorService,
+    private http: HttpClient,
+  ) {}
 
   getTransactions(date: Date): Observable<Transaction[]> {
     return this.http
@@ -20,19 +23,19 @@ export class TransactionService {
         params: { date: date.getTime() },
       })
       .pipe(
-        catchError(this.errorHandler.handleError) // then handle the error
+        catchError(this.errorHandler.handleError), // then handle the error
       );
   }
 
   getTransaction(id: string): Observable<Transaction> {
     return this.http.get<Transaction>('transaction/', { params: { id } }).pipe(
-      catchError(this.errorHandler.handleError) // then handle the error
+      catchError(this.errorHandler.handleError), // then handle the error
     );
   }
 
   getTransactionsForVirtualAccount(
     virtualAccount: VirtualAccount,
-    date: Date
+    date: Date,
   ): Observable<TransactionElement[]> {
     if (virtualAccount !== undefined) {
       return this.http
@@ -43,7 +46,7 @@ export class TransactionService {
           },
         })
         .pipe(
-          catchError(this.errorHandler.handleError) // then handle the error
+          catchError(this.errorHandler.handleError), // then handle the error
         );
     }
     return of(null);
@@ -51,7 +54,7 @@ export class TransactionService {
 
   getTransactionsForRealAccount(
     account: Account,
-    date: Date
+    date: Date,
   ): Observable<TransactionElement[]> {
     if (account !== undefined) {
       return this.http
@@ -62,7 +65,7 @@ export class TransactionService {
           },
         })
         .pipe(
-          catchError(this.errorHandler.handleError) // then handle the error
+          catchError(this.errorHandler.handleError), // then handle the error
         );
     }
     return of(null);

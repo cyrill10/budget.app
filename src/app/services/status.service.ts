@@ -9,11 +9,14 @@ import { HttpClient } from '@angular/common/http';
   providedIn: 'root',
 })
 export class StatusService {
-  constructor(private errorHandler: ErrorService, private http: HttpClient) {}
+  constructor(
+    private errorHandler: ErrorService,
+    private http: HttpClient,
+  ) {}
 
   getStatuses(): Observable<Status[]> {
     return this.http.get<Status[]>('transaction/status/list').pipe(
-      catchError(this.errorHandler.handleError) // then handle the error
+      catchError(this.errorHandler.handleError), // then handle the error
     );
   }
 }

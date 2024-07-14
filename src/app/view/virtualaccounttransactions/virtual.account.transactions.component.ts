@@ -37,7 +37,7 @@ export class VirtualAccountTransactionsComponent implements OnInit {
     private indicationService: IndicationService,
     private statusService: StatusService,
     public dialog: MatDialog,
-    private store: Store
+    private store: Store,
   ) {}
 
   virtualAccount$: Observable<VirtualAccount>;
@@ -53,7 +53,7 @@ export class VirtualAccountTransactionsComponent implements OnInit {
   ngOnInit() {
     this.months$ = this.store.pipe(
       select(selectMonthList),
-      tap((months) => (this.months = months))
+      tap((months) => (this.months = months)),
     );
     this.currentMonth$ = this.store.select(selectSelectedDate);
 
@@ -62,13 +62,13 @@ export class VirtualAccountTransactionsComponent implements OnInit {
       this.currentMonth$,
     ]).pipe(
       filter(([months]) => months.length > 0),
-      map(([months, month]) => months.indexOf(month))
+      map(([months, month]) => months.indexOf(month)),
     );
 
     this.virtualAccount$ = this.route.paramMap.pipe(
       switchMap((params) =>
-        this.virtualAccountService.getVirtualAccount(params.get('id'))
-      )
+        this.virtualAccountService.getVirtualAccount(params.get('id')),
+      ),
     );
 
     this.transactions$ = combineLatest([
@@ -77,15 +77,18 @@ export class VirtualAccountTransactionsComponent implements OnInit {
       this.virtualAccount$,
     ]).pipe(
       switchMap(([, month, account]) =>
-        this.transactionService.getTransactionsForVirtualAccount(account, month)
-      )
+        this.transactionService.getTransactionsForVirtualAccount(
+          account,
+          month,
+        ),
+      ),
     );
     this.refreshTokenTransaction$.next(undefined);
   }
 
   selectMonth(event: number) {
     this.store.dispatch(
-      updateSelectedDate({ selectedDate: this.months[event] })
+      updateSelectedDate({ selectedDate: this.months[event] }),
     );
   }
 
@@ -96,7 +99,7 @@ export class VirtualAccountTransactionsComponent implements OnInit {
   selectTranaction(
     editedTransaction: TransactionElement,
     selectedMonth: Date,
-    va: VirtualAccount
+    va: VirtualAccount,
   ): void {
     if (
       editedTransaction === null ||

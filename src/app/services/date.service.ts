@@ -20,7 +20,7 @@ class Month {
     startDate: string,
     endDate: string,
     isActive: boolean,
-    id: number
+    id: number,
   ) {
     this.name = name;
     this.short = short;
@@ -38,7 +38,10 @@ class Month {
 export class DateService {
   months: Month[];
 
-  constructor(private errorHandler: ErrorService, private http: HttpClient) {
+  constructor(
+    private errorHandler: ErrorService,
+    private http: HttpClient,
+  ) {
     this.months = [
       new Month('January', 'Jan', 'February', '01.01', '31.01', false, 0),
       new Month('February', 'Feb', 'March', '01.02', '29.02', false, 1),
@@ -58,7 +61,7 @@ export class DateService {
   getMonths(): Observable<Date[]> {
     return this.http.get<Date[]>('date/month/list').pipe(
       map((dates: any[]) => dates.map((d) => new Date(d))),
-      catchError(this.errorHandler.handleError) // then handle the error
+      catchError(this.errorHandler.handleError), // then handle the error
     );
   }
 

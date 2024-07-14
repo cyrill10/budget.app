@@ -16,7 +16,7 @@ export class DefaultInterceptor implements HttpInterceptor {
 
   intercept(
     request: HttpRequest<unknown>,
-    next: HttpHandler
+    next: HttpHandler,
   ): Observable<HttpEvent<unknown>> {
     return this.storage.getServicePath$().pipe(
       mergeMap((host) => {
@@ -25,7 +25,7 @@ export class DefaultInterceptor implements HttpInterceptor {
           headers: environment.getAuthorizationHeaders(),
         });
         return next.handle(newReq);
-      })
+      }),
     );
   }
 }

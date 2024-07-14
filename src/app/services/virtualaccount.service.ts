@@ -11,11 +11,14 @@ import { ErrorService } from './error.service';
 export class VirtualAccountService {
   virtualAccounts: VirtualAccount[];
 
-  constructor(private http: HttpClient, private errorHandler: ErrorService) {}
+  constructor(
+    private http: HttpClient,
+    private errorHandler: ErrorService,
+  ) {}
 
   getVirtualAccounts(): Observable<VirtualAccount[]> {
     return this.http.get<VirtualAccount[]>('virtualAccount/list').pipe(
-      catchError(this.errorHandler.handleError) // then handle the error
+      catchError(this.errorHandler.handleError), // then handle the error
     );
   }
 
@@ -23,7 +26,7 @@ export class VirtualAccountService {
     return this.http
       .get<VirtualAccount>('virtualAccount/', { params: { id } })
       .pipe(
-        catchError(this.errorHandler.handleError) // then handle the error
+        catchError(this.errorHandler.handleError), // then handle the error
       );
   }
 

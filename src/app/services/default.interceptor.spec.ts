@@ -6,7 +6,7 @@ describe('DefaultInterceptor', () => {
   beforeEach(() =>
     TestBed.configureTestingModule({
       providers: [DefaultInterceptor],
-    })
+    }),
   );
 
   it('should be created', () => {

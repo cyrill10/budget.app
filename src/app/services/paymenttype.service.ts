@@ -9,11 +9,14 @@ import { catchError } from 'rxjs/operators';
   providedIn: 'root',
 })
 export class PaymentTypeService {
-  constructor(private errorHandler: ErrorService, private http: HttpClient) {}
+  constructor(
+    private errorHandler: ErrorService,
+    private http: HttpClient,
+  ) {}
 
   getPaymentTypes(): Observable<PaymentType[]> {
     return this.http.get<PaymentType[]>('transaction/type/list').pipe(
-      catchError(this.errorHandler.handleError) // then handle the error
+      catchError(this.errorHandler.handleError), // then handle the error
     );
   }
 }

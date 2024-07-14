@@ -7,7 +7,7 @@ import {
 
 export const uploadFile = createAction(
   '[Closing Process] upload File',
-  props<{ file: File }>()
+  props<{ file: File }>(),
 );
 
 export const finishUpload = createAction('[Closing Process] finishUpload');
@@ -16,39 +16,39 @@ export const finishTransfer = createAction('[Closing Process] finishTransfer');
 
 export const getScannedTransactionsSuccess = createAction(
   '[Closing Process] getScannedTransactions success',
-  props<{ scannedTransactions: ScannedTransaction[] }>()
+  props<{ scannedTransactions: ScannedTransaction[] }>(),
 );
 
 export const loadTransferDetailsSuccess = createAction(
   '[Closing Process] loadTransferDetails success',
-  props<{ transferDetails: TransferDetail[] }>()
+  props<{ transferDetails: TransferDetail[] }>(),
 );
 
 export const loadProcessData = createAction(
-  '[Closing Process] loadProcessData'
+  '[Closing Process] loadProcessData',
 );
 
 export const loadProcessDataSuccess = createAction(
   '[Closing Process] loadProcessDataSuccess',
-  props<{ data: ProcessData }>()
+  props<{ data: ProcessData }>(),
 );
 
 export const finishUploadSuccess = createAction(
   '[Closing Process] finishUploadSuccess',
-  props<{ data: ProcessData }>()
+  props<{ data: ProcessData }>(),
 );
 
 export const finishTransferSuccess = createAction(
   '[Closing Process] finishTransfer sucess',
-  props<{ data: ProcessData }>()
+  props<{ data: ProcessData }>(),
 );
 
 export const loadProcessTransactions = createAction(
-  '[Closing Process] showProcessTransactions'
+  '[Closing Process] showProcessTransactions',
 );
 
 export const loadTransferDetails = createAction(
-  '[Closing Process] loadTransferDetails'
+  '[Closing Process] loadTransferDetails',
 );
 
 export const saveProcessTransactions = createAction(
@@ -58,5 +58,5 @@ export const saveProcessTransactions = createAction(
     creditedAccountId: string;
     debitedAccountId: string;
     throughAccountId: string;
-  }>()
+  }>(),
 );

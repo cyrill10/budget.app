@@ -32,20 +32,20 @@ export class OverviewComponent implements OnInit {
     private logger: LoggerService,
     private overviewService: OverviewService,
     private route: Router,
-    private store: Store
+    private store: Store,
   ) {}
 
   ngOnInit() {
     this.months$ = this.store.pipe(
       select(selectMonthList),
-      tap((months) => (this.months = months))
+      tap((months) => (this.months = months)),
     );
     this.currentMonth$ = this.store.select(selectSelectedDate);
 
     this.accounts$ = this.currentMonth$.pipe(
       switchMap((selectedMonth) => {
         return this.overviewService.getOverview(selectedMonth);
-      })
+      }),
     );
 
     this.initialSelectedMonth$ = combineLatest([
@@ -53,7 +53,7 @@ export class OverviewComponent implements OnInit {
       this.currentMonth$,
     ]).pipe(
       filter(([months]) => months.length > 0),
-      map(([months, month]) => months.indexOf(month))
+      map(([months, month]) => months.indexOf(month)),
     );
   }
 
@@ -67,7 +67,7 @@ export class OverviewComponent implements OnInit {
 
   selectMonth(event: number) {
     this.store.dispatch(
-      updateSelectedDate({ selectedDate: this.months[event] })
+      updateSelectedDate({ selectedDate: this.months[event] }),
     );
   }
 

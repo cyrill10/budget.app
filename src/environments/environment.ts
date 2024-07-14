@@ -16,7 +16,7 @@ export const environment = {
       Authorization:
         'Basic ' +
         Buffer.from(this.authUsername + ':' + this.authPassword).toString(
-          'base64'
+          'base64',
         ),
     });
   },

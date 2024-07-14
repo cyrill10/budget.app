@@ -22,14 +22,14 @@ const dateReducer = createReducer(
     const currentDate = monthList.find(
       (month) =>
         month.getMonth() === now.getMonth() &&
-        month.getFullYear() === now.getFullYear()
+        month.getFullYear() === now.getFullYear(),
     );
     return {
       ...state,
       selectedDate: currentDate,
       monthList,
     };
-  })
+  }),
 );
 
 export function reducer(state: DateState, action: Action) {
