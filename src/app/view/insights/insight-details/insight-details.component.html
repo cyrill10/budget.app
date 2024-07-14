@@ -1,0 +1,30 @@
+<ion-header id="main">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button>
+        <mat-icon>menu</mat-icon>
+      </ion-menu-button>
+    </ion-buttons>
+    <ion-title>
+      <span class="header-spacer">Insight Details</span>
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <ng-container *ngIf="insights$ |async as insights">
+  <div>
+    <div style="display: block;">
+      <canvas baseChart
+              [data]="pieChartData"
+              [type]="pieChartType">
+      </canvas>
+    </div>
+    <mat-divider></mat-divider>
+    <mat-list>
+      <mat-list-item *ngFor="let insight of insights.insights">
+        {{ insight.name }}: {{ insight.amount | currency }}
+      </mat-list-item>
+    </mat-list>
+  </div>
+  </ng-container>
+</ion-content>

@@ -1,0 +1,19 @@
+<ion-header id="main">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button>
+        <mat-icon>menu</mat-icon>
+      </ion-menu-button>
+    </ion-buttons>
+    <ion-title>
+      <span class="header-spacer">Insights</span>
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <mat-nav-list>
+    <mat-list-item (click)="navigateTo('INCOME')">Income</mat-list-item>
+    <mat-list-item (click)="navigateTo('SPENDINGS')">Spendings</mat-list-item>
+    <mat-list-item (click)="navigateTo('SAVINGS')">Savings</mat-list-item>
+  </mat-nav-list>
+</ion-content>

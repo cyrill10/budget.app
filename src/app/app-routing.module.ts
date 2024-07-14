@@ -9,6 +9,8 @@ import { RealAccountTransactionsComponent } from './view/realaccounttransaction/
 import { ClosingProcessComponent } from './view/closing-process/closing-process.component';
 import { ScannedTransactionsComponent } from './view/closing-process/scanned-transactions/scanned-transactions.component';
 import { TransferDetailsComponent } from './view/closing-process/transfer-details/transfer-details.component';
+import { InsightsComponent } from './view/insights/insights.component';
+import { InsightDetailsComponent } from './view/insights/insight-details/insight-details.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/overview', pathMatch: 'full' },
@@ -32,6 +34,8 @@ const routes: Routes = [
     path: 'closingProcess/transferDetail',
     component: TransferDetailsComponent,
   },
+  { path: 'insights', component: InsightsComponent },
+  { path: 'insights/details', component: InsightDetailsComponent },
 ];
 
 @NgModule({
