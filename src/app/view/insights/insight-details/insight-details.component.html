@@ -8,9 +8,39 @@
     <ion-title>
       <span class="header-spacer">Insight Details</span>
     </ion-title>
+    <ion-buttons slot="end">
+      <button mat-icon-button (click)="drawer.toggle()">
+        <mat-icon>filter_list</mat-icon>
+      </button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 <ion-content>
+  <mat-drawer-container>
+    <mat-drawer #drawer mode="over" position="end">
+      <div>
+        <mat-form-field appearance="fill">
+          <mat-label>Months</mat-label>
+          <mat-select multiple [(value)]="selectedMonths">
+            <mat-option *ngFor="let month of months" [value]="month.id">{{ month.name }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+          <mat-label>Years</mat-label>
+          <mat-select multiple [(value)]="selectedYears">
+            <mat-option *ngFor="let year of (years$ | async)" [value]="year">{{ year }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+          <mat-label>Accounts</mat-label>
+          <mat-select multiple [(value)]="selectedAccounts">
+            <mat-option *ngFor="let account of (virtualAccounts$ | async)" [value]="account">{{ account.name }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <button mat-raised-button color="primary" (click)="applyFilters()">Apply</button>
+      </div>
+    </mat-drawer>
+
   <ng-container *ngIf="insights$ |async as insights">
   <div>
     <div style="display: block;">
@@ -27,4 +57,5 @@
     </mat-list>
   </div>
   </ng-container>
+  </mat-drawer-container>
 </ion-content>

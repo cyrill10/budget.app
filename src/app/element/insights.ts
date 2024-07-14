@@ -11,6 +11,7 @@ export class InsightsRequest {
   insightType: InsightType;
   years?: number[];
   months?: number[];
+  accountIds?: string[];
 }
 
 export type InsightType = 'INCOME' | 'SPENDINGS' | 'SAVINGS';

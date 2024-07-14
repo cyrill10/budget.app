@@ -19,8 +19,14 @@ class InsightsService {
     type: InsightType,
     years?: number[],
     months?: number[],
+    accountIds?: string[],
   ): Observable<Insights> {
-    const body: InsightsRequest = { insightType: type, years, months };
+    const body: InsightsRequest = {
+      insightType: type,
+      years,
+      months: months.map((m) => m + 1),
+      accountIds,
+    };
     return this.http.post<Insights>('insights/', body).pipe(
       catchError(this.errorHandler.handleError), // then handle the error
     );

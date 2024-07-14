@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 
-class Month {
+export class Month {
   name: string;
   short: string;
   nextMonth: string;
@@ -63,6 +63,10 @@ export class DateService {
       map((dates: any[]) => dates.map((d) => new Date(d))),
       catchError(this.errorHandler.handleError), // then handle the error
     );
+  }
+
+  getAllMonthsInYear(): Month[] {
+    return this.months;
   }
 
   getSelectedMonth(date: Date): Month {

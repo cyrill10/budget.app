@@ -20,7 +20,7 @@ body {
 }
 
 .mat-drawer-content {
-  background-color: var(--primary-color);
+  background-color: var(--accent-color);
 }
 
 ion-toolbar {
@@ -45,7 +45,7 @@ ion-content {
 .mat-mdc-table div,
 .mat-mdc-table th,
 .mat-mdc-table td {
-  font-family: "Helvetica";
+  font-family: "Helvetica", serif;
 }
 
 .mdc-data-table__content .header .mat-mdc-cell {
