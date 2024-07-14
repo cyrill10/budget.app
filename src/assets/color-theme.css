@@ -758,7 +758,7 @@ body {
   --text-accent-darker-color: var(--text-primary-color);
 
   --ion-toolbar-color: var(--text-accent-color);
-  --mat-icon-color: var(--text-accent-color);
+  --mat-icon-color: var(--accent-color);
   --mat-tab-header-active-focus-label-text-color: var(--text-accent-color);
 }
 
@@ -769,6 +769,10 @@ body {
   --text-warn-color: #ffffff;
   --text-warn-lighter-color: var(--text-primary-color);
   --text-warn-darker-color: #ffffff;
+}
+
+ion-header mat-icon {
+  color: var(--text-accent-color);
 }
 
 .mat-ripple-element {
