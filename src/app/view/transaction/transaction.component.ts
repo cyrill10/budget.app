@@ -45,13 +45,13 @@ export class TransactionComponent implements OnInit {
     private indicationService: IndicationService,
     private statusService: StatusService,
     public dialog: MatDialog,
-    private store: Store
+    private store: Store,
   ) {}
 
   ngOnInit() {
     this.months$ = this.store.pipe(
       select(selectMonthList),
-      tap((months) => (this.months = months))
+      tap((months) => (this.months = months)),
     );
     this.currentMonth$ = this.store.select(selectSelectedDate);
 
@@ -60,20 +60,20 @@ export class TransactionComponent implements OnInit {
       this.currentMonth$,
     ]).pipe(
       filter(([months]) => months.length > 0),
-      map(([months, month]) => months.indexOf(month))
+      map(([months, month]) => months.indexOf(month)),
     );
 
     this.transactions$ = combineLatest([
       this.refreshTokenTransaction$,
       this.currentMonth$,
     ]).pipe(
-      switchMap(([, month]) => this.transactionService.getTransactions(month))
+      switchMap(([, month]) => this.transactionService.getTransactions(month)),
     );
   }
 
   selectMonth(event: number) {
     this.store.dispatch(
-      updateSelectedDate({ selectedDate: this.months[event] })
+      updateSelectedDate({ selectedDate: this.months[event] }),
     );
   }
 
@@ -198,7 +198,7 @@ export class TransactionComponent implements OnInit {
 export class TransactionDuplicationDialogComponent {
   constructor(
     public dialogRef: MatDialogRef<TransactionDuplicationDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: Transaction
+    @Inject(MAT_DIALOG_DATA) public data: Transaction,
   ) {}
 
   onNoClick(): void {

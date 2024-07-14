@@ -13,7 +13,10 @@ import { finishTransfer } from '../../../state/closing-process/closing-process.a
   styleUrls: ['./transfer-details.component.scss'],
 })
 export class TransferDetailsComponent implements OnInit {
-  constructor(private route: Router, private store: Store) {}
+  constructor(
+    private route: Router,
+    private store: Store,
+  ) {}
 
   transferDetails$: Observable<TransferDetail[]>;
   currentMonth$: Observable<Date>;

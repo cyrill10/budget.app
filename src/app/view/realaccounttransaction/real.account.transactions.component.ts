@@ -47,13 +47,13 @@ export class RealAccountTransactionsComponent implements OnInit {
     private indicationService: IndicationService,
     private statusService: StatusService,
     public dialog: MatDialog,
-    private store: Store
+    private store: Store,
   ) {}
 
   ngOnInit() {
     this.months$ = this.store.pipe(
       select(selectMonthList),
-      tap((months) => (this.months = months))
+      tap((months) => (this.months = months)),
     );
     this.currentMonth$ = this.store.select(selectSelectedDate);
 
@@ -62,11 +62,11 @@ export class RealAccountTransactionsComponent implements OnInit {
       this.currentMonth$,
     ]).pipe(
       filter(([months]) => months.length > 0),
-      map(([months, month]) => months.indexOf(month))
+      map(([months, month]) => months.indexOf(month)),
     );
 
     this.realAccount$ = this.route.paramMap.pipe(
-      switchMap((params) => this.accountService.getAccount(params.get('id')))
+      switchMap((params) => this.accountService.getAccount(params.get('id'))),
     );
 
     this.transactions$ = combineLatest([
@@ -75,15 +75,15 @@ export class RealAccountTransactionsComponent implements OnInit {
       this.realAccount$,
     ]).pipe(
       switchMap(([, month, account]) =>
-        this.transactionService.getTransactionsForRealAccount(account, month)
-      )
+        this.transactionService.getTransactionsForRealAccount(account, month),
+      ),
     );
     this.refreshTokenTransaction$.next(undefined);
   }
 
   selectMonth(event: number) {
     this.store.dispatch(
-      updateSelectedDate({ selectedDate: this.months[event] })
+      updateSelectedDate({ selectedDate: this.months[event] }),
     );
   }
 
@@ -93,7 +93,7 @@ export class RealAccountTransactionsComponent implements OnInit {
 
   selectTransaction(
     editedTransaction: TransactionElement,
-    selectedMonth: Date
+    selectedMonth: Date,
   ): void {
     if (
       editedTransaction === null ||

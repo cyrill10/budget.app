@@ -35,7 +35,7 @@ export class AccountComponent implements OnInit {
   opened: boolean;
   private readonly refreshToken$ = new BehaviorSubject(undefined);
   readonly accounts = this.refreshToken$.pipe(
-    switchMap(() => this.accountService.getAccounts())
+    switchMap(() => this.accountService.getAccounts()),
   );
 
   constructor(
@@ -43,7 +43,7 @@ export class AccountComponent implements OnInit {
     private accountTypeService: AccountTypeService,
     private virtualAccountService: VirtualAccountService,
     public dialog: MatDialog,
-    private route: Router
+    private route: Router,
   ) {}
 
   ngOnInit(): void {}
@@ -105,7 +105,7 @@ export class AccountComponent implements OnInit {
       VirtualAccountCreationDialogComponent,
       {
         data: { virtualAccount },
-      }
+      },
     );
 
     virtualAccountDialog.afterClosed().subscribe((result) => {
@@ -134,7 +134,7 @@ export class AccountComponent implements OnInit {
 export class AccountCreationDialogComponent {
   constructor(
     public accountDialog: MatDialogRef<AccountCreationDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: AccountDialogData
+    @Inject(MAT_DIALOG_DATA) public data: AccountDialogData,
   ) {}
 
   onNoClick(): void {
@@ -163,7 +163,7 @@ export class AccountCreationDialogComponent {
 export class VirtualAccountCreationDialogComponent {
   constructor(
     public virtualAccountDialog: MatDialogRef<VirtualAccountCreationDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: VirtualAccountDialogData
+    @Inject(MAT_DIALOG_DATA) public data: VirtualAccountDialogData,
   ) {}
 
   onNoClick(): void {

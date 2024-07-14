@@ -18,7 +18,10 @@ export class MatElevationDirective implements OnChanges {
   @Input()
   raisedElevation = 8;
 
-  constructor(private element: ElementRef, private renderer: Renderer2) {
+  constructor(
+    private element: ElementRef,
+    private renderer: Renderer2,
+  ) {
     this.setElevation(this.defaultElevation);
   }
 
@@ -40,7 +43,7 @@ export class MatElevationDirective implements OnChanges {
   setElevation(amount: number) {
     // remove all elevation classes
     const classesToRemove = Array.from(
-      (this.element.nativeElement as HTMLElement).classList
+      (this.element.nativeElement as HTMLElement).classList,
     ).filter((c) => c.startsWith('mat-elevation-z'));
     classesToRemove.forEach((c) => {
       this.renderer.removeClass(this.element.nativeElement, c);

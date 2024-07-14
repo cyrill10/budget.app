@@ -69,24 +69,6 @@
       {{status.name}}
     </mat-button-toggle>
   </mat-button-toggle-group>
-  <mat-button-toggle-group [(ngModel)]="data.transaction.paymentType">
-    <mat-button-toggle
-      *ngFor="let type of data.paymentTypes | async"
-      [value]="type"
-      [checked]="type !== null && data.transaction.paymentType !== null && type.value == data.transaction.paymentType.value"
-    >
-      {{type.name}}
-    </mat-button-toggle>
-  </mat-button-toggle-group>
-  <mat-button-toggle-group [(ngModel)]="data.transaction.indication">
-    <mat-button-toggle
-      *ngFor="let indication of data.indications | async"
-      [value]="indication"
-      [checked]="indication !== null && data.transaction.indication !== null && indication.value == data.transaction.indication.value"
-    >
-      {{indication.name}}
-    </mat-button-toggle>
-  </mat-button-toggle-group>
 </div>
 <div mat-dialog-actions>
   <button mat-raised-button (click)="onNoClick()">Cancel</button>

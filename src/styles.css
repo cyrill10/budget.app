@@ -2,13 +2,13 @@ body {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
     Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
   font-size: 14px;
-  color: #333;
+  color: var(--text-primary-color);
   box-sizing: border-box;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   margin: 0;
   background-color: var(--primary-color);
-  --theme-background: #e6dcd4;
+  --theme-background: var(--theme-background-color);
 }
 
 .header-spacer {
@@ -20,7 +20,7 @@ body {
 }
 
 .mat-drawer-content {
-  background-color: var(--primary-color);
+  background-color: var(--accent-color);
 }
 
 ion-toolbar {
@@ -45,7 +45,7 @@ ion-content {
 .mat-mdc-table div,
 .mat-mdc-table th,
 .mat-mdc-table td {
-  font-family: "Times New Roman";
+  font-family: "Helvetica", serif;
 }
 
 .mdc-data-table__content .header .mat-mdc-cell {

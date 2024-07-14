@@ -21,7 +21,7 @@ export class AppComponent {
     private platform: Platform,
     public dialog: MatDialog,
     private storage: StorageService,
-    private store: Store
+    private store: Store,
   ) {
     this.initializeApp();
   }
@@ -53,7 +53,7 @@ export class AppComponent {
 export class SettingsDialogComponent {
   constructor(
     public settingsDialog: MatDialogRef<string>,
-    @Inject(MAT_DIALOG_DATA) public data: string
+    @Inject(MAT_DIALOG_DATA) public data: string,
   ) {}
 
   onNoClick(): void {

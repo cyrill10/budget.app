@@ -9,11 +9,14 @@ import { HttpClient } from '@angular/common/http';
   providedIn: 'root',
 })
 export class IndicationService {
-  constructor(private errorHandler: ErrorService, private http: HttpClient) {}
+  constructor(
+    private errorHandler: ErrorService,
+    private http: HttpClient,
+  ) {}
 
   getIndications(): Observable<Indication[]> {
     return this.http.get<Indication[]>('transaction/indication/list').pipe(
-      catchError(this.errorHandler.handleError) // then handle the error
+      catchError(this.errorHandler.handleError), // then handle the error
     );
   }
 }

@@ -26,7 +26,7 @@ export class ScannedTransactionsComponent implements OnInit {
     private route: Router,
     private store: Store,
     private virtualAccountService: VirtualAccountService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
   ) {}
 
   currentMonth$: Observable<Date>;
@@ -48,16 +48,16 @@ export class ScannedTransactionsComponent implements OnInit {
 
     this.selectedAccount$ = this.virtualAccounts$.pipe(
       map((vas) =>
-        vas.find((va) => va.name.includes('Miles') && va.name.includes('More'))
-      )
+        vas.find((va) => va.name.includes('Miles') && va.name.includes('More')),
+      ),
     );
 
     this.billTotal$ = this.scannedTransactions$.pipe(
       filter((list) => !!list && list.length > 0),
       tap((_) => (this.selectedTransactions = [])),
       map((transactionList) =>
-        transactionList.map((t) => t.amount).reduce((t1, t2) => t1 + t2)
-      )
+        transactionList.map((t) => t.amount).reduce((t1, t2) => t1 + t2),
+      ),
     );
   }
 
@@ -71,7 +71,7 @@ export class ScannedTransactionsComponent implements OnInit {
 
   createTransactionForSelected(
     virtualAccounts: VirtualAccount[],
-    selectedVirtualAccount: VirtualAccount
+    selectedVirtualAccount: VirtualAccount,
   ) {
     if (this.selectedTransactions && this.selectedTransactions.length > 0) {
       const dialogRef = this.dialog.open(CreationDialogComponent, {
@@ -97,7 +97,7 @@ export class ScannedTransactionsComponent implements OnInit {
               creditedAccountId: result.creditedAccount.id,
               debitedAccountId: result.debitedAccount.id,
               throughAccountId,
-            })
+            }),
           );
           this.selectedTransactionList.deselectAll();
         }

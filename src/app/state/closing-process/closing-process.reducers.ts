@@ -60,7 +60,7 @@ const selectProcessData = createReducer(
     (state, newProcessData) => ({
       ...state,
       processData: newProcessData.data,
-    })
+    }),
   ),
   on(getScannedTransactionsSuccess, (state, scannedTransactions) => ({
     ...state,
@@ -69,7 +69,7 @@ const selectProcessData = createReducer(
   on(loadTransferDetailsSuccess, (state, transferDetails) => ({
     ...state,
     transferDetails: transferDetails.transferDetails,
-  }))
+  })),
 );
 
 export function reducer(state: ClosingProcessState, action: Action) {

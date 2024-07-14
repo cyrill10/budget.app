@@ -6,12 +6,12 @@ export const selectDateState = (state: State) => state.date;
 
 export const selectSelectedDate = createSelector(
   selectDateState,
-  (state: DateState) => state.selectedDate
+  (state: DateState) => state.selectedDate,
 );
 
 export const selectMonthList = createSelector(
   selectDateState,
   (state: DateState) => {
     return state.monthList;
-  }
+  },
 );

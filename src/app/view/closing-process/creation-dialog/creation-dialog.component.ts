@@ -16,7 +16,7 @@ export interface ScannedTransactionDialogData {
 export class CreationDialogComponent {
   constructor(
     public dialogRef: MatDialogRef<CreationDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: ScannedTransactionDialogData
+    @Inject(MAT_DIALOG_DATA) public data: ScannedTransactionDialogData,
   ) {}
 
   onNoClick(): void {

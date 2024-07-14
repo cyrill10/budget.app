@@ -20,7 +20,10 @@ export interface SaveTransactionDto {
   providedIn: 'root',
 })
 export class ClosingProcessService {
-  constructor(private errorHandler: ErrorService, private http: HttpClient) {}
+  constructor(
+    private errorHandler: ErrorService,
+    private http: HttpClient,
+  ) {}
 
   uploadPdf(file: File, date: Date): Observable<ScannedTransaction[]> {
     const fd = new FormData();
@@ -37,7 +40,7 @@ export class ClosingProcessService {
       .set('year', date.getFullYear())
       .set('month', date.getMonth());
     return this.http.get<ProcessData>('closingProcess', { params }).pipe(
-      catchError(this.errorHandler.handleError) // then handle the error
+      catchError(this.errorHandler.handleError), // then handle the error
     );
   }
 
@@ -48,17 +51,17 @@ export class ClosingProcessService {
     return this.http
       .get<ScannedTransaction[]>('closingProcess/transactions', { params })
       .pipe(
-        catchError(this.errorHandler.handleError) // then handle the error
+        catchError(this.errorHandler.handleError), // then handle the error
       );
   }
 
   saveProcessTransactions(
-    saveTransactionDto: SaveTransactionDto
+    saveTransactionDto: SaveTransactionDto,
   ): Observable<void> {
     return this.http
       .post<void>('closingProcess/transactions', saveTransactionDto)
       .pipe(
-        catchError(this.errorHandler.handleError) // then handle the error
+        catchError(this.errorHandler.handleError), // then handle the error
       );
   }
 
@@ -69,7 +72,7 @@ export class ClosingProcessService {
     return this.http
       .post<ProcessData>('closingProcess/closeFileUpload', null, { params })
       .pipe(
-        catchError(this.errorHandler.handleError) // then handle the error
+        catchError(this.errorHandler.handleError), // then handle the error
       );
   }
 
@@ -80,7 +83,7 @@ export class ClosingProcessService {
     return this.http
       .post<ProcessData>('closingProcess/transfer/close', null, { params })
       .pipe(
-        catchError(this.errorHandler.handleError) // then handle the error
+        catchError(this.errorHandler.handleError), // then handle the error
       );
   }
 
@@ -91,7 +94,7 @@ export class ClosingProcessService {
     return this.http
       .get<TransferDetail[]>('closingProcess/transfer/details', { params })
       .pipe(
-        catchError(this.errorHandler.handleError) // then handle the error
+        catchError(this.errorHandler.handleError), // then handle the error
       );
   }
 }

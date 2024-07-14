@@ -68,6 +68,13 @@ import { ScannedTransactionsComponent } from './view/closing-process/scanned-tra
 import { CreationDialogComponent } from './view/closing-process/creation-dialog/creation-dialog.component';
 import { TransferDetailsComponent } from './view/closing-process/transfer-details/transfer-details.component';
 import { CommonModule } from '@angular/common';
+import { InsightsComponent } from './view/insights/insights.component';
+import { InsightDetailsComponent } from './view/insights/insight-details/insight-details.component';
+import {
+  BaseChartDirective,
+  provideCharts,
+  withDefaultRegisterables,
+} from 'ng2-charts';
 
 export interface State {
   date?: DateState;
@@ -103,6 +110,8 @@ export const metaReducers = environment.production ? [] : [debug];
     ScannedTransactionsComponent,
     CreationDialogComponent,
     TransferDetailsComponent,
+    InsightsComponent,
+    InsightDetailsComponent,
   ],
   imports: [
     BrowserModule,
@@ -142,6 +151,7 @@ export const metaReducers = environment.production ? [] : [debug];
     MatDividerModule,
     MatToolbarModule,
     CommonModule,
+    BaseChartDirective,
   ],
   providers: [
     Chooser,
@@ -152,6 +162,7 @@ export const metaReducers = environment.production ? [] : [debug];
     },
     { provide: HTTP_INTERCEPTORS, useClass: DefaultInterceptor, multi: true },
     provideHttpClient(withInterceptorsFromDi()),
+    provideCharts(withDefaultRegisterables()),
   ],
   bootstrap: [AppComponent],
 })

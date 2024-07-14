@@ -9,7 +9,10 @@ import { catchError } from 'rxjs/operators';
   providedIn: 'root',
 })
 export class OverviewService {
-  constructor(private errorHandler: ErrorService, private http: HttpClient) {}
+  constructor(
+    private errorHandler: ErrorService,
+    private http: HttpClient,
+  ) {}
 
   getOverview(date: Date): Observable<OverviewElement[]> {
     return this.http
@@ -17,7 +20,7 @@ export class OverviewService {
         params: { dateLong: date.getTime() },
       })
       .pipe(
-        catchError(this.errorHandler.handleError) // then handle the error
+        catchError(this.errorHandler.handleError), // then handle the error
       );
   }
 }

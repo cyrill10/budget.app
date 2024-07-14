@@ -12,10 +12,13 @@ export class DateEffects {
       switchMap((_) =>
         this.dateService
           .getMonths()
-          .pipe(map((monthList) => loadDateDataSuccess({ monthList })))
-      )
-    )
+          .pipe(map((monthList) => loadDateDataSuccess({ monthList }))),
+      ),
+    ),
   );
 
-  constructor(private actions$: Actions, private dateService: DateService) {}
+  constructor(
+    private actions$: Actions,
+    private dateService: DateService,
+  ) {}
 }

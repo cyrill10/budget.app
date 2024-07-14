@@ -41,13 +41,13 @@ export class ClosingProcessComponent implements OnInit {
     private dateService: DateService,
     private logger: LoggerService,
     private route: Router,
-    private store: Store
+    private store: Store,
   ) {}
 
   ngOnInit() {
     this.months$ = this.store.pipe(
       select(selectMonthList),
-      tap((months) => (this.months = months))
+      tap((months) => (this.months = months)),
     );
     this.currentMonth$ = this.store
       .select(selectSelectedDate)
@@ -58,7 +58,7 @@ export class ClosingProcessComponent implements OnInit {
       this.currentMonth$,
     ]).pipe(
       filter(([months]) => months.length > 0),
-      map(([months, month]) => months.indexOf(month))
+      map(([months, month]) => months.indexOf(month)),
     );
 
     this.processData$ = this.store.select(selectClosingProcessData);
@@ -66,7 +66,7 @@ export class ClosingProcessComponent implements OnInit {
 
   selectMonth(event: number) {
     this.store.dispatch(
-      updateSelectedDate({ selectedDate: this.months[event] })
+      updateSelectedDate({ selectedDate: this.months[event] }),
     );
   }
 
